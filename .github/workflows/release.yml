@@ -1,10 +1,10 @@
-name: goreleaser
+name: Release
 
 on:
   push:
 
 jobs:
-  goreleaser:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
