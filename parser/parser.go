@@ -161,9 +161,9 @@ func (p *parser) return_() Statement {
 	return &Return{pos, result}
 }
 
-// func = FUNC NAME params block |
+// function = FUNCTION NAME params block |
 //
-//	FUNC params block
+//	FUNCTION params block
 func (p *parser) function_() Statement {
 	pos := p.pos
 	p.expect(FUNCTION)
@@ -335,11 +335,12 @@ func (p *parser) call() Expression {
 
 // primary = NAME | INT | STR | TRUE | FALSE | NIL | list | map |
 //
-//	FUNC params block |
+//	FUNCTION params block |
 //	LPAREN expression RPAREN
 func (p *parser) primary() Expression {
 	switch p.tok {
-	case NAME:
+	case DOLAR:
+		p.expect(DOLAR)
 		name := p.val
 		pos := p.pos
 		p.next()
@@ -358,6 +359,7 @@ func (p *parser) primary() Expression {
 		val := p.val
 		pos := p.pos
 		p.next()
+		p.expect(SEMI)
 		return &Literal{pos, val}
 	case TRUE:
 		pos := p.pos
@@ -387,6 +389,9 @@ func (p *parser) primary() Expression {
 		p.expect(RPAREN)
 		return expr
 	default:
+		//formatter := prettyjson.NewFormatter()
+		//output, _ := formatter.Marshal(p.tok)
+		//fmt.Println(string(output))
 		p.error("expected expression, not %s", p.tok)
 		return nil
 	}

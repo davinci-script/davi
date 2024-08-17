@@ -16,7 +16,8 @@ func main() {
 
 	input := []byte(`
 	
-	age = 20
+	$firstMessage = "Hello World";
+	$secondMessage = "Hello Davi";
 	
 	`)
 
