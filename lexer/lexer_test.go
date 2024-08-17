@@ -135,9 +135,9 @@ func TestAll(t *testing.T) {
 			{1, 3, PLUS, ""},
 			{1, 5, INT, "2"},
 		}},
-		{"func() {\n    return a+b\n}", []Info{
-			{1, 1, FUNC, ""},
-			{1, 5, LPAREN, ""},
+		{"function() {\n    return a+b\n}", []Info{
+			{1, 1, FUNCTION, ""},
+			{1, 12, LPAREN, ""},
 			{1, 6, RPAREN, ""},
 			{1, 8, LBRACE, ""},
 			{2, 5, RETURN, ""},
@@ -158,12 +158,12 @@ func TestAll(t *testing.T) {
 			{1, 21, NAME, "Abc"},
 			{1, 25, NAME, "a_b"},
 		}},
-		{"and else false for func if in nil not or return true", []Info{
+		{"and else false for function if in nil not or return true", []Info{
 			{1, 1, AND, ""},
 			{1, 5, ELSE, ""},
 			{1, 10, FALSE, ""},
 			{1, 16, FOR, ""},
-			{1, 20, FUNC, ""},
+			{1, 20, FUNCTION, ""},
 			{1, 25, IF, ""},
 			{1, 28, IN, ""},
 			{1, 31, NIL, ""},
@@ -219,12 +219,12 @@ func TestAll(t *testing.T) {
 
 func TestString(t *testing.T) {
 	output := tokenStrings(`
-and else false for func if in nil not or return true while
+and else false for function if in nil not or return true while
 +-*/% ()[]{}:, . ...
 1234 "foo" abc
 @
 `)
-	expected := "and else false for func if in nil not or return true while + - * / % ( ) [ ] { } : , . ... int str name ILLEGAL "
+	expected := "and else false for function if in nil not or return true while + - * / % ( ) [ ] { } : , . ... int str name ILLEGAL "
 	if output != expected {
 		t.Errorf("expected %q, got %q", expected, output)
 	}

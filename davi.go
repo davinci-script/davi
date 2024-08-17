@@ -13,7 +13,27 @@ func main() {
 	// Run the lexer
 	lexer := NewLexer([]byte(`
 
-echo(2);
+<?davi
+
+class Dog
+{
+    public $name = "Rex";
+    public $breed = "Golden Retriever";
+
+    public function bark()
+    {
+        echo "Woof!";
+    }
+
+}
+
+$dog = new Dog();
+echo $dog->name; // Rex
+echo $dog->breed; // Golden Retriever
+$dog->bark(); // Woof!
+
+?>
+
 
 
 `))

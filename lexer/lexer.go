@@ -32,6 +32,8 @@ const (
 	RBRACKET
 	RPAREN
 	TIMES
+	QUESTION
+	DOLAR
 
 	// Two-character tokens
 	EQUAL
@@ -47,7 +49,7 @@ const (
 	ELSE
 	FALSE
 	FOR
-	FUNC
+	FUNCTION
 	IF
 	IN
 	NIL
@@ -56,6 +58,16 @@ const (
 	RETURN
 	TRUE
 	WHILE
+	CLASS
+	EXTENDS
+	PUBLIC
+	PRIVATE
+	PROTECTED
+	STATIC
+	ABSTRACT
+	FINAL
+	CONST
+	NEW
 
 	// Literals and identifiers
 	INT
@@ -64,19 +76,29 @@ const (
 )
 
 var keywordTokens = map[string]Token{
-	"and":    AND,
-	"else":   ELSE,
-	"false":  FALSE,
-	"for":    FOR,
-	"func":   FUNC,
-	"if":     IF,
-	"in":     IN,
-	"nil":    NIL,
-	"not":    NOT,
-	"or":     OR,
-	"return": RETURN,
-	"true":   TRUE,
-	"while":  WHILE,
+	"and":       AND,
+	"else":      ELSE,
+	"false":     FALSE,
+	"for":       FOR,
+	"function":  FUNCTION,
+	"if":        IF,
+	"in":        IN,
+	"nil":       NIL,
+	"not":       NOT,
+	"or":        OR,
+	"return":    RETURN,
+	"true":      TRUE,
+	"while":     WHILE,
+	"class":     CLASS,
+	"extends":   EXTENDS,
+	"public":    PUBLIC,
+	"private":   PRIVATE,
+	"protected": PROTECTED,
+	"static":    STATIC,
+	"abstract":  ABSTRACT,
+	"final":     FINAL,
+	"const":     CONST,
+	"new":       NEW,
 }
 
 var tokenNames = map[Token]string{
@@ -101,6 +123,8 @@ var tokenNames = map[Token]string{
 	RBRACKET: "]",
 	RPAREN:   ")",
 	TIMES:    "*",
+	QUESTION: "?",
+	DOLAR:    "$",
 
 	EQUAL:    "==",
 	GTE:      ">=",
@@ -109,19 +133,19 @@ var tokenNames = map[Token]string{
 
 	ELLIPSIS: "...",
 
-	AND:    "and",
-	ELSE:   "else",
-	FALSE:  "false",
-	FOR:    "for",
-	FUNC:   "func",
-	IF:     "if",
-	IN:     "in",
-	NIL:    "nil",
-	NOT:    "not",
-	OR:     "or",
-	RETURN: "return",
-	TRUE:   "true",
-	WHILE:  "while",
+	AND:      "and",
+	ELSE:     "else",
+	FALSE:    "false",
+	FOR:      "for",
+	FUNCTION: "function",
+	IF:       "if",
+	IN:       "in",
+	NIL:      "nil",
+	NOT:      "not",
+	OR:       "or",
+	RETURN:   "return",
+	TRUE:     "true",
+	WHILE:    "while",
 
 	INT:  "int",
 	NAME: "name",
@@ -269,6 +293,10 @@ func (t *Lexer) Next() (Position, Token, string) {
 		token = RPAREN
 	case '*':
 		token = TIMES
+	case '?':
+		token = QUESTION
+	case '$':
+		token = DOLAR
 
 	case '=':
 		if t.ch == '=' {
