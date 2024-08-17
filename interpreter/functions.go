@@ -32,7 +32,7 @@ func ensureNumArgs(pos Position, name string, args []Value, required int) {
 		if required != 1 {
 			plural = "s"
 		}
-		panic(typeError(pos, "%s() requires %d arg%s, got %d", name, required, plural, len(args)))
+		panic(typeError(pos, "ensure num args: %s() requires %d arg%s, got %d", name, required, plural, len(args)))
 	}
 }
 
@@ -485,11 +485,11 @@ func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Va
 
 func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value {
 
+	ensureNumArgs(pos, "httpRegister", args, 2)
+
 	if len(args) != 1 && len(args) != 2 {
 		panic(typeError(pos, "httpRegisterFunction() requires 2 args, got %d", len(args)))
 	}
-
-	ensureNumArgs(pos, "httpRegister", args, 0)
 
 	getRoot := func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Hello, Davinci!")
@@ -502,7 +502,11 @@ func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value
 
 func httpListenFunction(interp *interpreter, pos Position, args []Value) Value {
 
-	ensureNumArgs(pos, "httpListen", args, 0)
+	ensureNumArgs(pos, "httpListen", args, 1)
+
+	if len(args) != 1 {
+		panic(typeError(pos, "httpRegisterFunction() requires 1 arg, got %d", len(args)))
+	}
 
 	fmt.Println("Server is running on port http://localhost:8080")
 
