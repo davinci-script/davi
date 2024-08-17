@@ -25,7 +25,7 @@ func main() {
 	}
 
 	echo "$firstMessage";
-	echo ($secondMessage);
+	echo ($secondMessage, $firstMessage);
 	
 	`)
 
