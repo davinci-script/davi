@@ -1,9 +1,9 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	. "github.com/DavinciScript/Davi/lexer"
+	"github.com/davecgh/go-spew/spew"
 )
 
 func main() {
@@ -23,8 +23,7 @@ func main() {
 			"token":     tok,
 			"value":     val,
 		}
-		out, _ := json.MarshalIndent(data, "", "  ")
-		fmt.Println(string(out))
+		spew.Dump(data)
 		if tok == ILLEGAL {
 			break
 		}

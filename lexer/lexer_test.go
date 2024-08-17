@@ -4,6 +4,7 @@ package lexer_test
 
 import (
 	"fmt"
+	. "github.com/DavinciScript/Davi/lexer"
 	"strings"
 	"testing"
 	"unicode/utf8"
