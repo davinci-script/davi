@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	. "github.com/DavinciScript/Davi/lexer"
-	"github.com/davecgh/go-spew/spew"
+	"github.com/hokaccha/go-prettyjson"
 )
 
 func main() {
@@ -11,7 +11,12 @@ func main() {
 	fmt.Println("Running davi.go")
 
 	// Run the lexer
-	lexer := NewLexer([]byte(`print(1234, "foo")`))
+	lexer := NewLexer([]byte(`
+
+echo(2);
+
+
+`))
 	for {
 		pos, tok, val := lexer.Next()
 		if tok == EOF {
@@ -23,7 +28,11 @@ func main() {
 			"token":     tok,
 			"value":     val,
 		}
-		spew.Dump(data)
+
+		formatter := prettyjson.NewFormatter()
+		output, _ := formatter.Marshal(data)
+		fmt.Println(string(output))
+
 		if tok == ILLEGAL {
 			break
 		}

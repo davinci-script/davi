@@ -182,7 +182,7 @@ func TestAll(t *testing.T) {
 			{1, 16, GTE, ""},
 			{1, 19, ILLEGAL, "expected != instead of !!"},
 		}},
-		{"+-*/% ()[]{}:, . ... .... @", []Info{
+		{"+-*/% ()[]{}:, . ... .... ;@", []Info{
 			{1, 1, PLUS, ""},
 			{1, 2, MINUS, ""},
 			{1, 3, TIMES, ""},
@@ -200,7 +200,8 @@ func TestAll(t *testing.T) {
 			{1, 18, ELLIPSIS, ""},
 			{1, 22, ELLIPSIS, ""},
 			{1, 25, DOT, ""},
-			{1, 27, ILLEGAL, "unexpected @"},
+			{1, 27, SEMI, ""},
+			{1, 28, ILLEGAL, "unexpected @"},
 		}},
 	}
 	for _, test := range tests {

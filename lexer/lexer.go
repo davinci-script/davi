@@ -16,6 +16,7 @@ const (
 	// Single-character tokens
 	ASSIGN
 	COLON
+	SEMI
 	COMMA
 	DIVIDE
 	DOT
@@ -84,6 +85,7 @@ var tokenNames = map[Token]string{
 
 	ASSIGN:   "=",
 	COLON:    ":",
+	SEMI:     ";",
 	COMMA:    ",",
 	DIVIDE:   "/",
 	DOT:      ".",
@@ -241,6 +243,8 @@ func (t *Lexer) Next() (Position, Token, string) {
 	switch ch {
 	case ':':
 		token = COLON
+	case ';':
+		token = SEMI
 	case ',':
 		token = COMMA
 	case '/':
