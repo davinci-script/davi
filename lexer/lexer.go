@@ -232,13 +232,13 @@ func isNameStart(ch rune) bool {
 // in the source. For ordinary tokens, the token value is empty. For INT,
 // NAME, and STR tokens, it's the number or string value. For an ILLEGAL
 // token, it's the error message.
-func (t *Lexer) Next() (Position, Token, string) {
+func (t *Lexer) Next() (Position, Token, string, string) {
 	t.skipWhitespaceAndComments()
 	if t.ch < 0 {
 		if t.errorMsg != "" {
-			return t.pos, ILLEGAL, t.errorMsg
+			return t.pos, ILLEGAL, t.errorMsg, ""
 		}
-		return t.pos, EOF, ""
+		return t.pos, EOF, "", ""
 	}
 
 	pos := t.pos
@@ -261,7 +261,7 @@ func (t *Lexer) Next() (Position, Token, string) {
 			token = NAME
 			value = name
 		}
-		return pos, token, value
+		return pos, token, value, string(ch)
 	}
 
 	switch ch {
@@ -332,7 +332,7 @@ func (t *Lexer) Next() (Position, Token, string) {
 		if t.ch == '.' {
 			t.next()
 			if t.ch != '.' {
-				return pos, ILLEGAL, "unexpected .."
+				return pos, ILLEGAL, "unexpected ..", string(ch)
 			}
 			t.next()
 			token = ELLIPSIS
@@ -354,10 +354,10 @@ func (t *Lexer) Next() (Position, Token, string) {
 		for t.ch != '"' {
 			c := t.ch
 			if c < 0 {
-				return pos, ILLEGAL, "didn't find end quote in string"
+				return pos, ILLEGAL, "didn't find end quote in string", string(ch)
 			}
 			if c == '\r' || c == '\n' {
-				return pos, ILLEGAL, "can't have newline in string"
+				return pos, ILLEGAL, "can't have newline in string", string(ch)
 			}
 			if c == '\\' {
 				t.next()
@@ -371,7 +371,7 @@ func (t *Lexer) Next() (Position, Token, string) {
 				case 'n':
 					c = '\n'
 				default:
-					return pos, ILLEGAL, fmt.Sprintf("invalid string escape \\%c", t.ch)
+					return pos, ILLEGAL, fmt.Sprintf("invalid string escape \\%c", t.ch), string(ch)
 				}
 			}
 			runes = append(runes, c)
@@ -383,7 +383,7 @@ func (t *Lexer) Next() (Position, Token, string) {
 
 	default:
 		token = ILLEGAL
-		value = fmt.Sprintf("unexpected %c", ch)
+		value = fmt.Sprintf("unexpected %c", string(ch))
 	}
-	return pos, token, value
+	return pos, token, value, string(ch)
 }

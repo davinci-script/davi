@@ -2,12 +2,12 @@
 
 class Dog
 {
-    public $name = 'Rex';
-    public $breed = 'Golden Retriever';
+    public $name = "Rex";
+    public $breed = "Golden Retriever";
 
     public function bark()
     {
-        echo 'Woof!';
+        echo "Woof!";
     }
 
 }
