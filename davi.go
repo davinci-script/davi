@@ -20,14 +20,15 @@ func main() {
 		
 		function jsonHandler() {
 			$time = time();
-			return($time);
 		}
-		$json = jsonHandler();
 
-		httpRegister("/", "Cool!");
-		httpRegister("/hello", "Hello, World!");
-		httpRegister("/json", $json);
-		httpListen(":3030");
+		//httpRegister("/", "Cool!");
+		//httpRegister("/hello", "Hello, World!");
+		//httpRegister("/json", "Json!");
+		//httpListen(":3030");
+				
+		$time = time();
+		echo($time);
 		
 	`)
 

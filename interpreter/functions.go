@@ -5,6 +5,7 @@ import (
 	"github.com/DavinciScript/Davi/interpreter/functions"
 	. "github.com/DavinciScript/Davi/lexer"
 	"github.com/DavinciScript/Davi/parser"
+	"github.com/hokaccha/go-prettyjson"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -500,6 +501,10 @@ func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value
 	if len(args) != 1 && len(args) != 2 {
 		panic(typeError(pos, "httpRegisterFunction() requires 2 args, got %d", len(args)))
 	}
+
+	formatter := prettyjson.NewFormatter()
+	output, _ := formatter.Marshal(args)
+	fmt.Println(string(output))
 
 	pattern := args[0].(string)
 	handler := args[1].(string)
