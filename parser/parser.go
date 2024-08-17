@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	. "github.com/DavinciScript/Davi/lexer"
+	"github.com/hokaccha/go-prettyjson"
 	"strconv"
 )
 
@@ -194,6 +195,7 @@ func (p *parser) params() ([]string, bool) {
 			p.error("expected , between parameters")
 		}
 		param := p.val
+		p.expect(DOLAR)
 		p.expect(NAME)
 		params = append(params, param)
 		if p.tok == ELLIPSIS {
@@ -315,6 +317,7 @@ func (p *parser) call() Expression {
 				p.error("can only have ... after last argument")
 			}
 			p.expect(RPAREN)
+			p.expect(SEMI)
 			expr = &Call{pos, expr, args, gotEllipsis}
 		} else if p.tok == LBRACKET {
 			pos := p.pos
@@ -339,6 +342,12 @@ func (p *parser) call() Expression {
 //	LPAREN expression RPAREN
 func (p *parser) primary() Expression {
 	switch p.tok {
+	case NAME:
+		name := p.val
+		pos := p.pos
+		p.next()
+
+		return &Variable{pos, name}
 	case DOLAR:
 		p.expect(DOLAR)
 		name := p.val
@@ -387,12 +396,13 @@ func (p *parser) primary() Expression {
 		p.next()
 		expr := p.expression()
 		p.expect(RPAREN)
+		p.expect(SEMI)
 		return expr
 	default:
-		//formatter := prettyjson.NewFormatter()
-		//output, _ := formatter.Marshal(p.tok)
-		//fmt.Println(string(output))
-		p.error("expected expression, not %s", p.tok)
+		formatter := prettyjson.NewFormatter()
+		output, _ := formatter.Marshal(p.val)
+		fmt.Println(string(output))
+		p.error("expected expression, not %s val %s", p.tok, p.val)
 		return nil
 	}
 }

@@ -15,9 +15,17 @@ func main() {
 	fmt.Println("Running davi.go")
 
 	input := []byte(`
-	
+
+	// This is a comment
 	$firstMessage = "Hello World";
-	$secondMessage = "Hello Davi";
+	$secondMessage = "Hello DavinciScript";
+	
+	function person($name, $age) {
+
+	}
+
+	echo "$firstMessage";
+	echo ($secondMessage);
 	
 	`)
 
