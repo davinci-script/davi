@@ -33,7 +33,7 @@ func main() {
 	if err != nil {
 		errorMessage := fmt.Sprintf("%s", err)
 		if e, ok := err.(parser.Error); ok {
-			showErrorSource(input, e.Position, len(errorMessage))
+			showErrorSourcePrettyPrint(input, e.Position, len(errorMessage))
 		}
 		fmt.Println(errorMessage)
 		os.Exit(1)
@@ -45,7 +45,7 @@ func main() {
 }
 
 // Show the source line and position of a parser or interpreter error
-func showErrorSource(source []byte, pos lexer.Position, dividerLen int) {
+func showErrorSourcePrettyPrint(source []byte, pos lexer.Position, dividerLen int) {
 	divider := strings.Repeat("-", dividerLen)
 	if divider != "" {
 		fmt.Println(divider)

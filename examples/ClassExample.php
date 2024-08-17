@@ -13,8 +13,6 @@ class Dog
 }
 
 $dog = new Dog();
-echo $dog->name; // Rex
-echo $dog->breed; // Golden Retriever
 $dog->bark(); // Woof!
 
 ?>
