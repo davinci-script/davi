@@ -491,10 +491,13 @@ func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value
 		panic(typeError(pos, "httpRegisterFunction() requires 2 args, got %d", len(args)))
 	}
 
+	pattern := args[0].(string)
+	handler := args[1].(string)
+
 	getRoot := func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "Hello, Davinci!")
+		fmt.Fprintln(w, handler)
 	}
-	http.HandleFunc("/", getRoot)
+	http.HandleFunc(pattern, getRoot)
 
 	return Value(nil)
 
