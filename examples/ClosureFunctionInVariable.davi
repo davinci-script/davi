@@ -1,0 +1,9 @@
+<?davi
+
+
+$jsonHandler = function() {
+    echo("Hello, World!");
+}
+$jsonHandler();
+
+?>

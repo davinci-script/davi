@@ -11,6 +11,7 @@ import (
 	"sort"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type functionType interface {
@@ -97,6 +98,7 @@ var builtins = map[string]builtinFunction{
 	"str":             {strFunction, "str"},
 	"type":            {typeFunction, "type"},
 	"upper":           {upperFunction, "upper"},
+	"time":            {timeFunction, "time"},
 	"fileGetContents": {fileGetContentsFunction, "fileGetContents"},
 	"httpRegister":    {httpRegisterFunction, "httpRegister"},
 	"httpListen":      {httpListenFunction, "httpListen"},
@@ -458,6 +460,14 @@ func upperFunction(interp *interpreter, pos Position, args []Value) Value {
 		return Value(strings.ToUpper(s))
 	}
 	panic(typeError(pos, "upper() requires a str"))
+}
+
+func timeFunction(interp *interpreter, pos Position, args []Value) Value {
+	ensureNumArgs(pos, "time", args, 0)
+
+	dt := time.Now()
+
+	return Value(dt.String())
 }
 
 func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Value {
