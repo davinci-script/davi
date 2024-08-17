@@ -2,9 +2,11 @@ package interpreter
 
 import (
 	"fmt"
+	"github.com/DavinciScript/Davi/interpreter/functions"
 	. "github.com/DavinciScript/Davi/lexer"
 	"github.com/DavinciScript/Davi/parser"
 	"io/ioutil"
+	"net/url"
 	"sort"
 	"strconv"
 	"strings"
@@ -459,7 +461,19 @@ func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Va
 
 	ensureNumArgs(pos, "fileGetContents", args, 1)
 	if s, ok := args[0].(string); ok {
-		fmt.Fprintln(interp.stdout, s)
+
+		_, err := url.ParseRequestURI(s)
+		if err == nil {
+			data, err := functions.GetContentFromUrl(s)
+			if err != nil {
+				panic(runtimeError(pos, "fileGetContents() error: %v", err))
+			} else {
+				fmt.Fprintln(interp.stdout, string(data))
+			}
+		} else {
+			fmt.Fprintln(interp.stdout, s)
+		}
+
 		return Value(nil)
 	}
 
