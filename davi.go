@@ -23,9 +23,9 @@ func main() {
 			return($time);
 		}
 
-		//httpRegister("/", "Cool!");
-		//httpRegister("/hello", "Hello, World!");
-		//httpRegister("/json", "Json!");
+		httpRegister("/", "Cool!");
+		httpRegister("/hello", "Hello, World!");
+		httpRegister("/json", "Json!");
 		httpRegister("/time", $timeHandler);
 		httpListen(":3030");
 						
