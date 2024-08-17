@@ -6,36 +6,37 @@ import (
 	"github.com/DavinciScript/Davi/interpreter"
 	"github.com/DavinciScript/Davi/lexer"
 	"github.com/DavinciScript/Davi/parser"
+	"io/ioutil"
 	"os"
 	"strings"
-	"time"
 )
 
 func main() {
 
-	input := []byte(`
+	filename := os.Args[1]
 
-		//$url = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m";
-		//fileGetContents($url);
-		
-		$timeHandler = function() {
-			$time = time();
-			return($time);
-		}
+	if len(os.Args) < 2 {
+		fmt.Println("Usage: davi <filename>")
+		os.Exit(1)
+	}
 
-		httpRegister("/", "Cool!");
-		httpRegister("/hello", "Hello, World!");
-		httpRegister("/json", "Json!");
-		httpRegister("/time", $timeHandler);
-		httpListen(":3030");
-						
-		lst = ["foo", "a", "z", "B"]
-		sort(lst, lower);
-		for x in lst {
-			echo(x);
-		}
-		
-	`)
+	input, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Printf("Error reading file. Please check the file path and try again.\n")
+		os.Exit(1)
+	}
+
+	// Replace <?davi with empty string
+	input = bytes.Replace(input, []byte("<?davi"), []byte(""), 1)
+
+	// Replace ?> with empty string
+	input = bytes.Replace(input, []byte("?>"), []byte(""), 1)
+
+	// Trim
+	input = bytes.TrimSpace(input)
+
+	//fmt.Print(string(input))
+	//os.Exit(1)
 
 	prog, err := parser.ParseProgram(input)
 	if err != nil {
@@ -47,8 +48,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	startTime := time.Now()
-	stats, err := interpreter.Execute(prog, &interpreter.Config{})
+	_, err = interpreter.Execute(prog, &interpreter.Config{})
 	if err != nil {
 		errorMessage := fmt.Sprintf("%s", err)
 		if e, ok := err.(interpreter.Error); ok {
@@ -56,16 +56,6 @@ func main() {
 		}
 		fmt.Println(errorMessage)
 		os.Exit(1)
-	}
-	showStats := false
-	if showStats {
-		elapsed := time.Since(startTime)
-		fmt.Printf("%s elapsed: %d ops (%.0f/s), %d builtin calls (%.0f/s), %d user calls (%.0f/s)\n",
-			elapsed,
-			stats.Ops, float64(stats.Ops)/elapsed.Seconds(),
-			stats.BuiltinCalls, float64(stats.BuiltinCalls)/elapsed.Seconds(),
-			stats.UserCalls, float64(stats.UserCalls)/elapsed.Seconds(),
-		)
 	}
 
 }

@@ -482,7 +482,7 @@ func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Va
 			if err != nil {
 				panic(runtimeError(pos, "fileGetContents() error: %v", err))
 			} else {
-				fmt.Fprintln(interp.stdout, string(data))
+				return Value(string(data))
 			}
 		} else {
 			fmt.Fprintln(interp.stdout, s)
