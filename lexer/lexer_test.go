@@ -22,7 +22,7 @@ func tokenize(input string) ([]Info, error) {
 	infos := []Info{}
 	var err error
 	for {
-		pos, token, value := k.Next()
+		pos, token, value, _ := k.Next()
 		if token == EOF {
 			eofLine := strings.Count(input, "\n") + 1
 
@@ -66,7 +66,7 @@ func tokenStrings(input string) string {
 	output := ""
 	k := NewLexer([]byte(input))
 	for {
-		_, token, _ := k.Next()
+		_, token, _, _ := k.Next()
 		if token == EOF {
 			break
 		}
@@ -237,7 +237,7 @@ and else false for function if in nil not or return true while
 func Example() {
 	lexer := NewLexer([]byte(`print(1234, "foo") @`))
 	for {
-		pos, tok, val := lexer.Next()
+		pos, tok, val, _ := lexer.Next()
 		if tok == EOF {
 			break
 		}

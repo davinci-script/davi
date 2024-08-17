@@ -383,7 +383,7 @@ func (t *Lexer) Next() (Position, Token, string, string) {
 
 	default:
 		token = ILLEGAL
-		value = fmt.Sprintf("unexpected %c", string(ch))
+		value = fmt.Sprintf("unexpected %c", ch)
 	}
 	return pos, token, value, string(ch)
 }
