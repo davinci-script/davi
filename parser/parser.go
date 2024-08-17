@@ -317,7 +317,12 @@ func (p *parser) call() Expression {
 				p.error("can only have ... after last argument")
 			}
 			p.expect(RPAREN)
-			p.expect(SEMI)
+			if p.tok == SEMI {
+				p.expect(SEMI)
+			} else {
+				print(p.tok)
+			}
+
 			expr = &Call{pos, expr, args, gotEllipsis}
 		} else if p.tok == LBRACKET {
 			pos := p.pos

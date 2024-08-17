@@ -497,20 +497,25 @@ func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Va
 func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value {
 
 	ensureNumArgs(pos, "httpRegister", args, 2)
-
+	//
 	if len(args) != 1 && len(args) != 2 {
 		panic(typeError(pos, "httpRegisterFunction() requires 2 args, got %d", len(args)))
 	}
 
+	handlerFunction, ok := args[1].(functionType)
+	if !ok {
+		panic(typeError(pos, "httpRegisterFunction() requires second argument to be a function"))
+	}
+
 	formatter := prettyjson.NewFormatter()
-	output, _ := formatter.Marshal(args)
+	output, _ := formatter.Marshal(handlerFunction)
 	fmt.Println(string(output))
 
 	pattern := args[0].(string)
-	handler := args[1].(string)
 
 	getRoot := func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, handler)
+		outputFunction := interp.callFunction(pos, handlerFunction, []Value{})
+		fmt.Fprintln(w, outputFunction)
 	}
 	http.HandleFunc(pattern, getRoot)
 

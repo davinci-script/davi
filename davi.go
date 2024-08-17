@@ -18,17 +18,22 @@ func main() {
 		//$url = "https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m,wind_speed_10m&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m";
 		//fileGetContents($url);
 		
-		function jsonHandler() {
+		$timeHandler = function() {
 			$time = time();
+			return($time);
 		}
 
 		//httpRegister("/", "Cool!");
 		//httpRegister("/hello", "Hello, World!");
 		//httpRegister("/json", "Json!");
-		//httpListen(":3030");
-				
-		$time = time();
-		echo($time);
+		httpRegister("/time", $timeHandler);
+		httpListen(":3030");
+						
+		lst = ["foo", "a", "z", "B"]
+		sort(lst, lower);
+		for x in lst {
+			echo(x);
+		}
 		
 	`)
 
