@@ -203,6 +203,10 @@ func TestAll(t *testing.T) {
 			{1, 27, SEMI, ""},
 			{1, 28, ILLEGAL, "unexpected @"},
 		}},
+		{"class Dog", []Info{
+			{1, 1, CLASS, ""},
+			{1, 7, NAME, "Dog"},
+		}},
 	}
 	for _, test := range tests {
 		output, err := tokenize(test.input)
