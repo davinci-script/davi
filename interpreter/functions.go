@@ -485,6 +485,10 @@ func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Va
 
 func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value {
 
+	if len(args) != 1 && len(args) != 2 {
+		panic(typeError(pos, "httpRegisterFunction() requires 2 args, got %d", len(args)))
+	}
+
 	ensureNumArgs(pos, "httpRegister", args, 0)
 
 	getRoot := func(w http.ResponseWriter, r *http.Request) {
