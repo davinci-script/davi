@@ -6,6 +6,7 @@ import (
 	. "github.com/DavinciScript/Davi/lexer"
 	"github.com/DavinciScript/Davi/parser"
 	"io/ioutil"
+	"net/http"
 	"net/url"
 	"sort"
 	"strconv"
@@ -97,6 +98,8 @@ var builtins = map[string]builtinFunction{
 	"type":            {typeFunction, "type"},
 	"upper":           {upperFunction, "upper"},
 	"fileGetContents": {fileGetContentsFunction, "fileGetContents"},
+	"httpRegister":    {httpRegisterFunction, "httpRegister"},
+	"httpListen":      {httpListenFunction, "httpListen"},
 }
 
 func appendFunction(interp *interpreter, pos Position, args []Value) Value {
@@ -478,4 +481,31 @@ func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Va
 	}
 
 	panic(typeError(pos, "fileGetContents() requires a str"))
+}
+
+func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value {
+
+	ensureNumArgs(pos, "httpRegister", args, 0)
+
+	getRoot := func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintln(w, "Hello, Davinci!")
+	}
+	http.HandleFunc("/", getRoot)
+
+	return Value(nil)
+
+}
+
+func httpListenFunction(interp *interpreter, pos Position, args []Value) Value {
+
+	ensureNumArgs(pos, "httpListen", args, 0)
+
+	fmt.Println("Server is running on port http://localhost:8080")
+
+	err := http.ListenAndServe(":8080", nil)
+	if err != nil {
+		panic(runtimeError(pos, "httpListen() error: %v", err))
+	}
+
+	return Value(nil)
 }
