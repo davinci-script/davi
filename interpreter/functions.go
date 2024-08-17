@@ -508,9 +508,18 @@ func httpListenFunction(interp *interpreter, pos Position, args []Value) Value {
 		panic(typeError(pos, "httpRegisterFunction() requires 1 arg, got %d", len(args)))
 	}
 
-	fmt.Println("Server is running on port http://localhost:8080")
+	portOrAddress, ok := args[0].(string)
+	if !ok {
+		panic(typeError(pos, "httpListenFunction() requires first argument to be a string"))
+	}
 
-	err := http.ListenAndServe(":8080", nil)
+	if !strings.Contains(portOrAddress, ":") {
+		fmt.Printf("Server is starting on %s...\n", portOrAddress)
+	} else {
+		fmt.Printf("Server is starting on http://localhost%s...\n", portOrAddress)
+	}
+
+	err := http.ListenAndServe(portOrAddress, nil)
 	if err != nil {
 		panic(runtimeError(pos, "httpListen() error: %v", err))
 	}
