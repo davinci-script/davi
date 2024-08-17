@@ -20,6 +20,7 @@ func main() {
 
 		httpRegister("GET", "/hello");
 		httpListen(":3030");
+		
 	`)
 
 	prog, err := parser.ParseProgram(input)
