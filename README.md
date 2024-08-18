@@ -37,12 +37,10 @@ Here is an example of a simple Davi program:
 // This is a comment
 $test = "Hello, World!";
 echo($test);
-
 echo("Time is:", time());
-
 echo("Test calculation: 1+2*3=", 1 + 2 * 3);
-
 echo(1 + 2 * 3);
+
 
 // Variable declaration
 $timeHandler = function() {
@@ -51,6 +49,7 @@ $timeHandler = function() {
 }
 echo($timeHandler());
 
+
 // Variable assignment
 $calculationHandler = function() {
     return(5 + 5);
@@ -58,9 +57,11 @@ $calculationHandler = function() {
 echo $calculationHandler();
 echo time();
 
+
 // Array declaration
 $names = ["John", "Doe", "Jane", "Doe"];
 echo($names[0]);
+
 
 // If statement
 $age = 30;
@@ -69,6 +70,7 @@ if ($age > 18) {
 } else {
     echo("You are a child");
 }
+
 
 // For loop
 $list = ["Bozhidar", "Veselinov", "Slaveykov", "Asenov"];
