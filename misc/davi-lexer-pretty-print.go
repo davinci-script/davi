@@ -6,7 +6,7 @@ import (
 	"github.com/hokaccha/go-prettyjson"
 )
 
-func main() {
+func daviLexerPrettyPrint() {
 
 	fmt.Println("Running davi.go")
 

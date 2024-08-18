@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func main() {
+func daviParserPrettyPrint() {
 
 	fmt.Println("Running davi.go")
 
