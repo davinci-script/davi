@@ -30,6 +30,6 @@ echo($list);
 sort($list, lower);
 for ($x in $list) {
     echo($x);
-} 
+}
 
 ?>
