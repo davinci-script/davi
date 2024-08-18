@@ -1,0 +1,8 @@
+<?davi
+
+// echo(fileGetContents("https://microweber.com/"));
+
+echo("done!");
+
+
+?>
