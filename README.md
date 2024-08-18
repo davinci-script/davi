@@ -20,11 +20,45 @@ To install Davi, you need to download last release here.
 ## Getting Started
 To get started with Davi, you need to create a new file with the .davi extension. You can then write your code in this file and run it using the Davi interpreter.
 
-Here is an example of a simple Davi program that prints "Hello, World!" to the screen:
+Here is an example of a simple Davi program:
 
 ```davi
 <?davi
-echo "Hello, World!";
+
+// This is a comment
+$test = "Hello, World!";
+echo($test);
+
+echo("Time is:", time());
+
+echo("Test calculation: 1+2*3=", 1 + 2 * 3);
+
+echo(1 + 2 * 3);
+
+// Variable declaration
+$timeHandler = function() {
+    $time = time();
+    return($time);
+}
+echo($timeHandler());
+
+// Variable assignment
+$calculationHandler = function() {
+    return(5 + 5);
+}
+echo $calculationHandler();
+echo time();
+
+
+// For loop
+$list = ["Bozhidar", "Veselinov", "Slaveykov", "Asenov"];
+sort($list);
+echo($list);
+sort($list, lower);
+for ($x in $list) {
+    echo($x);
+}
+
 ?>
 ```
 
@@ -33,8 +67,6 @@ To run this program, save it to a file called hello.davi and run the following c
 ```
 davi hello.davi
 ```
-
-This will output "Hello, World!" to the screen.
 
 ## Documentation
 For more information on how to use Davi, you can check out the official documentation here.
