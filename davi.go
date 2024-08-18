@@ -1,3 +1,5 @@
+// DaVinci Script
+
 package main
 
 import (
@@ -62,15 +64,20 @@ func main() {
 
 // Show the source line and position of a parser or interpreter error
 func showErrorSource(source []byte, pos lexer.Position, dividerLen int) {
+
 	divider := strings.Repeat("-", dividerLen)
+
 	if divider != "" {
 		fmt.Println(divider)
 	}
+
 	lines := bytes.Split(source, []byte{'\n'})
 	errorLine := string(lines[pos.Line-1])
 	numTabs := strings.Count(errorLine[:pos.Column-1], "\t")
+
 	fmt.Println(strings.Replace(errorLine, "\t", "    ", -1))
 	fmt.Println(strings.Repeat(" ", pos.Column-1) + strings.Repeat("   ", numTabs) + "^")
+
 	if divider != "" {
 		fmt.Println(divider)
 	}
