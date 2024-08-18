@@ -1,4 +1,4 @@
-# Davi -  Superfast web language based on GO 
+# Da Vinci Script (DAVI) -  Superfast web language based on GO 
 
 Davi is a superfast web language based on GO. It is a simple and easy to use language that can be used to create web applications. Davi is a compiled language, which means that it is converted into machine code before it is run. This makes it very fast and efficient.
 
