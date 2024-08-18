@@ -320,11 +320,11 @@ func (p *parser) call() Expression {
 				p.error("can only have ... after last argument")
 			}
 			p.expect(RPAREN)
-			if p.tok == SEMI {
-				p.expect(SEMI)
-			} else {
-				print(p.tok)
-			}
+			//if p.tok == SEMI {
+			//	p.expect(SEMI)
+			//} else {
+			//	print(p.tok)
+			//}
 
 			expr = &Call{pos, expr, args, gotEllipsis}
 		} else if p.tok == LBRACKET {
@@ -332,7 +332,7 @@ func (p *parser) call() Expression {
 			p.next()
 			subscript := p.expression()
 			p.expect(RBRACKET)
-			p.expect(SEMI)
+			//p.expect(SEMI)
 			expr = &Subscript{pos, expr, subscript}
 		} else {
 			pos := p.pos
@@ -404,8 +404,13 @@ func (p *parser) primary() Expression {
 		p.next()
 		expr := p.expression()
 		p.expect(RPAREN)
-		p.expect(SEMI)
+		//p.expect(SEMI)
 		return expr
+	case SEMI:
+		p.next()
+		pos := p.pos
+		return &SemiTag{pos}
+
 	default:
 		formatter := prettyjson.NewFormatter()
 		output, _ := formatter.Marshal(p.val)
@@ -437,7 +442,7 @@ func (p *parser) list() Expression {
 		}
 	}
 	p.expect(RBRACKET)
-	p.expect(SEMI)
+	//p.expect(SEMI)
 	return &List{pos, values}
 }
 

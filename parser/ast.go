@@ -316,3 +316,10 @@ func (e *Variable) Position() Position { return e.pos }
 func (e *Variable) String() string {
 	return e.Name
 }
+
+type SemiTag struct {
+	pos Position
+}
+
+func (e *SemiTag) expressionNode()    {}
+func (e *SemiTag) Position() Position { return e.pos }

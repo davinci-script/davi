@@ -438,6 +438,8 @@ func (interp *interpreter) evaluate(expr parser.Expression) Value {
 	case *parser.FunctionExpression:
 		closure := interp.vars[len(interp.vars)-1]
 		return &userFunction{"", e.Parameters, e.Ellipsis, e.Body, closure}
+	case *parser.SemiTag:
+		return nil
 	default:
 		// Parser should never give us this
 		panic(fmt.Sprintf("unexpected expression type %T", expr))

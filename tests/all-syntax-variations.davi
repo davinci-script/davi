@@ -1,9 +1,7 @@
 <?davi
 
 // This is a comment
-
 $test = "Test string";
-
 
 echo("Time is:");
 echo(time());
