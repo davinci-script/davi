@@ -20,7 +20,7 @@ To install Davi, you need to download last release here.
 ## Getting Started
 To get started with Davi, you need to create a new file with the .davi extension. You can then write your code in this file and run it using the Davi interpreter.
 
-Here is an example of a simple Davi program that prints "Hello, World!" to the screen:
+Here is an example of a simple Davi program:
 
 ```davi
 <?davi
