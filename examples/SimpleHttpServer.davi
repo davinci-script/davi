@@ -22,7 +22,7 @@ httpRegister("/", $homeHandler);
 httpRegister("/hello", $helloHandler);
 httpRegister("/time", $timeHandler);
 httpRegister("/calculation", $calculationHandler);
-httpListen(":8080");
+httpListen(":8084");
 
 ?>
 

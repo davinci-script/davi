@@ -10,16 +10,12 @@ The DaVinci script is a PHP-like language, so it has a similar syntax to PHP. Th
 
 A DAVI script can be placed anywhere in the document.
 A DAVI script starts with ```<?davi``` and ends with ```?>```:
-```php
-<?davi
-// Your code here
-?>
-```
 
 ### Hello World
 ```php
 <?davi
 
+// Your code here
 echo "Hello World!";
 
 ?>
@@ -59,7 +55,7 @@ echo($timeHandler());
 
 ### Functions
 
-#### Custom Function declaration
+Custom Function declaration
 ```php
 <?davi
 
@@ -81,6 +77,10 @@ Times functions
 
 // Built-in functions
 echo("Current time: ", time());
+
+// Download content from URL
+$url = "https://microweber.com/";
+echo(fileGetContents($url));
 
 ?>
 ```
@@ -148,6 +148,38 @@ $list = ["Bozhidar", "Veselinov", "Slaveykov", "Asenov"];
 for ($x in $list) {
     echo($x);
 }
+
+?>
+```
+
+### Build a simple HTTP server
+```php
+<?davi
+// DaVinci HTTP Server
+
+$homeHandler = function() {
+    return("Welcome to the DaVinci HTTP Server!");
+}
+
+$helloHandler = function() {
+    return("Hello, World!");
+}
+
+$timeHandler = function() {
+    $time = time();
+    return($time);
+}
+
+$calculationHandler = function() {
+    return(5 + 5);
+}
+
+httpRegister("/", $homeHandler);
+httpRegister("/hello", $helloHandler);
+httpRegister("/time", $timeHandler);
+httpRegister("/calculation", $calculationHandler);
+
+httpListen(":8080");
 
 ?>
 ```
