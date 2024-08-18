@@ -2,6 +2,9 @@
 
 // This is a comment
 
+$test = "Test"
+
+
 echo("Time is:");
 echo(time());
 
@@ -23,7 +26,7 @@ echo $calculationHandler();
 echo time();
 
 
-// Foreach loop
+// For loop
 $list = ["Bozhidar", "Veselinov", "Slaveykov", "Asenov"];
 sort($list);
 echo($list);

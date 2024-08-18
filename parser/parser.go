@@ -68,7 +68,7 @@ func (p *parser) statements(end Token) Block {
 	return statements
 }
 
-// statement = if | while | for | return | func | assign | expression
+// statement = if | while | for | return | function | assign | expression
 // assign    = NAME ASSIGN expression |
 //
 //	call subscript ASSIGN expression |
@@ -378,6 +378,8 @@ func (p *parser) primary() Expression {
 		pos := p.pos
 		p.next()
 		// TODO
+		//print("->")
+		//print(p.val)
 		//p.expect(SEMI)
 		return &Literal{pos, val}
 	case TRUE:
@@ -412,7 +414,7 @@ func (p *parser) primary() Expression {
 		formatter := prettyjson.NewFormatter()
 		output, _ := formatter.Marshal(p.val)
 		fmt.Println(string(output))
-		p.error("expected expression, not %s val %s", p.tok, p.val)
+		p.error("expected expression, ___%s___ ", p.tok)
 		return nil
 	}
 }
