@@ -29,12 +29,15 @@ jobs:
           node-version: 20
 
       - name: Install Deps
-        run: npm install
+        run: |
+          cd docs
+          npm install
 
       - name: Build Docs
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
+          cd docs
           npm run docs:build
           > docs/docs/.vuepress/dist/.nojekyll
 
