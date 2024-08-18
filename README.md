@@ -22,7 +22,7 @@ To get started with Davi, you need to create a new file with the .davi extension
 
 Here is an example of a simple Davi program:
 
-```davi
+```php
 <?davi
 
 // This is a comment
@@ -49,6 +49,17 @@ $calculationHandler = function() {
 echo $calculationHandler();
 echo time();
 
+// Array declaration
+$names = ["John", "Doe", "Jane", "Doe"];
+echo($names[0]);
+
+// If statement
+$age = 30;
+if ($age > 18) {
+    echo("You are an adult");
+} else {
+    echo("You are a child");
+}
 
 // For loop
 $list = ["Bozhidar", "Veselinov", "Slaveykov", "Asenov"];
