@@ -176,51 +176,51 @@ type Lexer struct {
 
 // NewLexer returns a new tokenizer that works off the given input.
 func NewLexer(input []byte) *Lexer {
-	t := new(Lexer)
-	t.input = input
-	t.nextPos.Line = 1
-	t.nextPos.Column = 1
-	t.next()
-	return t
+	l := new(Lexer)
+	l.input = input
+	l.nextPos.Line = 1
+	l.nextPos.Column = 1
+	l.next()
+	return l
 }
 
-func (t *Lexer) next() {
-	t.pos = t.nextPos
-	ch, size := utf8.DecodeRune(t.input[t.offset:])
+func (l *Lexer) next() {
+	l.pos = l.nextPos
+	ch, size := utf8.DecodeRune(l.input[l.offset:])
 	if size == 0 {
-		t.ch = -1
+		l.ch = -1
 		return
 	}
 	if ch == utf8.RuneError {
-		t.ch = -1
-		t.errorMsg = fmt.Sprintf("invalid UTF-8 byte 0x%02x", t.input[t.offset])
+		l.ch = -1
+		l.errorMsg = fmt.Sprintf("invalid UTF-8 byte 0x%02x", l.input[l.offset])
 		return
 	}
 	if ch == '\n' {
-		t.nextPos.Line++
-		t.nextPos.Column = 1
+		l.nextPos.Line++
+		l.nextPos.Column = 1
 	} else {
-		t.nextPos.Column++
+		l.nextPos.Column++
 	}
-	t.ch = ch
-	t.offset += size
+	l.ch = ch
+	l.offset += size
 }
 
-func (t *Lexer) skipWhitespaceAndComments() {
+func (l *Lexer) skipWhitespaceAndComments() {
 	for {
-		for t.ch == ' ' || t.ch == '\t' || t.ch == '\r' || t.ch == '\n' {
-			t.next()
+		for l.ch == ' ' || l.ch == '\t' || l.ch == '\r' || l.ch == '\n' {
+			l.next()
 		}
-		if !(t.ch == '/' && t.offset < len(t.input) && t.input[t.offset] == '/') {
+		if !(l.ch == '/' && l.offset < len(l.input) && l.input[l.offset] == '/') {
 			break
 		}
 		// Skip //-prefixed comment (to end of line or end of input)
-		t.next()
-		t.next()
-		for t.ch != '\n' && t.ch >= 0 {
-			t.next()
+		l.next()
+		l.next()
+		for l.ch != '\n' && l.ch >= 0 {
+			l.next()
 		}
-		t.next()
+		l.next()
 	}
 }
 
@@ -232,28 +232,28 @@ func isNameStart(ch rune) bool {
 // in the source. For ordinary tokens, the token value is empty. For INT,
 // NAME, and STR tokens, it's the number or string value. For an ILLEGAL
 // token, it's the error message.
-func (t *Lexer) Next() (Position, Token, string, string) {
-	t.skipWhitespaceAndComments()
-	if t.ch < 0 {
-		if t.errorMsg != "" {
-			return t.pos, ILLEGAL, t.errorMsg, ""
+func (l *Lexer) Next() (Position, Token, string, string) {
+	l.skipWhitespaceAndComments()
+	if l.ch < 0 {
+		if l.errorMsg != "" {
+			return l.pos, ILLEGAL, l.errorMsg, ""
 		}
-		return t.pos, EOF, "", ""
+		return l.pos, EOF, "", ""
 	}
 
-	pos := t.pos
+	pos := l.pos
 	token := ILLEGAL
 	value := ""
 
-	ch := t.ch
-	t.next()
+	ch := l.ch
+	l.next()
 
 	// Names (identifiers) and keywords
 	if isNameStart(ch) {
 		runes := []rune{ch}
-		for isNameStart(t.ch) || (t.ch >= '0' && t.ch <= '9') {
-			runes = append(runes, t.ch)
-			t.next()
+		for isNameStart(l.ch) || (l.ch >= '0' && l.ch <= '9') {
+			runes = append(runes, l.ch)
+			l.next()
 		}
 		name := string(runes)
 		token, isKeyword := keywordTokens[name]
@@ -299,42 +299,42 @@ func (t *Lexer) Next() (Position, Token, string, string) {
 		token = DOLAR
 
 	case '=':
-		if t.ch == '=' {
-			t.next()
+		if l.ch == '=' {
+			l.next()
 			token = EQUAL
 		} else {
 			token = ASSIGN
 		}
 	case '!':
-		if t.ch == '=' {
-			t.next()
+		if l.ch == '=' {
+			l.next()
 			token = NOTEQUAL
 		} else {
 			token = ILLEGAL
-			value = fmt.Sprintf("expected != instead of !%c", t.ch)
+			value = fmt.Sprintf("expected != instead of !%c", l.ch)
 		}
 	case '<':
-		if t.ch == '=' {
-			t.next()
+		if l.ch == '=' {
+			l.next()
 			token = LTE
 		} else {
 			token = LT
 		}
 	case '>':
-		if t.ch == '=' {
-			t.next()
+		if l.ch == '=' {
+			l.next()
 			token = GTE
 		} else {
 			token = GT
 		}
 
 	case '.':
-		if t.ch == '.' {
-			t.next()
-			if t.ch != '.' {
+		if l.ch == '.' {
+			l.next()
+			if l.ch != '.' {
 				return pos, ILLEGAL, "unexpected ..", string(ch)
 			}
-			t.next()
+			l.next()
 			token = ELLIPSIS
 		} else {
 			token = DOT
@@ -342,17 +342,17 @@ func (t *Lexer) Next() (Position, Token, string, string) {
 
 	case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9':
 		runes := []rune{ch}
-		for t.ch >= '0' && t.ch <= '9' {
-			runes = append(runes, t.ch)
-			t.next()
+		for l.ch >= '0' && l.ch <= '9' {
+			runes = append(runes, l.ch)
+			l.next()
 		}
 		token = INT
 		value = string(runes)
 
 	case '"':
 		runes := []rune{}
-		for t.ch != '"' {
-			c := t.ch
+		for l.ch != '"' {
+			c := l.ch
 			if c < 0 {
 				return pos, ILLEGAL, "didn't find end quote in string", string(ch)
 			}
@@ -360,10 +360,10 @@ func (t *Lexer) Next() (Position, Token, string, string) {
 				return pos, ILLEGAL, "can't have newline in string", string(ch)
 			}
 			if c == '\\' {
-				t.next()
-				switch t.ch {
+				l.next()
+				switch l.ch {
 				case '"', '\\':
-					c = t.ch
+					c = l.ch
 				case 't':
 					c = '\t'
 				case 'r':
@@ -371,13 +371,13 @@ func (t *Lexer) Next() (Position, Token, string, string) {
 				case 'n':
 					c = '\n'
 				default:
-					return pos, ILLEGAL, fmt.Sprintf("invalid string escape \\%c", t.ch), string(ch)
+					return pos, ILLEGAL, fmt.Sprintf("invalid string escape \\%c", l.ch), string(ch)
 				}
 			}
 			runes = append(runes, c)
-			t.next()
+			l.next()
 		}
-		t.next()
+		l.next()
 		token = STR
 		value = string(runes)
 
