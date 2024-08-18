@@ -480,8 +480,8 @@ func ParseExpression(input []byte) (e Expression, err error) {
 			err = r.(Error)
 		}
 	}()
-	t := NewLexer(input)
-	p := parser{lexer: t}
+	l := NewLexer(input)
+	p := parser{lexer: l}
 	p.next()
 	return p.expression(), nil
 }
@@ -497,8 +497,8 @@ func ParseProgram(input []byte) (prog *Program, err error) {
 			err = r.(Error)
 		}
 	}()
-	t := NewLexer(input)
-	p := parser{lexer: t}
+	l := NewLexer(input)
+	p := parser{lexer: l}
 	p.next()
 	return p.program(), nil
 }
