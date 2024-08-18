@@ -5,13 +5,28 @@ import { viteBundler } from '@vuepress/bundler-vite'
 export default defineUserConfig({
   lang: 'en-US',
 
-  title: 'Davinci Script',
-  description: 'Davinci Script is a fast, simple and powerful scripting language for creating dynamic web pages.',
+  title: 'DaVinci Script',
+  description: 'DaVinci Script is a fast, simple and powerful scripting language for creating dynamic web pages.',
 
   theme: defaultTheme({
     logo: 'davinci.png',
-
-    navbar: ['/', '/get-started'],
+    locales: {
+      '/': {
+        navbar: [
+          '/guide/get-started.md',
+          '/guide/tutorials.md',
+        ],
+        sidebar: [
+          {
+            text: 'Guide',
+            children: [
+              '/guide/get-started.md',
+              '/guide/tutorials.md',
+            ]
+          }
+        ]
+      }
+    }
   }),
 
   bundler: viteBundler(),

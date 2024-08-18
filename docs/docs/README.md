@@ -4,11 +4,11 @@ title: Home
 heroImage: davinci.png
 actions:
   - text: Get Started
-    link: /get-started.html
+    link: /guide/get-started.html
     type: primary
 
   - text: Introduction
-    link: /get-started.html?intro
+    link: /guide/get-started.html?intro
     type: secondary
 
 features:

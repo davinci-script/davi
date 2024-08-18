@@ -6,7 +6,6 @@ $test = "Hello, World!";
 echo($test);
 
 echo("Time is:", time());
-
 echo("Test calculation: 1+2*3=", 1 + 2 * 3);
 
 echo(1 + 2 * 3);
@@ -35,4 +34,34 @@ for ($x in $list) {
     echo($x);
 }
 
+
+// Strings
+$name = "John Doe";
+echo "Hello, $name!";
+
+// String concatenation
+$age = 30;
+echo("You are ",$age," years old");
+
+// String concatenation
+$price = "19.99";
+echo("The price is", $price);
+
+
+// Function declaration
+function sayHello($name) {
+    echo("Hello,", $name, "!");
+}
+sayHello("John Doe");
+
+$names = ["John", "Doe", "Jane", "Doe"];
+echo($names[3]);
+
+
+$age = 30;
+if ($age > 18) {
+    echo("You are an adult");
+} else {
+    echo("You are a child");
+}
 ?>
