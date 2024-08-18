@@ -1,46 +1,22 @@
 # Get Started
 
-This is a normal page, which contains VuePress basics.
+This is a simple guide to get you started with the Davinci Script.
 
-## Pages
+## Installation
 
-You can add markdown files in your vuepress directory, every markdown file will be converted to a page in your site.
+To install the Davinci Script, you can download from the following links:
 
-See [routing][] for more details.
+# Download Davinci for Linux
+[Linux 386](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_linux_386.tar.gz)
+[Linux AMD64](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_linux_amd64.tar.gz)
+[Linux ARM64](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_linux_arm64.tar.gz)
 
-## Content
 
-Every markdown file [will be rendered to HTML, then converted to a Vue SFC][content].
+# Download Davinci for Windows
+[Windows 386](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_windows_386.tar.gz)
+[Windows AMD64](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_windows_amd64.tar.gz)
+[Windows ARM64](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_windows_arm64.tar.gz)
 
-VuePress support basic markdown syntax and [some extensions][synatex-extensions], you can also [use Vue features][vue-feature] in it.
-
-## Configuration
-
-VuePress use a `.vuepress/config.js`(or .ts) file as [site configuration][config], you can use it to config your site.
-
-For [client side configuration][client-config], you can create `.vuepress/client.js`(or .ts).
-
-Meanwhile, you can also add configuration per page with [frontmatter][].
-
-## Layouts and customization
-
-Here are common configuration controlling layout of `@vuepress/theme-default`:
-
-- [navbar][]
-- [sidebar][]
-
-Check [default theme docs][default-theme] for full reference.
-
-You can [add extra style][style] with `.vuepress/styles/index.scss` file.
-
-[routing]: https://vuejs.press/guide/page.html#routing
-[content]: https://vuejs.press/guide/page.html#content
-[synatex-extensions]: https://vuejs.press/guide/markdown.html#syntax-extensions
-[vue-feature]: https://vuejs.press/guide/markdown.html#using-vue-in-markdown
-[config]: https://vuejs.press/guide/configuration.html#client-config-file
-[client-config]: https://vuejs.press/guide/configuration.html#client-config-file
-[frontmatter]: https://vuejs.press/guide/page.html#frontmatter
-[navbar]: https://vuejs.press/reference/default-theme/config.html#navbar
-[sidebar]: https://vuejs.press/reference/default-theme/config.html#sidebar
-[default-theme]: https://vuejs.press/reference/default-theme/
-[style]: https://vuejs.press/reference/default-theme/styles.html#style-file
+# Download Davinci for Darwin
+[Darwin AMD64](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_darwin_amd64.tar.gz)
+[Darwin ARM64](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_darwin_arm64.tar.gz)
