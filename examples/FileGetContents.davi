@@ -1,7 +1,8 @@
 <?davi
 
-echo(fileGetContents("https://microweber.com/"));
+// echo(fileGetContents("https://microweber.com/"));
 
-echo("Done!");
+echo("done!");
+
 
 ?>

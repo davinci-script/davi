@@ -1,0 +1,25 @@
+<?davi
+
+// This is a comment
+
+echo("Time is:");
+echo(time());
+
+echo("Test calculation: 1+2*3=");
+echo(1 + 2 * 3);
+
+$timeHandler = function() {
+    $time = time();
+    return($time);
+}
+echo($timeHandler());
+
+$calculationHandler = function() {
+    return(5 + 5);
+}
+
+echo $calculationHandler();
+
+echo time();
+
+?>
