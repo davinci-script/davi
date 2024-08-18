@@ -10,3 +10,4 @@ require (
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	golang.org/x/sys v0.0.0-20201126233918-771906719818 // indirect
 )
+

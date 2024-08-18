@@ -6,13 +6,13 @@ Davi is a superfast web language based on GO. It is a simple and easy to use lan
 ## Features
 - Simple and easy to use
 - Fast and efficient
-- Easy to learn
 - Supports multiple platforms
 - Similar syntax to PHP
 - Support for websockets
 - Support for databases
 - Support for RESTful APIs
 - Support for JSON
+- Easy to learn
 
 ## Installation
 To install Davi, you need to download last release here.

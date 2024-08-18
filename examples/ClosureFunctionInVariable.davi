@@ -1,5 +1,5 @@
 <?davi
-
+// DaVinci Script
 
 $jsonHandler = function() {
     echo("Hello, World!");

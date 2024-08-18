@@ -20,3 +20,4 @@ To install the Davinci Script, you can download from the following links:
 # Download Davinci for Darwin
 [Darwin AMD64](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_darwin_amd64.tar.gz)
 [Darwin ARM64](https://github.com/davinci-script/davi/releases/download/0.0.2/davi_0.0.2_darwin_arm64.tar.gz)
+

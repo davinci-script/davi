@@ -8,7 +8,7 @@ actions:
     type: primary
 
   - text: Introduction
-    link: /get-started.html
+    link: /get-started.html?intro
     type: secondary
 
 features:
