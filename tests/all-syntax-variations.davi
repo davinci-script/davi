@@ -8,18 +8,28 @@ echo(time());
 echo("Test calculation: 1+2*3=");
 echo(1 + 2 * 3);
 
+// Variable declaration
 $timeHandler = function() {
     $time = time();
     return($time);
 }
 echo($timeHandler());
 
+// Variable assignment
 $calculationHandler = function() {
     return(5 + 5);
 }
-
 echo $calculationHandler();
-
 echo time();
+
+
+// Foreach loop
+$list = ["Bozhidar", "Veselinov", "Slaveykov", "Asenov"];
+sort($list);
+echo($list);
+sort($list, lower);
+for ($x in $list) {
+    echo($x);
+} 
 
 ?>

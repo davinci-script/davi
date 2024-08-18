@@ -146,10 +146,13 @@ func (p *parser) while() Statement {
 func (p *parser) for_() Statement {
 	pos := p.pos
 	p.expect(FOR)
+	p.expect(LPAREN)
+	p.expect(DOLAR)
 	name := p.val
 	p.expect(NAME)
 	p.expect(IN)
 	iterable := p.expression()
+	p.expect(RPAREN)
 	body := p.block()
 	return &For{pos, name, iterable, body}
 }
@@ -329,6 +332,7 @@ func (p *parser) call() Expression {
 			p.next()
 			subscript := p.expression()
 			p.expect(RBRACKET)
+			p.expect(SEMI)
 			expr = &Subscript{pos, expr, subscript}
 		} else {
 			pos := p.pos
@@ -435,6 +439,7 @@ func (p *parser) list() Expression {
 		}
 	}
 	p.expect(RBRACKET)
+	p.expect(SEMI)
 	return &List{pos, values}
 }
 
