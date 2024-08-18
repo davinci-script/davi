@@ -2,6 +2,11 @@
 
 Davi is a superfast web language based on GO. It is a simple and easy to use language that can be used to create web applications. Davi is a compiled language, which means that it is converted into machine code before it is run. This makes it very fast and efficient.
 
+```php
+<?davi
+echo("Hello, World!");
+?>
+```
 
 ## Features
 - Simple and easy to use
@@ -75,7 +80,7 @@ for ($x in $list) {
 
 To run this program, save it to a file called hello.davi and run the following command:
 
-```
+```bash
 davi hello.davi
 ```
 
