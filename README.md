@@ -4,7 +4,11 @@ Davi is a superfast web language based on GO. It is a simple and easy to use lan
 
 ```php
 <?davi
+
+// Simple Hello World program
+
 echo("Hello, World!");
+
 ?>
 ```
 
