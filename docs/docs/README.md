@@ -26,5 +26,5 @@ features:
   - title: Web Server
     details: Davinci Script includes a built-in web server, so you can preview your site locally before deploying it.
     
-footer: MIT Licensed | Copyright © 2024 Davinci Script Inc.
+footer: Copyright © 2024 Davinci Script. Author Bozhidar Slaveykoc
 ---
