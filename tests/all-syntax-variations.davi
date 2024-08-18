@@ -2,7 +2,7 @@
 
 // This is a comment
 
-$test = "Test"
+$test = "Test string";
 
 
 echo("Time is:");

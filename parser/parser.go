@@ -377,10 +377,6 @@ func (p *parser) primary() Expression {
 		val := p.val
 		pos := p.pos
 		p.next()
-		// TODO
-		//print("->")
-		//print(p.val)
-		//p.expect(SEMI)
 		return &Literal{pos, val}
 	case TRUE:
 		pos := p.pos
