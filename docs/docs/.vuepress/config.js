@@ -5,11 +5,11 @@ import { viteBundler } from '@vuepress/bundler-vite'
 export default defineUserConfig({
   lang: 'en-US',
 
-  title: 'VuePress',
-  description: 'My first VuePress Site',
+  title: 'Davinci Script',
+  description: 'Davinci Script is a fast, simple and powerful scripting language for creating dynamic web pages.',
 
   theme: defaultTheme({
-    logo: 'https://vuejs.press/images/hero.png',
+    logo: 'davinci.png',
 
     navbar: ['/', '/get-started'],
   }),
