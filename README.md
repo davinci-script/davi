@@ -1,1 +1,43 @@
-# Davi
+# Davi -  Superfast web language based on GO 
+
+Davi is a superfast web language based on GO. It is a simple and easy to use language that can be used to create web applications. Davi is a compiled language, which means that it is converted into machine code before it is run. This makes it very fast and efficient.
+
+
+## Features
+- Simple and easy to use
+- Fast and efficient
+- Easy to learn
+- Supports multiple platforms
+- Similar syntax to PHP
+- Support for websockets
+- Support for databases
+- Support for RESTful APIs
+- Support for JSON
+
+## Installation
+To install Davi, you need to download last release here.
+
+## Getting Started
+To get started with Davi, you need to create a new file with the .davi extension. You can then write your code in this file and run it using the Davi interpreter.
+
+Here is an example of a simple Davi program that prints "Hello, World!" to the screen:
+
+```davi
+<?davi
+echo "Hello, World!";
+?>
+```
+
+To run this program, save it to a file called hello.davi and run the following command:
+
+```
+davi hello.davi
+```
+
+This will output "Hello, World!" to the screen.
+
+## Documentation
+For more information on how to use Davi, you can check out the official documentation here.
+
+## Contributing
+If you would like to contribute to Davi, you can do so by forking the repository and submitting a pull request. You can also report any issues or bugs that you find by opening an issue on the repository.
