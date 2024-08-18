@@ -289,7 +289,7 @@ func (e *FunctionExpression) String() string {
 	if len(e.Body) != 0 {
 		bodyStr = "\n" + indent(e.Body.String()) + "\n"
 	}
-	return fmt.Sprintf("func(%s%s) {%s}", strings.Join(e.Parameters, ", "), ellipsisStr, bodyStr)
+	return fmt.Sprintf("function(%s%s) {%s}", strings.Join(e.Parameters, ", "), ellipsisStr, bodyStr)
 }
 
 type Subscript struct {
