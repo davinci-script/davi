@@ -149,7 +149,7 @@ func (p *parser) for_() Statement {
 	pos := p.pos
 	p.expect(FOR)
 	p.expect(LPAREN)
-	p.expect(DOLAR)
+	p.expect(DOLLAR)
 	name := p.val
 	p.expect(NAME)
 	p.expect(IN)
@@ -200,7 +200,7 @@ func (p *parser) params() ([]string, bool) {
 			p.error("expected , between parameters")
 		}
 		param := p.val
-		p.expect(DOLAR)
+		p.expect(DOLLAR)
 		p.expect(NAME)
 		params = append(params, param)
 		if p.tok == ELLIPSIS {
@@ -359,8 +359,8 @@ func (p *parser) primary() Expression {
 		p.next()
 
 		return &Variable{pos, name}
-	case DOLAR:
-		p.expect(DOLAR)
+	case DOLLAR:
+		p.expect(DOLLAR)
 		name := p.val
 		pos := p.pos
 		p.next()

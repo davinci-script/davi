@@ -35,7 +35,7 @@ const (
 	RPAREN
 	TIMES
 	QUESTION
-	DOLAR
+	DOLLAR
 
 	// Two-character tokens
 	EQUAL
@@ -126,7 +126,7 @@ var tokenNames = map[Token]string{
 	RPAREN:   ")",
 	TIMES:    "*",
 	QUESTION: "?",
-	DOLAR:    "$",
+	DOLLAR:   "$",
 
 	EQUAL:    "==",
 	GTE:      ">=",
@@ -298,7 +298,7 @@ func (l *Lexer) Next() (Position, Token, string, string) {
 	case '?':
 		token = QUESTION
 	case '$':
-		token = DOLAR
+		token = DOLLAR
 
 	case '=':
 		if l.ch == '=' {
