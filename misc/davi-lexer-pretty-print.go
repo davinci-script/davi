@@ -3,21 +3,35 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	. "github.com/DavinciScript/Davi/lexer"
 	"github.com/hokaccha/go-prettyjson"
+	"io/ioutil"
+	"os"
 )
 
 func main() {
 
-	fmt.Println("Running davi.go")
+	filename := os.Args[1]
+
+	input, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Printf("Error reading file. Please check the file path and try again.\n")
+		os.Exit(1)
+	}
+
+	// Replace <?davi with empty string
+	input = bytes.Replace(input, []byte("<?davi"), []byte(""), 1)
+
+	// Replace ?> with empty string
+	input = bytes.Replace(input, []byte("?>"), []byte(""), 1)
+
+	// Trim
+	input = bytes.TrimSpace(input)
 
 	// Run the lexer
-	lexer := NewLexer([]byte(`
-
-$age = 20;
-
-`))
+	lexer := NewLexer(input)
 	for {
 		pos, tok, val, ch := lexer.Next()
 		if tok == EOF {
