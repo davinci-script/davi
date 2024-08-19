@@ -2,277 +2,277 @@
 
 ## append
 
-### Syntax
+Syntax
 
 ```php
 append(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## args
 
-### Syntax
+Syntax
 
 ```php
 args(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## char
 
-### Syntax
+Syntax
 
 ```php
 char(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## echo
 
-### Syntax
+Syntax
 
 ```php
 echo(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## exit
 
-### Syntax
+Syntax
 
 ```php
 exit(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## file_get_contents
 
-### Syntax
+Syntax
 
 ```php
 file_get_contents(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## find
 
-### Syntax
+Syntax
 
 ```php
 find(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## http_listen
 
-### Syntax
+Syntax
 
 ```php
 http_listen(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## http_register
 
-### Syntax
+Syntax
 
 ```php
 http_register(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## int
 
-### Syntax
+Syntax
 
 ```php
 int(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## join
 
-### Syntax
+Syntax
 
 ```php
 join(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## len
 
-### Syntax
+Syntax
 
 ```php
 len(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## lower
 
-### Syntax
+Syntax
 
 ```php
 lower(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## range
 
-### Syntax
+Syntax
 
 ```php
 range(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## read
 
-### Syntax
+Syntax
 
 ```php
 read(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## rune
 
-### Syntax
+Syntax
 
 ```php
 rune(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## slice
 
-### Syntax
+Syntax
 
 ```php
 slice(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## sort
 
-### Syntax
+Syntax
 
 ```php
 sort(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## split
 
-### Syntax
+Syntax
 
 ```php
 split(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## str
 
-### Syntax
+Syntax
 
 ```php
 str(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## time
 
-### Syntax
+Syntax
 
 ```php
 time(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## type
 
-### Syntax
+Syntax
 
 ```php
 type(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 
 ## upper
 
-### Syntax
+Syntax
 
 ```php
 upper(arg1, arg2, ...)
 ```
 
-### Description
+#### Description
 
 This function does something.
 

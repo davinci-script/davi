@@ -113,8 +113,9 @@ var builtins = map[string]builtinFunction{
  * return: nil
  * example: append([1, 2], 3, 4) => [1, 2, 3, 4]
  * output: [1, 2, 3, 4]
- * description: Append values to a list.
+ * description: Append values to a array.
  * title: Append
+ * category: Array
  */
 func appendFunction(interp *interpreter, pos Position, args []Value) Value {
 	if len(args) < 1 {
@@ -135,11 +136,31 @@ func stringsToList(strings []string) Value {
 	return Value(&values)
 }
 
+/**
+ * function: args
+ * args: none
+ * return: list
+ * example: args() => ["arg1", "arg2"]
+ * output: ["arg1", "arg2"]
+ * description: Get the command-line arguments passed to the script.
+ * title: Args
+ * category: System
+ */
 func argsFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "args", args, 0)
 	return stringsToList(interp.args)
 }
 
+/**
+ * function: char
+ * args: string
+ * return: str
+ * example: char(65) => "A"
+ * output: "A"
+ * description: Convert an ASCII code to a character.
+ * title: Char
+ * category: String
+ */
 func charFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "char", args, 1)
 	if code, ok := args[0].(int); ok {
@@ -148,6 +169,16 @@ func charFunction(interp *interpreter, pos Position, args []Value) Value {
 	panic(typeError(pos, "char() requires an int, not %s", typeName(args[0])))
 }
 
+/**
+ * function: exit
+ * args: [code]
+ * return: nil
+ * example: exit(1)
+ * output: exit status 1
+ * description: Exit the script with an optional exit code.
+ * title: Exit
+ * category: System
+ */
 func exitFunction(interp *interpreter, pos Position, args []Value) Value {
 	if len(args) > 1 {
 		panic(typeError(pos, "exit() requires 0 or 1 args, got %d", len(args)))
@@ -164,6 +195,16 @@ func exitFunction(interp *interpreter, pos Position, args []Value) Value {
 	return Value(nil)
 }
 
+/**
+ * function: find
+ * args: haystack, needle
+ * return: int
+ * example: find("hello", "e") => 1
+ * output: 1
+ * description: Find the first occurrence of a substring in a string or a value in a list.
+ * title: Find
+ * category: String
+ */
 func findFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "find", args, 2)
 	switch haystack := args[0].(type) {
@@ -185,6 +226,16 @@ func findFunction(interp *interpreter, pos Position, args []Value) Value {
 	}
 }
 
+/**
+ * function: int
+ * args: value
+ * return: int
+ * example: int("42") => 42
+ * output: 42
+ * description: Convert a value to an integer.
+ * title: Int
+ * category: Conversion
+ */
 func intFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "int", args, 1)
 	switch arg := args[0].(type) {
@@ -201,6 +252,16 @@ func intFunction(interp *interpreter, pos Position, args []Value) Value {
 	}
 }
 
+/**
+ * function: join
+ * args: list, separator
+ * return: str
+ * example: join(["a", "b", "c"], ", ") => "a, b, c"
+ * output: "a, b, c"
+ * description: Join a list of strings into a single string with a separator.
+ * title: Join
+ * category: String
+ */
 func joinFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "join", args, 2)
 	sep, ok := args[1].(string)
@@ -222,6 +283,16 @@ func joinFunction(interp *interpreter, pos Position, args []Value) Value {
 	panic(typeError(pos, "join() requires first argument to be a list"))
 }
 
+/**
+ * function: len
+ * args: value
+ * return: int
+ * example: len("hello") => 5
+ * output: 5
+ * description: Get the length of a string, list, or map.
+ * title: Length
+ * category: String
+ */
 func lenFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "len", args, 1)
 	var length int
@@ -238,6 +309,16 @@ func lenFunction(interp *interpreter, pos Position, args []Value) Value {
 	return Value(length)
 }
 
+/**
+ * function: lower
+ * args: string
+ * return: str
+ * example: lower("HELLO") => "hello"
+ * output: "hello"
+ * description: Convert a string to lowercase.
+ * title: Lower
+ * category: String
+ */
 func lowerFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "lower", args, 1)
 	if s, ok := args[0].(string); ok {
@@ -246,6 +327,16 @@ func lowerFunction(interp *interpreter, pos Position, args []Value) Value {
 	panic(typeError(pos, "lower() requires a str"))
 }
 
+/**
+ * function: echo
+ * args: value1, value2, ...
+ * return: nil
+ * example: echo("hello", 42) => hello 42
+ * output: hello 42
+ * description: Print values to the standard output.
+ * title: Echo
+ * category: System
+ */
 func echoFunction(interp *interpreter, pos Position, args []Value) Value {
 	strs := make([]interface{}, len(args))
 	for i, a := range args {
@@ -255,6 +346,16 @@ func echoFunction(interp *interpreter, pos Position, args []Value) Value {
 	return Value(nil)
 }
 
+/**
+ * function: range
+ * args: n
+ * return: list
+ * example: range(3) => [0, 1, 2]
+ * output: [0, 1, 2]
+ * description: Generate a list of integers from 0 to n-1.
+ * title: Range
+ * category: Array
+ */
 func rangeFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "range", args, 1)
 	if n, ok := args[0].(int); ok {
@@ -270,6 +371,16 @@ func rangeFunction(interp *interpreter, pos Position, args []Value) Value {
 	panic(typeError(pos, "range() requires an int"))
 }
 
+/**
+ * function: read
+ * args: [filename]
+ * return: str
+ * example: read("file.txt") => "contents of file.txt"
+ * output: "contents of file.txt"
+ * description: Read the contents of a file or standard input.
+ * title: Read
+ * category: System
+ */
 func readFunction(interp *interpreter, pos Position, args []Value) Value {
 	if len(args) > 1 {
 		panic(typeError(pos, "read() requires 0 or 1 args, got %d", len(args)))
@@ -291,6 +402,16 @@ func readFunction(interp *interpreter, pos Position, args []Value) Value {
 	return Value(string(b))
 }
 
+/**
+ * function: rune
+ * args: str
+ * return: int
+ * example: rune("A") => 65
+ * output: 65
+ * description: Convert a 1-character string to an ASCII code.
+ * title: Rune
+ * category: String
+ */
 func runeFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "rune", args, 1)
 	if s, ok := args[0].(string); ok {
@@ -303,6 +424,16 @@ func runeFunction(interp *interpreter, pos Position, args []Value) Value {
 	panic(typeError(pos, "rune() requires a str"))
 }
 
+/**
+ * function: slice
+ * args: str or list, start, end
+ * return: str or list
+ * example: slice("hello", 1, 3) => "el"
+ * output: "el"
+ * description: Get a substring or sublist from a string or list.
+ * title: Slice
+ * category: Array
+ */
 func sliceFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "slice", args, 3)
 	start, sok := args[1].(int)
@@ -328,6 +459,16 @@ func sliceFunction(interp *interpreter, pos Position, args []Value) Value {
 	}
 }
 
+/**
+ * function: sort
+ * args: list, [key]
+ * return: nil
+ * example: sort([3, 1, 2]) => [1, 2, 3]
+ * output: [1, 2, 3]
+ * description: Sort a list of values.
+ * title: Sort
+ * category: Array
+ */
 func sortFunction(interp *interpreter, pos Position, args []Value) Value {
 	if len(args) != 1 && len(args) != 2 {
 		panic(typeError(pos, "sort() requires 1 or 2 args, got %d", len(args)))
@@ -371,6 +512,16 @@ func sortFunction(interp *interpreter, pos Position, args []Value) Value {
 	return Value(nil)
 }
 
+/**
+ * function: split
+ * args: string, [separator]
+ * return: list
+ * example: split("a, b, c", ", ") => ["a", "b", "c"]
+ * output: ["a", "b", "c"]
+ * description: Split a string into a list of substrings.
+ * title: Split
+ * category: String
+ */
 func splitFunction(interp *interpreter, pos Position, args []Value) Value {
 	if len(args) != 1 && len(args) != 2 {
 		panic(typeError(pos, "split() requires 1 or 2 args, got %d", len(args)))
@@ -390,6 +541,16 @@ func splitFunction(interp *interpreter, pos Position, args []Value) Value {
 	return stringsToList(parts)
 }
 
+/**
+ * function: str
+ * args: value
+ * return: str
+ * example: str([1, 2, 3]) => "[1, 2, 3]"
+ * output: "[1, 2, 3]"
+ * description: Convert a value to a string.
+ * title: Str
+ * category: Conversion
+ */
 func toString(value Value, quoteStr bool) string {
 	var s string
 	switch v := value.(type) {
@@ -432,6 +593,16 @@ func toString(value Value, quoteStr bool) string {
 	return s
 }
 
+/**
+ * function: str
+ * args: value
+ * return: str
+ * example: str([1, 2, 3]) => "[1, 2, 3]"
+ * output: "[1, 2, 3]"
+ * description: Convert a value to a string.
+ * title: Str
+ * category: Conversion
+ */
 func strFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "str", args, 1)
 	return Value(toString(args[0], false))
@@ -461,11 +632,31 @@ func typeName(v Value) string {
 	return t
 }
 
+/**
+ * function: type
+ * args: value
+ * return: str
+ * example: type(42) => "int"
+ * output: "int"
+ * description: Get the type of a value as a string.
+ * title: Type
+ * category: System
+ */
 func typeFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "type", args, 1)
 	return Value(typeName(args[0]))
 }
 
+/**
+ * function: upper
+ * args: string
+ * return: str
+ * example: upper("hello") => "HELLO"
+ * output: "HELLO"
+ * description: Convert a string to uppercase.
+ * title: Upper
+ * category: String
+ */
 func upperFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "upper", args, 1)
 	if s, ok := args[0].(string); ok {
@@ -474,6 +665,16 @@ func upperFunction(interp *interpreter, pos Position, args []Value) Value {
 	panic(typeError(pos, "upper() requires a str"))
 }
 
+/**
+ * function: time
+ * args: none
+ * return: str
+ * example: time() => "2018-01-01 12:00:00"
+ * output: "2018-01-01 12:00:00"
+ * description: Get the current date and time as a string.
+ * title: Time
+ * category: System
+ */
 func timeFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "time", args, 0)
 
@@ -482,6 +683,16 @@ func timeFunction(interp *interpreter, pos Position, args []Value) Value {
 	return Value(dt.String())
 }
 
+/**
+ * function: fileGetContents
+ * args: url
+ * return: str
+ * example: fileGetContents("http://example.com") => "..."
+ * output: "..."
+ * description: Get the contents of a file or URL.
+ * title: File Get Contents
+ * category: System
+ */
 func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Value {
 
 	ensureNumArgs(pos, "fileGetContents", args, 1)
@@ -505,6 +716,16 @@ func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Va
 	panic(typeError(pos, "fileGetContents() requires a str"))
 }
 
+/**
+ * function: httpRegister
+ * args: pattern, handler
+ * return: nil
+ * example: httpRegister("/", func() { return "Hello, World!" })
+ * output: "Hello, World!"
+ * description: Register a handler function for a URL pattern.
+ * title: HTTP Register
+ * category: HTTP
+ */
 func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value {
 
 	ensureNumArgs(pos, "httpRegister", args, 2)
@@ -534,6 +755,16 @@ func httpRegisterFunction(interp *interpreter, pos Position, args []Value) Value
 
 }
 
+/**
+ * function: httpListen
+ * args: portOrAddress
+ * return: nil
+ * example: httpListen(":8080")
+ * output: Server is starting on http://localhost:8080...
+ * description: Start the HTTP server.
+ * title: HTTP Listen
+ * category: HTTP
+ */
 func httpListenFunction(interp *interpreter, pos Position, args []Value) Value {
 
 	ensureNumArgs(pos, "httpListen", args, 1)

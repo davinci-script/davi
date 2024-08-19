@@ -694,11 +694,11 @@ func GenerateDocs() {
 	for _, k := range keys {
 
 		markdownContent += "## " + k + "\n\n"
-		markdownContent += "### Syntax\n\n"
+		markdownContent += "Syntax\n\n"
 		markdownContent += "```php\n"
 		markdownContent += k + "(arg1, arg2, ...)\n"
 		markdownContent += "```\n\n"
-		markdownContent += "### Description\n\n"
+		markdownContent += "#### Description\n\n"
 		markdownContent += "This function does something.\n\n"
 	}
 
