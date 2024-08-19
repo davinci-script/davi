@@ -439,8 +439,9 @@ func (p *parser) primary() Expression {
 		}
 		className := p.val
 		p.expect(NAME)
+		args, _ := p.params()
 
-		return &NewExpression{pos, className, nil}
+		return &NewExpression{pos, className, args}
 	case OBJECT_OPERATOR:
 		pos := p.pos
 		p.next() // Move past the OBJECT_OPERATOR token

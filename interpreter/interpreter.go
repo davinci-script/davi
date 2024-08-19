@@ -445,10 +445,15 @@ func (interp *interpreter) evaluate(expr parser.Expression) Value {
 		return &userFunction{"", e.Parameters, e.Ellipsis, e.Body, closure}
 	case *parser.SemiTag:
 		return nil
+	case *parser.MethodCall:
+		// Evaluate the object and method name
+		print("Method call: ", e.Method)
+		return nil
+
 	case *parser.NewExpression:
 		// Evaluate the class name and arguments
 		className := e.ClassName
-		print("New exp: Class name: ", className)
+		//print("New exp: Class name: ", className)
 		//args := make([]Value, len(e.Args))
 		//for i, arg := range e.Args {
 		//	args[i] = interp.evaluate(arg)
@@ -456,7 +461,7 @@ func (interp *interpreter) evaluate(expr parser.Expression) Value {
 		//
 		//// Create a new instance of the class
 		instance := interp.newInstance(className, nil)
-		print("New exp: Instance: ", instance)
+		//print("New exp: Instance: ", instance)
 		return instance
 	default:
 		// Parser should never give us this
@@ -616,7 +621,7 @@ func (interp *interpreter) executeStatement(s parser.Statement) {
 		// Handle the class definition here
 		// Create a new class and register it in the environment
 		className := s.Name
-		print(className)
+		//print(className)
 		//methods := s.Methods // Assuming s.Methods holds the class methods
 		//// Create a new class object or structure to store the class details
 		class := &userClass{
