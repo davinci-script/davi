@@ -22,6 +22,12 @@ func main() {
 		os.Exit(1)
 	}
 
+	if filename == "--generate-docs" {
+		interpreter.GenerateDocs()
+		//exec.Command("docs/npm run docs:build").Run()
+		os.Exit(0)
+	}
+
 	input, err := ioutil.ReadFile(filename)
 	if err != nil {
 		fmt.Printf("Error reading file. Please check the file path and try again.\n")
