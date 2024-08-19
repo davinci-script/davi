@@ -92,6 +92,19 @@ func (p *parser) statement() Statement {
 	}
 	pos := p.pos
 	expr := p.expression()
+	if p.tok == OBJECT_OPERATOR {
+		pos = p.pos
+		p.expect(OBJECT_OPERATOR)
+
+		expr = &MethodCall{pos, expr, p.val, []Expression{}}
+
+		p.expect(NAME)
+		p.expect(LPAREN)
+		p.expect(RPAREN)
+
+		return &ExpressionStatement{pos, expr}
+
+	}
 	if p.tok == ASSIGN {
 		pos = p.pos
 		switch expr.(type) {
@@ -442,27 +455,27 @@ func (p *parser) primary() Expression {
 		args, _ := p.params()
 
 		return &NewExpression{pos, className, args}
-	case OBJECT_OPERATOR:
-		pos := p.pos
-		p.next() // Move past the OBJECT_OPERATOR token
-
-		if p.tok != NAME {
-			p.error("expected a method or property name after '->'")
-			return nil
-		}
-
-		methodName := p.val
-		p.next() // Move past the method name
-
-		//// Assuming you want to handle method calls like $test->call(args...)
-		if p.tok == LPAREN {
-			p.next() // Skip '('
-			args := []Expression{}
-			p.expect(RPAREN) // Ensure method call is closed with ')'
-			return &MethodCall{pos, nil, methodName, args}
-		}
-
-		return &PropertyAccess{pos, nil, methodName}
+	//case OBJECT_OPERATOR:
+	//	pos := p.pos
+	//	p.next() // Move past the OBJECT_OPERATOR token
+	//
+	//	if p.tok != NAME {
+	//		p.error("expected a method or property name after '->'")
+	//		return nil
+	//	}
+	//
+	//	methodName := p.val
+	//	p.next() // Move past the method name
+	//
+	//	//// Assuming you want to handle method calls like $test->call(args...)
+	//	if p.tok == LPAREN {
+	//		p.next() // Skip '('
+	//		args := []Expression{}
+	//		p.expect(RPAREN) // Ensure method call is closed with ')'
+	//		return &MethodCall{pos, nil, methodName, args}
+	//	}
+	//
+	//	return &PropertyAccess{pos, nil, methodName}
 
 	default:
 		formatter := prettyjson.NewFormatter()

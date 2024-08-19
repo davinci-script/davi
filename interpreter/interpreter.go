@@ -446,9 +446,34 @@ func (interp *interpreter) evaluate(expr parser.Expression) Value {
 	case *parser.SemiTag:
 		return nil
 	case *parser.MethodCall:
-		// Evaluate the object and method name
-		print("Method call: ", e.Method)
-		return nil
+
+		// The method name
+		methodName := e.Method
+
+		print("Method name: ", methodName)
+
+		// Evaluate the object on which the method is being called
+		object := interp.evaluate(e.Object)
+		//print("Object: ", object)
+
+		//// Evaluate arguments passed to the method
+		args := []Value{}
+		for _, arg := range e.Arguments {
+			args = append(args, interp.evaluate(arg))
+		}
+		//
+		//// Check if the object is of a type that supports method calls
+		if objWithMethods, ok := object.(objectWithMethodsType); ok {
+			// Call the method on the object
+			method := objWithMethods.lookupMethod(methodName)
+			if method == nil {
+				panic(typeError(e.Position(), "method %q not found on type %s", methodName, typeName(object)))
+			}
+
+			return interp.callFunction(e.Position(), method, args)
+		}
+		//
+		panic(typeError(e.Position(), "type %s does not support method calls", typeName(object)))
 
 	case *parser.NewExpression:
 		// Evaluate the class name and arguments
@@ -467,6 +492,10 @@ func (interp *interpreter) evaluate(expr parser.Expression) Value {
 		// Parser should never give us this
 		panic(fmt.Sprintf("unexpected expression type %T", expr))
 	}
+}
+
+type objectWithMethodsType interface {
+	lookupMethod(methodName string) functionType
 }
 
 func (interp *interpreter) pushScope(scope map[string]Value) {

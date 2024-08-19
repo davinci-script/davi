@@ -626,6 +626,9 @@ func typeName(v Value) string {
 		t = "map"
 	case functionType:
 		t = "function"
+	case *userObject:
+		t = "object"
+
 	default:
 		// Interpreter should never give us this
 		panic(fmt.Sprintf("type() got unexpected type %T", v))
