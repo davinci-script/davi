@@ -1,215 +1,85 @@
 # Functions 
 
-## String
+## System
 
-### Rune
+### Read
 
 ```php
-rune(str)
+read([filename])
 ```
 
-Convert a 1-character string to an ASCII code.
+Read the contents of a file or standard input.
 
 #### Example
 
 ```php
-rune("A") => 65
+read("file.txt") => "contents of file.txt"
 
-// output: 65
+// output: "contents of file.txt"
 ```
 
-### Upper
+### Time
 
 ```php
-upper(string)
+time(none)
 ```
 
-Convert a string to uppercase.
+Get the current date and time as a string.
 
 #### Example
 
 ```php
-upper("hello") => "HELLO"
+time() => "2018-01-01 12
 
-// output: "HELLO"
+// output: "2018-01-01 12
 ```
 
-### Char
+### Echo
 
 ```php
-char(string)
+echo(value1, value2, ...)
 ```
 
-Convert an ASCII code to a character.
+Print values to the standard output.
 
 #### Example
 
 ```php
-char(65) => "A"
+echo("hello", 42) => hello 42
 
-// output: "A"
+// output: hello 42
 ```
 
-### Find
+### Exit
 
 ```php
-find(haystack, needle)
+exit([code])
 ```
 
-Find the first occurrence of a substring in a string or a value in a list.
+Exit the script with an optional exit code.
 
 #### Example
 
 ```php
-find("hello", "e") => 1
+exit(1)
 
-// output: 1
+// output: exit status 1
 ```
 
-### Join
+### Args
 
 ```php
-join(list, separator)
+args(none)
 ```
 
-Join a list of strings into a single string with a separator.
+Get the command-line arguments passed to the script.
 
 #### Example
 
 ```php
-join(["a", "b", "c"], ", ") => "a, b, c"
+args() => ["arg1", "arg2"]
 
-// output: "a, b, c"
-```
-
-### Length
-
-```php
-len(value)
-```
-
-Get the length of a string, list, or map.
-
-#### Example
-
-```php
-len("hello") => 5
-
-// output: 5
-```
-
-### Split
-
-```php
-split(string, [separator])
-```
-
-Split a string into a list of substrings.
-
-#### Example
-
-```php
-split("a, b, c", ", ") => ["a", "b", "c"]
-
-// output: ["a", "b", "c"]
-```
-
-### Lower
-
-```php
-lower(string)
-```
-
-Convert a string to lowercase.
-
-#### Example
-
-```php
-lower("HELLO") => "hello"
-
-// output: "hello"
-```
-
-### Type
-
-```php
-type(value)
-```
-
-Get the type of a value as a string.
-
-#### Example
-
-```php
-type(42) => "int"
-
-// output: "int"
-```
-
-## Array
-
-### Append
-
-```php
-append(list, value1, value2, ...)
-```
-
-Append values to a array.
-
-#### Example
-
-```php
-append([1, 2], 3, 4) => [1, 2, 3, 4]
-
-// output: [1, 2, 3, 4]
-```
-
-### Slice
-
-```php
-slice(str or list, start, end)
-```
-
-Get a substring or sublist from a string or list.
-
-#### Example
-
-```php
-slice("hello", 1, 3) => "el"
-
-// output: "el"
-```
-
-### Range
-
-```php
-range(n)
-```
-
-Generate a list of integers from 0 to n-1.
-
-#### Example
-
-```php
-range(3) => [0, 1, 2]
-
-// output: [0, 1, 2]
-```
-
-### Sort
-
-```php
-sort(list, [key])
-```
-
-Sort a list of values.
-
-#### Example
-
-```php
-sort([3, 1, 2]) => [1, 2, 3]
-
-// output: [1, 2, 3]
+// output: ["arg1", "arg2"]
 ```
 
 ## Conversion
@@ -246,86 +116,250 @@ int("42") => 42
 // output: 42
 ```
 
-## System
+## String
 
-### Time
+### Find
 
 ```php
-time(none)
+find(haystack, needle)
 ```
 
-Get the current date and time as a string.
+Find the first occurrence of a substring in a string or a value in a list.
 
 #### Example
 
 ```php
-time() => "2018-01-01 12
+find("hello", "e") => 1
 
-// output: "2018-01-01 12
+// output: 1
 ```
 
-### Echo
+### Char
 
 ```php
-echo(value1, value2, ...)
+char(string)
 ```
 
-Print values to the standard output.
+Convert an ASCII code to a character.
 
 #### Example
 
 ```php
-echo("hello", 42) => hello 42
+char(65) => "A"
 
-// output: hello 42
+// output: "A"
 ```
 
-### Args
+### Split
 
 ```php
-args(none)
+split(string, [separator])
 ```
 
-Get the command-line arguments passed to the script.
+Split a string into a list of substrings.
 
 #### Example
 
 ```php
-args() => ["arg1", "arg2"]
+split("a, b, c", ", ") => ["a", "b", "c"]
 
-// output: ["arg1", "arg2"]
+// output: ["a", "b", "c"]
 ```
 
-### Exit
+### Upper
 
 ```php
-exit([code])
+upper(string)
 ```
 
-Exit the script with an optional exit code.
+Convert a string to uppercase.
 
 #### Example
 
 ```php
-exit(1)
+upper("hello") => "HELLO"
 
-// output: exit status 1
+// output: "HELLO"
 ```
 
-### Read
+### Length
 
 ```php
-read([filename])
+len(value)
 ```
 
-Read the contents of a file or standard input.
+Get the length of a string, list, or map.
 
 #### Example
 
 ```php
-read("file.txt") => "contents of file.txt"
+len("hello") => 5
 
-// output: "contents of file.txt"
+// output: 5
+```
+
+### Lower
+
+```php
+lower(string)
+```
+
+Convert a string to lowercase.
+
+#### Example
+
+```php
+lower("HELLO") => "hello"
+
+// output: "hello"
+```
+
+### Rune
+
+```php
+rune(str)
+```
+
+Convert a 1-character string to an ASCII code.
+
+#### Example
+
+```php
+rune("A") => 65
+
+// output: 65
+```
+
+### Type
+
+```php
+type(value)
+```
+
+Get the type of a value as a string.
+
+#### Example
+
+```php
+type(42) => "int"
+
+// output: "int"
+```
+
+### Join
+
+```php
+join(list, separator)
+```
+
+Join a list of strings into a single string with a separator.
+
+#### Example
+
+```php
+join(["a", "b", "c"], ", ") => "a, b, c"
+
+// output: "a, b, c"
+```
+
+## Array
+
+### Append
+
+```php
+append(list, value1, value2, ...)
+```
+
+Append values to a array.
+
+#### Example
+
+```php
+append([1, 2], 3, 4) => [1, 2, 3, 4]
+
+// output: [1, 2, 3, 4]
+```
+
+### Range
+
+```php
+range(n)
+```
+
+Generate a list of integers from 0 to n-1.
+
+#### Example
+
+```php
+range(3) => [0, 1, 2]
+
+// output: [0, 1, 2]
+```
+
+### Slice
+
+```php
+slice(str or list, start, end)
+```
+
+Get a substring or sublist from a string or list.
+
+#### Example
+
+```php
+slice("hello", 1, 3) => "el"
+
+// output: "el"
+```
+
+### Sort
+
+```php
+sort(list, [key])
+```
+
+Sort a list of values.
+
+#### Example
+
+```php
+sort([3, 1, 2]) => [1, 2, 3]
+
+// output: [1, 2, 3]
+```
+
+## HTTP
+
+### HTTP Listen
+
+```php
+httpListen(portOrAddress)
+```
+
+Start the HTTP server.
+
+#### Example
+
+```php
+httpListen("
+
+// output: Server is starting on http
+```
+
+### HTTP Register
+
+```php
+httpRegister(pattern, handler)
+```
+
+Register a handler function for a URL pattern.
+
+#### Example
+
+```php
+httpRegister("/", func() { return "Hello, World!" })
+
+// output: "Hello, World!"
 ```
 
 ## File System
@@ -344,39 +378,5 @@ Get the contents of a file or URL.
 fileGetContents("http
 
 // output: "..."
-```
-
-## HTTP
-
-### HTTP Register
-
-```php
-httpRegister(pattern, handler)
-```
-
-Register a handler function for a URL pattern.
-
-#### Example
-
-```php
-httpRegister("/", func() { return "Hello, World!" })
-
-// output: "Hello, World!"
-```
-
-### HTTP Listen
-
-```php
-httpListen(portOrAddress)
-```
-
-Start the HTTP server.
-
-#### Example
-
-```php
-httpListen("
-
-// output: Server is starting on http
 ```
 

@@ -11,7 +11,6 @@ import (
 	"io"
 	"os"
 	"slices"
-	"sort"
 	"strings"
 )
 
@@ -675,22 +674,15 @@ func Execute(prog *parser.Program, config *Config) (stats *Stats, err error) {
 	return
 }
 
-type ByCustomFunctionsCategoryOrder []string
-
-var orderFunctionCategories = map[string]int{
-	"String":      1,
-	"Array":       2,
-	"Conversion":  3,
-	"System":      4,
-	"File System": 5,
-	"HTTP":        6,
-}
-
-func (a ByCustomFunctionsCategoryOrder) Len() int      { return len(a) }
-func (a ByCustomFunctionsCategoryOrder) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
-func (a ByCustomFunctionsCategoryOrder) Less(i, j int) bool {
-	return orderFunctionCategories[a[i]] < orderFunctionCategories[a[j]]
-}
+//
+//var orderFunctionCategories = map[string]int{
+//	"String":      1,
+//	"Array":       2,
+//	"Conversion":  3,
+//	"System":      4,
+//	"File System": 5,
+//	"HTTP":        6,
+//}
 
 func GenerateDocs() {
 
@@ -714,8 +706,6 @@ func GenerateDocs() {
 	}
 	if len(functionsCategories) > 0 {
 
-		sort.Sort(ByCustomFunctionsCategoryOrder(functionsCategories))
-
 		for _, category := range functionsCategories {
 			markdownContent += "## " + category + "\n\n"
 			for _, f := range functionDetails {
@@ -735,48 +725,6 @@ func GenerateDocs() {
 			}
 		}
 	}
-
-	//markdownContent += "## " + k + "\n\n"
-	//markdownContent += "Syntax\n\n"
-	//markdownContent += "```php\n"
-	//markdownContent += k + "(arg1, arg2, ...)\n"
-	//markdownContent += "```\n\n"
-	//markdownContent += "#### Description\n\n"
-	//markdownContent += "This function does something.\n\n"
-
-	//	if functionDetails, ok := allFunctionDetails[k]; ok {
-	//
-	//		if functionDetails.category != "" {
-	//			markdownContent += "### " + functionDetails.category + "\n\n"
-	//		}
-	//
-	//		if functionDetails.args != "" {
-	//			markdownContent += "#### Arguments VV\n\n"
-	//			markdownContent += functionDetails.args + "\n\n"
-	//		}
-	//		if functionDetails.returnValue != "" {
-	//			markdownContent += "#### Return Value VV\n\n"
-	//			markdownContent += functionDetails.returnValue + "\n\n"
-	//		}
-	//		if functionDetails.example != "" {
-	//			markdownContent += "#### Example VV\n\n"
-	//			markdownContent += functionDetails.example + "\n\n"
-	//		}
-	//		if functionDetails.output != "" {
-	//			markdownContent += "#### Output VV\n\n"
-	//			markdownContent += functionDetails.output + "\n\n"
-	//		}
-	//		if functionDetails.description != "" {
-	//			markdownContent += "#### Description VV\n\n"
-	//			markdownContent += functionDetails.description + "\n\n"
-	//		}
-	//		if functionDetails.title != "" {
-	//			markdownContent += "#### Title VV\n\n"
-	//			markdownContent += functionDetails.title + "\n\n"
-	//		}
-	//
-	//
-	//}
 
 	_, err = file.WriteString(markdownContent)
 	if err != nil {
