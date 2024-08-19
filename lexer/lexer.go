@@ -149,6 +149,18 @@ var tokenNames = map[Token]string{
 	TRUE:     "true",
 	WHILE:    "while",
 
+	// OOP
+	CLASS:     "class",
+	EXTENDS:   "extends",
+	PUBLIC:    "public",
+	PRIVATE:   "private",
+	PROTECTED: "protected",
+	STATIC:    "static",
+	ABSTRACT:  "abstract",
+	FINAL:     "final",
+	CONST:     "const",
+	NEW:       "new",
+
 	INT:  "int",
 	NAME: "name",
 	STR:  "str",
