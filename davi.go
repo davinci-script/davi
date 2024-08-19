@@ -10,7 +10,6 @@ import (
 	"github.com/DavinciScript/Davi/parser"
 	"io/ioutil"
 	"os"
-	"os/exec"
 	"strings"
 )
 
@@ -25,7 +24,7 @@ func main() {
 
 	if filename == "--generate-docs" {
 		interpreter.GenerateDocs()
-		exec.Command("docs/npm run docs:build").Run()
+		//exec.Command("docs/npm run docs:build").Run()
 		os.Exit(0)
 	}
 

@@ -11,6 +11,7 @@ import (
 	"io"
 	"os"
 	"slices"
+	"sort"
 	"strings"
 )
 
@@ -705,6 +706,8 @@ func GenerateDocs() {
 		}
 	}
 	if len(functionsCategories) > 0 {
+
+		sort.Sort(sort.StringSlice(functionsCategories))
 
 		for _, category := range functionsCategories {
 			markdownContent += "## " + category + "\n\n"
