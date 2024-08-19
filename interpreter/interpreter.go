@@ -700,6 +700,21 @@ func GenerateDocs() {
 		sort.Strings(functionsCategories)
 		for _, category := range functionsCategories {
 			markdownContent += "## " + category + "\n\n"
+			for _, f := range functionDetails {
+				if f.category == category {
+					markdownContent += "### " + f.title + "\n\n"
+					markdownContent += "```php\n"
+					markdownContent += f.functionName + "(" + f.args + ")\n"
+					markdownContent += "```\n\n"
+					markdownContent += f.description + "\n\n"
+					markdownContent += "#### Example\n\n"
+					markdownContent += "```php\n"
+					markdownContent += f.example + "\n\n"
+					markdownContent += "// output: " + f.output + "\n"
+					markdownContent += "```\n\n"
+
+				}
+			}
 		}
 	}
 

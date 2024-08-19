@@ -640,7 +640,7 @@ func typeName(v Value) string {
  * output: "int"
  * description: Get the type of a value as a string.
  * title: Type
- * category: System
+ * category: String
  */
 func typeFunction(interp *interpreter, pos Position, args []Value) Value {
 	ensureNumArgs(pos, "type", args, 1)
@@ -691,7 +691,7 @@ func timeFunction(interp *interpreter, pos Position, args []Value) Value {
  * output: "..."
  * description: Get the contents of a file or URL.
  * title: File Get Contents
- * category: System
+ * category: File System
  */
 func fileGetContentsFunction(interp *interpreter, pos Position, args []Value) Value {
 
