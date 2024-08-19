@@ -42,6 +42,7 @@ const (
 	GTE
 	LTE
 	NOTEQUAL
+	OBJECT_OPERATOR
 
 	// Three-character tokens
 	ELLIPSIS
@@ -128,10 +129,11 @@ var tokenNames = map[Token]string{
 	QUESTION: "?",
 	DOLLAR:   "$",
 
-	EQUAL:    "==",
-	GTE:      ">=",
-	LTE:      "<=",
-	NOTEQUAL: "!=",
+	EQUAL:           "==",
+	GTE:             ">=",
+	LTE:             "<=",
+	NOTEQUAL:        "!=",
+	OBJECT_OPERATOR: "->",
 
 	ELLIPSIS: "...",
 
@@ -293,8 +295,6 @@ func (l *Lexer) Next() (Position, Token, string, string) {
 		token = LBRACKET
 	case '(':
 		token = LPAREN
-	case '-':
-		token = MINUS
 	case '%':
 		token = MODULO
 	case '+':
@@ -311,7 +311,13 @@ func (l *Lexer) Next() (Position, Token, string, string) {
 		token = QUESTION
 	case '$':
 		token = DOLLAR
-
+	case '-':
+		if l.ch == '>' {
+			l.next()
+			token = OBJECT_OPERATOR
+		} else {
+			token = MINUS
+		}
 	case '=':
 		if l.ch == '=' {
 			l.next()
@@ -319,6 +325,7 @@ func (l *Lexer) Next() (Position, Token, string, string) {
 		} else {
 			token = ASSIGN
 		}
+
 	case '!':
 		if l.ch == '=' {
 			l.next()

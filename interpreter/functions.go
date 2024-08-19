@@ -610,6 +610,7 @@ func strFunction(interp *interpreter, pos Position, args []Value) Value {
 
 func typeName(v Value) string {
 	var t string
+
 	switch v.(type) {
 	case nil:
 		t = "nil"
@@ -624,7 +625,7 @@ func typeName(v Value) string {
 	case map[string]Value:
 		t = "map"
 	case functionType:
-		t = "func"
+		t = "function"
 	default:
 		// Interpreter should never give us this
 		panic(fmt.Sprintf("type() got unexpected type %T", v))

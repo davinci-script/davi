@@ -6,9 +6,9 @@ class Dog
     $name = "Rex";
     $breed = "Golden Retriever";
 
-    public function bark()
+    function bark()
     {
-        echo "Woof!";
+        echo("Woof!");
     }
 
 }

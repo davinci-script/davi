@@ -155,7 +155,7 @@ func (s *FunctionDefinition) String() string {
 	if len(s.Body) != 0 {
 		bodyStr = "\n" + indent(s.Body.String()) + "\n"
 	}
-	return fmt.Sprintf("func %s(%s%s) {%s}",
+	return fmt.Sprintf("function %s(%s%s) {%s}",
 		s.Name, strings.Join(s.Parameters, ", "), ellipsisStr, bodyStr)
 }
 
@@ -288,6 +288,39 @@ func (e *ClassDefinition) String() string {
 	print("class %s {%s}", e.Name, bodyStr)
 	return fmt.Sprintf("class %s {%s}", e.Name, bodyStr)
 }
+
+type NewExpression struct {
+	pos       Position
+	ClassName string
+	Arguments []string
+}
+
+func (e *NewExpression) expressionNode()    {}
+func (e *NewExpression) Position() Position { return e.pos }
+func (e *NewExpression) String() string {
+	return fmt.Sprintf("new %s(%s)", e.ClassName, strings.Join(e.Arguments, ", "))
+}
+
+// PropertyAccess represents accessing a property of an object, e.g., `$object->property`
+type PropertyAccess struct {
+	pos      Position   // Position of the `->` operator in the source code
+	Object   Expression // The object whose property is being accessed
+	Property string     // The name of the property being accessed
+}
+
+func (e *PropertyAccess) expressionNode()    {}
+func (e *PropertyAccess) Position() Position { return e.pos }
+
+// MethodCall represents a method call on an object, e.g., `$object->method(arg1, arg2)`
+type MethodCall struct {
+	pos       Position     // Position of the `->` operator in the source code
+	Object    Expression   // The object on which the method is being called
+	Method    string       // The name of the method being called
+	Arguments []Expression // Arguments passed to the method
+}
+
+func (e *MethodCall) expressionNode()    {}
+func (e *MethodCall) Position() Position { return e.pos }
 
 type FunctionExpression struct {
 	pos        Position

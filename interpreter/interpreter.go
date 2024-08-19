@@ -445,6 +445,19 @@ func (interp *interpreter) evaluate(expr parser.Expression) Value {
 		return &userFunction{"", e.Parameters, e.Ellipsis, e.Body, closure}
 	case *parser.SemiTag:
 		return nil
+	case *parser.NewExpression:
+		// Evaluate the class name and arguments
+		className := e.ClassName
+		print("New exp: Class name: ", className)
+		//args := make([]Value, len(e.Args))
+		//for i, arg := range e.Args {
+		//	args[i] = interp.evaluate(arg)
+		//}
+		//
+		//// Create a new instance of the class
+		instance := interp.newInstance(className, nil)
+		print("New exp: Instance: ", instance)
+		return instance
 	default:
 		// Parser should never give us this
 		panic(fmt.Sprintf("unexpected expression type %T", expr))
@@ -598,9 +611,24 @@ func (interp *interpreter) executeStatement(s parser.Statement) {
 	case *parser.Return:
 		result := interp.evaluate(s.Result)
 		panic(returnResult{result, s.Position()})
+
 	case *parser.ClassDefinition:
-		//print(s.Name)
-		//interp.executeBlock(s.Body)
+		// Handle the class definition here
+		// Create a new class and register it in the environment
+		className := s.Name
+		print(className)
+		//methods := s.Methods // Assuming s.Methods holds the class methods
+		//// Create a new class object or structure to store the class details
+		class := &userClass{
+			Name: className,
+			//Methods: make(map[string]*userFunction),
+		}
+		//// Register the class in the environment
+		interp.assign(className, class)
+
+		//// Optionally, execute the class body if needed
+		//// interp.executeBlock(s.Body)
+		//print("Class definition not yet supported")
 
 	default:
 		// Parser should never get us here
@@ -637,6 +665,47 @@ func newInterpreter(config *Config) *interpreter {
 		interp.exit = os.Exit
 	}
 	return interp
+}
+
+type userClass struct {
+	Name string
+	//Methods map[string]*userFunction // Map of method names to function definitions
+}
+
+func (f *userClass) name() string {
+	return f.Name
+}
+
+// userObject represents an instance of a class
+type userObject struct {
+	Class  *userClass
+	Fields map[string]Value
+}
+
+func (interp *interpreter) newInstance(className string, args []Value) *userObject {
+
+	// Retrieve the class definition from the environment
+	class, ok := interp.lookup(className)
+	if !ok {
+		panic(fmt.Sprintf("class %s not found", className))
+	}
+	userClass := class.(*userClass)
+
+	// Create a new instance of the class
+	instance := &userObject{
+		Class:  userClass,
+		Fields: make(map[string]Value),
+	}
+
+	// Initialize fields or invoke constructor if necessary
+	// Check if the class has a constructor method
+	//if constructor, ok := userClass.Methods["constructor"]; ok {
+	//	// Call the constructor with the provided arguments
+	//	interp.callFunction(constructor.Position(), constructor, args)
+	//}
+
+	return instance
+
 }
 
 // Evaluate takes a parsed Expression and interpreter config and evaluates the

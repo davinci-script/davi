@@ -428,6 +428,40 @@ func (p *parser) primary() Expression {
 		p.next()
 		pos := p.pos
 		return &SemiTag{pos}
+	case NEW:
+		pos := p.pos
+		p.expect(NEW) // Move past the 'NEW' token
+
+		// Expect the name of the class or type to be instantiated
+		if p.tok != NAME {
+			p.error("expected class name after 'new'")
+			return nil
+		}
+		className := p.val
+		p.expect(NAME)
+
+		return &NewExpression{pos, className, nil}
+	case OBJECT_OPERATOR:
+		pos := p.pos
+		p.next() // Move past the OBJECT_OPERATOR token
+
+		if p.tok != NAME {
+			p.error("expected a method or property name after '->'")
+			return nil
+		}
+
+		methodName := p.val
+		p.next() // Move past the method name
+
+		//// Assuming you want to handle method calls like $test->call(args...)
+		if p.tok == LPAREN {
+			p.next() // Skip '('
+			args := []Expression{}
+			p.expect(RPAREN) // Ensure method call is closed with ')'
+			return &MethodCall{pos, nil, methodName, args}
+		}
+
+		return &PropertyAccess{pos, nil, methodName}
 
 	default:
 		formatter := prettyjson.NewFormatter()
