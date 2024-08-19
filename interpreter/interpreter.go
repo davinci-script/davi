@@ -8,6 +8,7 @@ import (
 	"github.com/DavinciScript/Davi/parser"
 	"io"
 	"os"
+	"sort"
 	"strings"
 )
 
@@ -669,4 +670,43 @@ func Execute(prog *parser.Program, config *Config) (stats *Stats, err error) {
 	interp.execute(prog)
 	stats = &interp.stats
 	return
+}
+
+func GenerateDocs() {
+
+	markdownFileWithFunctions := `docs/docs/guide/functions.md`
+	file, err := os.Create(markdownFileWithFunctions)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer file.Close()
+
+	markdownContent := "# Functions \n\n"
+
+	// Add built-in functions
+	// sort the keys
+	keys := make([]string, 0, len(builtins))
+	for k := range builtins {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, k := range keys {
+
+		markdownContent += "## " + k + "\n\n"
+		markdownContent += "### Syntax\n\n"
+		markdownContent += "```php\n"
+		markdownContent += k + "(arg1, arg2, ...)\n"
+		markdownContent += "```\n\n"
+		markdownContent += "### Description\n\n"
+		markdownContent += "This function does something.\n\n"
+	}
+
+	_, err = file.WriteString(markdownContent)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	fmt.Println("Documentation generated successfully.")
+
 }

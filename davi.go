@@ -15,6 +15,8 @@ import (
 
 func main() {
 
+	interpreter.GenerateDocs()
+
 	filename := os.Args[1]
 
 	if len(os.Args) < 2 {

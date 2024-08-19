@@ -82,31 +82,40 @@ func (f builtinFunction) name() string {
 }
 
 var builtins = map[string]builtinFunction{
-	"append":          {appendFunction, "append"},
-	"args":            {argsFunction, "args"},
-	"char":            {charFunction, "char"},
-	"exit":            {exitFunction, "exit"},
-	"find":            {findFunction, "find"},
-	"int":             {intFunction, "int"},
-	"join":            {joinFunction, "join"},
-	"len":             {lenFunction, "len"},
-	"lower":           {lowerFunction, "lower"},
-	"echo":            {echoFunction, "echo"},
-	"range":           {rangeFunction, "range"},
-	"read":            {readFunction, "read"},
-	"rune":            {runeFunction, "rune"},
-	"slice":           {sliceFunction, "slice"},
-	"sort":            {sortFunction, "sort"},
-	"split":           {splitFunction, "split"},
-	"str":             {strFunction, "str"},
-	"type":            {typeFunction, "type"},
-	"upper":           {upperFunction, "upper"},
-	"time":            {timeFunction, "time"},
-	"fileGetContents": {fileGetContentsFunction, "fileGetContents"},
-	"httpRegister":    {httpRegisterFunction, "httpRegister"},
-	"httpListen":      {httpListenFunction, "httpListen"},
+	"append":            {appendFunction, "append"},
+	"args":              {argsFunction, "args"},
+	"char":              {charFunction, "char"},
+	"exit":              {exitFunction, "exit"},
+	"find":              {findFunction, "find"},
+	"int":               {intFunction, "int"},
+	"join":              {joinFunction, "join"},
+	"len":               {lenFunction, "len"},
+	"lower":             {lowerFunction, "lower"},
+	"echo":              {echoFunction, "echo"},
+	"range":             {rangeFunction, "range"},
+	"read":              {readFunction, "read"},
+	"rune":              {runeFunction, "rune"},
+	"slice":             {sliceFunction, "slice"},
+	"sort":              {sortFunction, "sort"},
+	"split":             {splitFunction, "split"},
+	"str":               {strFunction, "str"},
+	"type":              {typeFunction, "type"},
+	"upper":             {upperFunction, "upper"},
+	"time":              {timeFunction, "time"},
+	"file_get_contents": {fileGetContentsFunction, "fileGetContents"},
+	"http_register":     {httpRegisterFunction, "httpRegister"},
+	"http_listen":       {httpListenFunction, "httpListen"},
 }
 
+/**
+ * function: append
+ * args: list, value1, value2, ...
+ * return: nil
+ * example: append([1, 2], 3, 4) => [1, 2, 3, 4]
+ * output: [1, 2, 3, 4]
+ * description: Append values to a list.
+ * title: Append
+ */
 func appendFunction(interp *interpreter, pos Position, args []Value) Value {
 	if len(args) < 1 {
 		panic(typeError(pos, "append() requires at least 1 arg, got %d", len(args)))

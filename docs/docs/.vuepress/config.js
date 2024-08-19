@@ -16,6 +16,7 @@ export default defineUserConfig({
         navbar: [
           '/guide/get-started.md',
           '/guide/tutorials.md',
+          '/guide/functions.md',
         ],
         sidebar: [
           {
@@ -23,6 +24,7 @@ export default defineUserConfig({
             children: [
               '/guide/get-started.md',
               '/guide/tutorials.md',
+              '/guide/functions.md',
             ]
           }
         ]
