@@ -675,6 +675,23 @@ func Execute(prog *parser.Program, config *Config) (stats *Stats, err error) {
 	return
 }
 
+type ByCustomFunctionsCategoryOrder []string
+
+var orderFunctionCategories = map[string]int{
+	"String":      1,
+	"Array":       2,
+	"Conversion":  3,
+	"System":      4,
+	"File System": 5,
+	"HTTP":        6,
+}
+
+func (a ByCustomFunctionsCategoryOrder) Len() int      { return len(a) }
+func (a ByCustomFunctionsCategoryOrder) Swap(i, j int) { a[i], a[j] = a[j], a[i] }
+func (a ByCustomFunctionsCategoryOrder) Less(i, j int) bool {
+	return orderFunctionCategories[a[i]] < orderFunctionCategories[a[j]]
+}
+
 func GenerateDocs() {
 
 	markdownFileWithFunctions := `docs/docs/guide/functions.md`
@@ -696,8 +713,9 @@ func GenerateDocs() {
 		}
 	}
 	if len(functionsCategories) > 0 {
-		// sort functions categories
-		sort.Strings(functionsCategories)
+
+		sort.Sort(ByCustomFunctionsCategoryOrder(functionsCategories))
+
 		for _, category := range functionsCategories {
 			markdownContent += "## " + category + "\n\n"
 			for _, f := range functionDetails {
