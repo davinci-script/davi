@@ -6,8 +6,11 @@ import (
 	"fmt"
 	. "github.com/DavinciScript/Davi/lexer"
 	"github.com/DavinciScript/Davi/parser"
+	goParser "go/parser"
+	goToken "go/token"
 	"io"
 	"os"
+	"slices"
 	"sort"
 	"strings"
 )
@@ -683,24 +686,64 @@ func GenerateDocs() {
 
 	markdownContent := "# Functions \n\n"
 
-	// Add built-in functions
-	// sort the keys
-	keys := make([]string, 0, len(builtins))
-	for k := range builtins {
-		keys = append(keys, k)
+	functionsCategories := []string{}
+	functionDetails := getFunctionsDetails()
+	for _, f := range functionDetails {
+		if f.category != "" {
+			if !slices.Contains(functionsCategories, f.category) {
+				functionsCategories = append(functionsCategories, f.category)
+			}
+		}
 	}
-	sort.Strings(keys)
-
-	for _, k := range keys {
-
-		markdownContent += "## " + k + "\n\n"
-		markdownContent += "Syntax\n\n"
-		markdownContent += "```php\n"
-		markdownContent += k + "(arg1, arg2, ...)\n"
-		markdownContent += "```\n\n"
-		markdownContent += "#### Description\n\n"
-		markdownContent += "This function does something.\n\n"
+	if len(functionsCategories) > 0 {
+		// sort functions categories
+		sort.Strings(functionsCategories)
+		for _, category := range functionsCategories {
+			markdownContent += "## " + category + "\n\n"
+		}
 	}
+
+	//markdownContent += "## " + k + "\n\n"
+	//markdownContent += "Syntax\n\n"
+	//markdownContent += "```php\n"
+	//markdownContent += k + "(arg1, arg2, ...)\n"
+	//markdownContent += "```\n\n"
+	//markdownContent += "#### Description\n\n"
+	//markdownContent += "This function does something.\n\n"
+
+	//	if functionDetails, ok := allFunctionDetails[k]; ok {
+	//
+	//		if functionDetails.category != "" {
+	//			markdownContent += "### " + functionDetails.category + "\n\n"
+	//		}
+	//
+	//		if functionDetails.args != "" {
+	//			markdownContent += "#### Arguments VV\n\n"
+	//			markdownContent += functionDetails.args + "\n\n"
+	//		}
+	//		if functionDetails.returnValue != "" {
+	//			markdownContent += "#### Return Value VV\n\n"
+	//			markdownContent += functionDetails.returnValue + "\n\n"
+	//		}
+	//		if functionDetails.example != "" {
+	//			markdownContent += "#### Example VV\n\n"
+	//			markdownContent += functionDetails.example + "\n\n"
+	//		}
+	//		if functionDetails.output != "" {
+	//			markdownContent += "#### Output VV\n\n"
+	//			markdownContent += functionDetails.output + "\n\n"
+	//		}
+	//		if functionDetails.description != "" {
+	//			markdownContent += "#### Description VV\n\n"
+	//			markdownContent += functionDetails.description + "\n\n"
+	//		}
+	//		if functionDetails.title != "" {
+	//			markdownContent += "#### Title VV\n\n"
+	//			markdownContent += functionDetails.title + "\n\n"
+	//		}
+	//
+	//
+	//}
 
 	_, err = file.WriteString(markdownContent)
 	if err != nil {
@@ -709,4 +752,110 @@ func GenerateDocs() {
 
 	fmt.Println("Documentation generated successfully.")
 
+}
+
+func getFunctionsDetails() map[string]functionDetails {
+
+	// all functions file path
+	allFunctionsFile := "interpreter/functions.go"
+
+	// open the file
+	file, err := os.Open(allFunctionsFile)
+	if err != nil {
+		fmt.Println(err)
+	}
+	// get content of the file
+	content, err := io.ReadAll(file)
+	if err != nil {
+		fmt.Println(err)
+	}
+	contentString := string(content)
+
+	fs := goToken.NewFileSet()
+	f, err := goParser.ParseFile(fs, "", contentString, goParser.ParseComments)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	allFunctionsDetails := make(map[string]functionDetails)
+	for _, c := range f.Comments {
+		parsedComment := parseComment(c.Text())
+		allFunctionsDetails[parsedComment.functionName] = parsedComment
+	}
+
+	return allFunctionsDetails
+}
+
+type functionDetails struct {
+	functionName string
+	args         string
+	returnValue  string
+	example      string
+	output       string
+	description  string
+	title        string
+	category     string
+}
+
+func parseComment(comment string) functionDetails {
+	/**
+	 * function: httpRegister
+	 * args: pattern, handler
+	 * return: nil
+	 * example: httpRegister("/", func() { return "Hello, World!" })
+	 * output: "Hello, World!"
+	 * description: Register a handler function for a URL pattern.
+	 * title: HTTP Register
+	 * category: HTTP
+	 */
+
+	functionName := ""
+	args := ""
+	returnValue := ""
+	example := ""
+	output := ""
+	description := ""
+	title := ""
+	category := ""
+
+	// split the comment by new line
+	commentLines := strings.Split(comment, "\n")
+	for _, line := range commentLines {
+		if strings.Contains(line, "function:") {
+			functionName = strings.TrimSpace(strings.Split(line, ":")[1])
+		}
+		if strings.Contains(line, "args:") {
+			args = strings.TrimSpace(strings.Split(line, ":")[1])
+		}
+		if strings.Contains(line, "return:") {
+			returnValue = strings.TrimSpace(strings.Split(line, ":")[1])
+		}
+		if strings.Contains(line, "example:") {
+			example = strings.TrimSpace(strings.Split(line, ":")[1])
+		}
+		if strings.Contains(line, "output:") {
+			output = strings.TrimSpace(strings.Split(line, ":")[1])
+		}
+		if strings.Contains(line, "description:") {
+			description = strings.TrimSpace(strings.Split(line, ":")[1])
+		}
+		if strings.Contains(line, "title:") {
+			title = strings.TrimSpace(strings.Split(line, ":")[1])
+		}
+		if strings.Contains(line, "category:") {
+			category = strings.TrimSpace(strings.Split(line, ":")[1])
+		}
+	}
+
+	return functionDetails{
+		functionName: functionName,
+		args:         args,
+		returnValue:  returnValue,
+		example:      example,
+		output:       output,
+		description:  description,
+		title:        title,
+		category:     category,
+	}
 }
