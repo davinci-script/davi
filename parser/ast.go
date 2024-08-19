@@ -272,6 +272,23 @@ func (e *Map) String() string {
 	return fmt.Sprintf("{%s}", strings.Join(items, ", "))
 }
 
+type ClassDefinition struct {
+	pos  Position
+	Name string
+	Body Block
+}
+
+func (e *ClassDefinition) statementNode()     {}
+func (e *ClassDefinition) Position() Position { return e.pos }
+func (e *ClassDefinition) String() string {
+	bodyStr := ""
+	if len(e.Body) != 0 {
+		bodyStr = "\n" + indent(e.Body.String()) + "\n"
+	}
+	print("class %s {%s}", e.Name, bodyStr)
+	return fmt.Sprintf("class %s {%s}", e.Name, bodyStr)
+}
+
 type FunctionExpression struct {
 	pos        Position
 	Parameters []string

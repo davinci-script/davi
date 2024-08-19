@@ -598,6 +598,10 @@ func (interp *interpreter) executeStatement(s parser.Statement) {
 	case *parser.Return:
 		result := interp.evaluate(s.Result)
 		panic(returnResult{result, s.Position()})
+	case *parser.ClassDefinition:
+		//print(s.Name)
+		//interp.executeBlock(s.Body)
+
 	default:
 		// Parser should never get us here
 		panic(fmt.Sprintf("unexpected statement type %T", s))

@@ -8,30 +8,29 @@ import (
 	"github.com/DavinciScript/Davi/lexer"
 	"github.com/DavinciScript/Davi/parser"
 	"github.com/hokaccha/go-prettyjson"
+	"io/ioutil"
 	"os"
 	"strings"
 )
 
 func main() {
 
-	fmt.Println("Running davi.go")
+	filename := os.Args[1]
 
-	input := []byte(`
+	input, err := ioutil.ReadFile(filename)
+	if err != nil {
+		fmt.Printf("Error reading file. Please check the file path and try again.\n")
+		os.Exit(1)
+	}
 
-	// This is a comment
-	//$firstMessage = "Hello World";
-	//$secondMessage = "Hello DavinciScript";
-	//
-	//function person($name, $age) {
-	//
-	//}
-	//
-	//echo "$firstMessage";
-	//echo ($secondMessage, $firstMessage);
-    
-    echo("qko");
-	
-	`)
+	// Replace <?davi with empty string
+	input = bytes.Replace(input, []byte("<?davi"), []byte(""), 1)
+
+	// Replace ?> with empty string
+	input = bytes.Replace(input, []byte("?>"), []byte(""), 1)
+
+	// Trim
+	input = bytes.TrimSpace(input)
 
 	prog, err := parser.ParseProgram(input)
 	if err != nil {

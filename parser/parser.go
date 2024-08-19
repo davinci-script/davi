@@ -87,6 +87,8 @@ func (p *parser) statement() Statement {
 		return p.return_()
 	case FUNCTION:
 		return p.function_()
+	case CLASS:
+		return p.class_()
 	}
 	pos := p.pos
 	expr := p.expression()
@@ -165,6 +167,20 @@ func (p *parser) return_() Statement {
 	p.expect(RETURN)
 	result := p.expression()
 	return &Return{pos, result}
+}
+
+// class = CLASS NAME block
+func (p *parser) class_() Statement {
+
+	p.next()
+	pos := p.pos
+	name := p.val
+	p.expect(NAME)
+	//p.expect(LBRACE)
+	body := p.block()
+	//p.expect(RBRACE)
+
+	return &ClassDefinition{pos, name, body}
 }
 
 // function = FUNCTION NAME params block |
