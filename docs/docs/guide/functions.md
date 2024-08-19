@@ -1,215 +1,21 @@
 # Functions 
 
-## String
+## File System
 
-### Rune
+### File Get Contents
 
 ```php
-rune(str)
+fileGetContents(url)
 ```
 
-Convert a 1-character string to an ASCII code.
+Get the contents of a file or URL.
 
 #### Example
 
 ```php
-rune("A") => 65
+fileGetContents("http
 
-// output: 65
-```
-
-### Upper
-
-```php
-upper(string)
-```
-
-Convert a string to uppercase.
-
-#### Example
-
-```php
-upper("hello") => "HELLO"
-
-// output: "HELLO"
-```
-
-### Type
-
-```php
-type(value)
-```
-
-Get the type of a value as a string.
-
-#### Example
-
-```php
-type(42) => "int"
-
-// output: "int"
-```
-
-### Char
-
-```php
-char(string)
-```
-
-Convert an ASCII code to a character.
-
-#### Example
-
-```php
-char(65) => "A"
-
-// output: "A"
-```
-
-### Find
-
-```php
-find(haystack, needle)
-```
-
-Find the first occurrence of a substring in a string or a value in a list.
-
-#### Example
-
-```php
-find("hello", "e") => 1
-
-// output: 1
-```
-
-### Length
-
-```php
-len(value)
-```
-
-Get the length of a string, list, or map.
-
-#### Example
-
-```php
-len("hello") => 5
-
-// output: 5
-```
-
-### Lower
-
-```php
-lower(string)
-```
-
-Convert a string to lowercase.
-
-#### Example
-
-```php
-lower("HELLO") => "hello"
-
-// output: "hello"
-```
-
-### Split
-
-```php
-split(string, [separator])
-```
-
-Split a string into a list of substrings.
-
-#### Example
-
-```php
-split("a, b, c", ", ") => ["a", "b", "c"]
-
-// output: ["a", "b", "c"]
-```
-
-### Join
-
-```php
-join(list, separator)
-```
-
-Join a list of strings into a single string with a separator.
-
-#### Example
-
-```php
-join(["a", "b", "c"], ", ") => "a, b, c"
-
-// output: "a, b, c"
-```
-
-## Array
-
-### Append
-
-```php
-append(list, value1, value2, ...)
-```
-
-Append values to a array.
-
-#### Example
-
-```php
-append([1, 2], 3, 4) => [1, 2, 3, 4]
-
-// output: [1, 2, 3, 4]
-```
-
-### Range
-
-```php
-range(n)
-```
-
-Generate a list of integers from 0 to n-1.
-
-#### Example
-
-```php
-range(3) => [0, 1, 2]
-
-// output: [0, 1, 2]
-```
-
-### Sort
-
-```php
-sort(list, [key])
-```
-
-Sort a list of values.
-
-#### Example
-
-```php
-sort([3, 1, 2]) => [1, 2, 3]
-
-// output: [1, 2, 3]
-```
-
-### Slice
-
-```php
-slice(str or list, start, end)
-```
-
-Get a substring or sublist from a string or list.
-
-#### Example
-
-```php
-slice("hello", 1, 3) => "el"
-
-// output: "el"
+// output: "..."
 ```
 
 ## HTTP
@@ -244,6 +50,152 @@ Register a handler function for a URL pattern.
 httpRegister("/", func() { return "Hello, World!" })
 
 // output: "Hello, World!"
+```
+
+## String
+
+### Length
+
+```php
+len(value)
+```
+
+Get the length of a string, list, or map.
+
+#### Example
+
+```php
+len("hello") => 5
+
+// output: 5
+```
+
+### Lower
+
+```php
+lower(string)
+```
+
+Convert a string to lowercase.
+
+#### Example
+
+```php
+lower("HELLO") => "hello"
+
+// output: "hello"
+```
+
+### Type
+
+```php
+type(value)
+```
+
+Get the type of a value as a string.
+
+#### Example
+
+```php
+type(42) => "int"
+
+// output: "int"
+```
+
+### Join
+
+```php
+join(list, separator)
+```
+
+Join a list of strings into a single string with a separator.
+
+#### Example
+
+```php
+join(["a", "b", "c"], ", ") => "a, b, c"
+
+// output: "a, b, c"
+```
+
+### Upper
+
+```php
+upper(string)
+```
+
+Convert a string to uppercase.
+
+#### Example
+
+```php
+upper("hello") => "HELLO"
+
+// output: "HELLO"
+```
+
+### Rune
+
+```php
+rune(str)
+```
+
+Convert a 1-character string to an ASCII code.
+
+#### Example
+
+```php
+rune("A") => 65
+
+// output: 65
+```
+
+### Char
+
+```php
+char(string)
+```
+
+Convert an ASCII code to a character.
+
+#### Example
+
+```php
+char(65) => "A"
+
+// output: "A"
+```
+
+### Find
+
+```php
+find(haystack, needle)
+```
+
+Find the first occurrence of a substring in a string or a value in a list.
+
+#### Example
+
+```php
+find("hello", "e") => 1
+
+// output: 1
+```
+
+### Split
+
+```php
+split(string, [separator])
+```
+
+Split a string into a list of substrings.
+
+#### Example
+
+```php
+split("a, b, c", ", ") => ["a", "b", "c"]
+
+// output: ["a", "b", "c"]
 ```
 
 ## System
@@ -296,22 +248,6 @@ echo("hello", 42) => hello 42
 // output: hello 42
 ```
 
-### Args
-
-```php
-args(none)
-```
-
-Get the command-line arguments passed to the script.
-
-#### Example
-
-```php
-args() => ["arg1", "arg2"]
-
-// output: ["arg1", "arg2"]
-```
-
 ### Exit
 
 ```php
@@ -328,23 +264,89 @@ exit(1)
 // output: exit status 1
 ```
 
-## Conversion
-
-### Str
+### Args
 
 ```php
-str(value)
+args(none)
 ```
 
-Convert a value to a string.
+Get the command-line arguments passed to the script.
 
 #### Example
 
 ```php
-str([1, 2, 3]) => "[1, 2, 3]"
+args() => ["arg1", "arg2"]
 
-// output: "[1, 2, 3]"
+// output: ["arg1", "arg2"]
 ```
+
+## Array
+
+### Slice
+
+```php
+slice(str or list, start, end)
+```
+
+Get a substring or sublist from a string or list.
+
+#### Example
+
+```php
+slice("hello", 1, 3) => "el"
+
+// output: "el"
+```
+
+### Append
+
+```php
+append(list, value1, value2, ...)
+```
+
+Append values to a array.
+
+#### Example
+
+```php
+append([1, 2], 3, 4) => [1, 2, 3, 4]
+
+// output: [1, 2, 3, 4]
+```
+
+### Sort
+
+```php
+sort(list, [key])
+```
+
+Sort a list of values.
+
+#### Example
+
+```php
+sort([3, 1, 2]) => [1, 2, 3]
+
+// output: [1, 2, 3]
+```
+
+### Range
+
+```php
+range(n)
+```
+
+Generate a list of integers from 0 to n-1.
+
+#### Example
+
+```php
+range(3) => [0, 1, 2]
+
+// output: [0, 1, 2]
+```
+
+## Conversion
 
 ### Int
 
@@ -362,21 +364,19 @@ int("42") => 42
 // output: 42
 ```
 
-## File System
-
-### File Get Contents
+### Str
 
 ```php
-fileGetContents(url)
+str(value)
 ```
 
-Get the contents of a file or URL.
+Convert a value to a string.
 
 #### Example
 
 ```php
-fileGetContents("http
+str([1, 2, 3]) => "[1, 2, 3]"
 
-// output: "..."
+// output: "[1, 2, 3]"
 ```
 
