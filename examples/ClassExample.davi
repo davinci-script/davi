@@ -3,8 +3,8 @@
 
 class Dog
 {
-    public $name = "Rex";
-    public $breed = "Golden Retriever";
+    $name = "Rex";
+    $breed = "Golden Retriever";
 
     public function bark()
     {
