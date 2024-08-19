@@ -2,54 +2,6 @@
 
 ## String
 
-### Split
-
-```php
-split(string, [separator])
-```
-
-Split a string into a list of substrings.
-
-#### Example
-
-```php
-split("a, b, c", ", ") => ["a", "b", "c"]
-
-// output: ["a", "b", "c"]
-```
-
-### Join
-
-```php
-join(list, separator)
-```
-
-Join a list of strings into a single string with a separator.
-
-#### Example
-
-```php
-join(["a", "b", "c"], ", ") => "a, b, c"
-
-// output: "a, b, c"
-```
-
-### Length
-
-```php
-len(value)
-```
-
-Get the length of a string, list, or map.
-
-#### Example
-
-```php
-len("hello") => 5
-
-// output: 5
-```
-
 ### Rune
 
 ```php
@@ -64,22 +16,6 @@ Convert a 1-character string to an ASCII code.
 rune("A") => 65
 
 // output: 65
-```
-
-### Type
-
-```php
-type(value)
-```
-
-Get the type of a value as a string.
-
-#### Example
-
-```php
-type(42) => "int"
-
-// output: "int"
 ```
 
 ### Upper
@@ -130,6 +66,54 @@ find("hello", "e") => 1
 // output: 1
 ```
 
+### Join
+
+```php
+join(list, separator)
+```
+
+Join a list of strings into a single string with a separator.
+
+#### Example
+
+```php
+join(["a", "b", "c"], ", ") => "a, b, c"
+
+// output: "a, b, c"
+```
+
+### Length
+
+```php
+len(value)
+```
+
+Get the length of a string, list, or map.
+
+#### Example
+
+```php
+len("hello") => 5
+
+// output: 5
+```
+
+### Split
+
+```php
+split(string, [separator])
+```
+
+Split a string into a list of substrings.
+
+#### Example
+
+```php
+split("a, b, c", ", ") => ["a", "b", "c"]
+
+// output: ["a", "b", "c"]
+```
+
 ### Lower
 
 ```php
@@ -144,6 +128,22 @@ Convert a string to lowercase.
 lower("HELLO") => "hello"
 
 // output: "hello"
+```
+
+### Type
+
+```php
+type(value)
+```
+
+Get the type of a value as a string.
+
+#### Example
+
+```php
+type(42) => "int"
+
+// output: "int"
 ```
 
 ## Array
@@ -164,22 +164,6 @@ append([1, 2], 3, 4) => [1, 2, 3, 4]
 // output: [1, 2, 3, 4]
 ```
 
-### Range
-
-```php
-range(n)
-```
-
-Generate a list of integers from 0 to n-1.
-
-#### Example
-
-```php
-range(3) => [0, 1, 2]
-
-// output: [0, 1, 2]
-```
-
 ### Slice
 
 ```php
@@ -194,6 +178,22 @@ Get a substring or sublist from a string or list.
 slice("hello", 1, 3) => "el"
 
 // output: "el"
+```
+
+### Range
+
+```php
+range(n)
+```
+
+Generate a list of integers from 0 to n-1.
+
+#### Example
+
+```php
+range(3) => [0, 1, 2]
+
+// output: [0, 1, 2]
 ```
 
 ### Sort
@@ -248,6 +248,38 @@ int("42") => 42
 
 ## System
 
+### Time
+
+```php
+time(none)
+```
+
+Get the current date and time as a string.
+
+#### Example
+
+```php
+time() => "2018-01-01 12
+
+// output: "2018-01-01 12
+```
+
+### Echo
+
+```php
+echo(value1, value2, ...)
+```
+
+Print values to the standard output.
+
+#### Example
+
+```php
+echo("hello", 42) => hello 42
+
+// output: hello 42
+```
+
 ### Args
 
 ```php
@@ -280,22 +312,6 @@ exit(1)
 // output: exit status 1
 ```
 
-### Echo
-
-```php
-echo(value1, value2, ...)
-```
-
-Print values to the standard output.
-
-#### Example
-
-```php
-echo("hello", 42) => hello 42
-
-// output: hello 42
-```
-
 ### Read
 
 ```php
@@ -310,22 +326,6 @@ Read the contents of a file or standard input.
 read("file.txt") => "contents of file.txt"
 
 // output: "contents of file.txt"
-```
-
-### Time
-
-```php
-time(none)
-```
-
-Get the current date and time as a string.
-
-#### Example
-
-```php
-time() => "2018-01-01 12
-
-// output: "2018-01-01 12
 ```
 
 ## File System
