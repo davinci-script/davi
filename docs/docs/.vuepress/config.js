@@ -17,6 +17,7 @@ export default defineUserConfig({
           '/guide/get-started.md',
           '/guide/tutorials.md',
           '/guide/functions.md',
+          '/guide/oop.md',
         ],
         sidebar: [
           {
@@ -25,6 +26,7 @@ export default defineUserConfig({
               '/guide/get-started.md',
               '/guide/tutorials.md',
               '/guide/functions.md',
+              '/guide/oop.md',
             ]
           }
         ]
