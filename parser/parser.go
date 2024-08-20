@@ -96,11 +96,10 @@ func (p *parser) statement() Statement {
 		pos = p.pos
 		p.expect(OBJECT_OPERATOR)
 
-		expr = &MethodCall{pos, expr, p.val, []Expression{}}
-
 		p.expect(NAME)
-		p.expect(LPAREN)
-		p.expect(RPAREN)
+		args, _ := p.params()
+
+		expr = &MethodCall{pos, expr, p.val, args}
 
 		return &ExpressionStatement{pos, expr}
 

@@ -6,14 +6,14 @@ class Dog
     $name = "Rex";
     $breed = "Golden Retriever";
 
-    function bark()
+    function bark($param)
     {
-        echo($this->name);
+        echo("Woof! Woof!");
     }
 
 }
 
 $dog = new Dog();
-$dog->bark();
+$dog->bark("cool");
 
 ?>

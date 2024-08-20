@@ -314,10 +314,10 @@ func (e *PropertyAccess) Position() Position { return e.pos }
 
 // MethodCall represents a method call on an object, e.g., `$object->method(arg1, arg2)`
 type MethodCall struct {
-	pos       Position     // Position of the `->` operator in the source code
-	Object    Expression   // The object on which the method is being called
-	Method    string       // The name of the method being called
-	Arguments []Expression // Arguments passed to the method
+	pos       Position   // Position of the `->` operator in the source code
+	Object    Expression // The object on which the method is being called
+	Method    string     // The name of the method being called
+	Arguments []string   // Arguments passed to the method
 }
 
 func (e *MethodCall) expressionNode()    {}
