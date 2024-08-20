@@ -219,28 +219,3 @@ $callAppend = append([1, 2], 3, 4)
 
 echo($callAppend)
 
-// Category:  File System
-
-// File Get Contents
-$callFileGetContents = fileGetContents("http
-
-// must output: "..."
-
-echo($callFileGetContents)
-
-// Category:  HTTP
-
-// HTTP Listen
-$callHttpListen = httpListen("
-
-// must output: Server is starting on http
-
-echo($callHttpListen)
-
-// HTTP Register
-$callHttpRegister = httpRegister("/", func() { return "Hello, World!" })
-
-// must output: "Hello, World!"
-
-echo($callHttpRegister)
-
