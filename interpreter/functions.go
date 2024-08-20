@@ -121,7 +121,7 @@ var builtins = map[string]builtinFunction{
  * function: append
  * args: list, value1, value2, ...
  * return: nil
- * example: append([1, 2], 3, 4) => [1, 2, 3, 4]
+ * example: append([1, 2], 3, 4)
  * output: [1, 2, 3, 4]
  * description: Append values to a array.
  * title: Append
@@ -150,7 +150,7 @@ func stringsToList(strings []string) Value {
  * function: args
  * args: none
  * return: list
- * example: args() => ["arg1", "arg2"]
+ * example: args()
  * output: ["arg1", "arg2"]
  * description: Get the command-line arguments passed to the script.
  * title: Args
@@ -165,7 +165,7 @@ func argsFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: char
  * args: string
  * return: str
- * example: char(65) => "A"
+ * example: char(65)
  * output: "A"
  * description: Convert an ASCII code to a character.
  * title: Char
@@ -209,7 +209,7 @@ func exitFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: find
  * args: haystack, needle
  * return: int
- * example: find("hello", "e") => 1
+ * example: find("hello", "e")
  * output: 1
  * description: Find the first occurrence of a substring in a string or a value in a list.
  * title: Find
@@ -240,7 +240,7 @@ func findFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: int
  * args: value
  * return: int
- * example: int("42") => 42
+ * example: int("42")
  * output: 42
  * description: Convert a value to an integer.
  * title: Int
@@ -266,7 +266,7 @@ func intFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: join
  * args: list, separator
  * return: str
- * example: join(["a", "b", "c"], ", ") => "a, b, c"
+ * example: join(["a", "b", "c"], ", ")
  * output: "a, b, c"
  * description: Join a list of strings into a single string with a separator.
  * title: Join
@@ -297,7 +297,7 @@ func joinFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: len
  * args: value
  * return: int
- * example: len("hello") => 5
+ * example: len("hello")
  * output: 5
  * description: Get the length of a string, list, or map.
  * title: Length
@@ -323,7 +323,7 @@ func lenFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: lower
  * args: string
  * return: str
- * example: lower("HELLO") => "hello"
+ * example: lower("HELLO")
  * output: "hello"
  * description: Convert a string to lowercase.
  * title: Lower
@@ -341,7 +341,7 @@ func lowerFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: echo
  * args: value1, value2, ...
  * return: nil
- * example: echo("hello", 42) => hello 42
+ * example: echo("hello", 42)
  * output: hello 42
  * description: Print values to the standard output.
  * title: Echo
@@ -360,7 +360,7 @@ func echoFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: range
  * args: n
  * return: list
- * example: range(3) => [0, 1, 2]
+ * example: range(3)
  * output: [0, 1, 2]
  * description: Generate a list of integers from 0 to n-1.
  * title: Range
@@ -385,7 +385,7 @@ func rangeFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: read
  * args: [filename]
  * return: str
- * example: read("file.txt") => "contents of file.txt"
+ * example: read("file.txt")
  * output: "contents of file.txt"
  * description: Read the contents of a file or standard input.
  * title: Read
@@ -416,7 +416,7 @@ func readFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: rune
  * args: str
  * return: int
- * example: rune("A") => 65
+ * example: rune("A")
  * output: 65
  * description: Convert a 1-character string to an ASCII code.
  * title: Rune
@@ -438,7 +438,7 @@ func runeFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: slice
  * args: str or list, start, end
  * return: str or list
- * example: slice("hello", 1, 3) => "el"
+ * example: slice("hello", 1, 3)
  * output: "el"
  * description: Get a substring or sublist from a string or list.
  * title: Slice
@@ -473,7 +473,7 @@ func sliceFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: sort
  * args: list, [key]
  * return: nil
- * example: sort([3, 1, 2]) => [1, 2, 3]
+ * example: sort([3, 1, 2])
  * output: [1, 2, 3]
  * description: Sort a list of values.
  * title: Sort
@@ -526,7 +526,7 @@ func sortFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: explode
  * args: [separator], string
  * return: list
- * example: explode(", ", "a, b, c") => ["a", "b", "c"]
+ * example: explode(", ", "a, b, c")
  * output: ["a", "b", "c"]
  * description: Explode a string into a list of substrings. It's the same as split() with the arguments reversed.
  * title: Explode
@@ -558,7 +558,7 @@ func explodeFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: split
  * args: string, [separator]
  * return: list
- * example: split("a, b, c", ", ") => ["a", "b", "c"]
+ * example: split("a, b, c", ", ")
  * output: ["a", "b", "c"]
  * description: Split a string into a list of substrings.
  * title: Split
@@ -588,7 +588,7 @@ func splitFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: str
  * args: value
  * return: str
- * example: str([1, 2, 3]) => "[1, 2, 3]"
+ * example: str([1, 2, 3])
  * output: "[1, 2, 3]"
  * description: Convert a value to a string.
  * title: Str
@@ -640,7 +640,7 @@ func toString(value Value, quoteStr bool) string {
  * function: str
  * args: value
  * return: str
- * example: str([1, 2, 3]) => "[1, 2, 3]"
+ * example: str([1, 2, 3])
  * output: "[1, 2, 3]"
  * description: Convert a value to a string.
  * title: Str
@@ -683,7 +683,7 @@ func typeName(v Value) string {
  * function: type
  * args: value
  * return: str
- * example: type(42) => "int"
+ * example: type(42)
  * output: "int"
  * description: Get the type of a value as a string.
  * title: Type
@@ -698,7 +698,7 @@ func typeFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: upper
  * args: string
  * return: str
- * example: upper("hello") => "HELLO"
+ * example: upper("hello")
  * output: "HELLO"
  * description: Convert a string to uppercase.
  * title: Upper
@@ -716,7 +716,7 @@ func upperFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: upFirst
  * args: string
  * return: str
- * example: upFirst("hello") => "Hello"
+ * example: upFirst("hello")
  * output: "Hello"
  * description: Convert the first character of a string to uppercase.
  * title: Up First
@@ -905,7 +905,7 @@ func dotCaseFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: time
  * args: none
  * return: str
- * example: time() => "2018-01-01 12:00:00"
+ * example: time()
  * output: "2018-01-01 12:00:00"
  * description: Get the current date and time as a string.
  * title: Time
@@ -923,7 +923,7 @@ func timeFunction(interp *interpreter, pos Position, args []Value) Value {
  * function: fileGetContents
  * args: url
  * return: str
- * example: fileGetContents("http://example.com") => "..."
+ * example: fileGetContents("http://example.com")
  * output: "..."
  * description: Get the contents of a file or URL.
  * title: File Get Contents
