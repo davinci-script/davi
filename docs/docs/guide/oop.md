@@ -8,7 +8,7 @@
 // Define a class
 class Person {
     public function greet() {
-        return "Hello, my name is Bozhidar!";
+        echo("Hello, my name is Bozhidar!");
     }
 }
 
