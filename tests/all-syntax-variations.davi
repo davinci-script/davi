@@ -64,4 +64,23 @@ if ($age > 18) {
 } else {
     echo("You are a child");
 }
+
+// Test simple OOP
+class Dog
+{
+    function bark($name)
+    {
+        echo($name);
+    }
+
+    function getAge()
+    {
+        echo(5);
+    }
+}
+
+$dog = new Dog();
+$dog->bark("Rex");
+$dog->getAge();
+
 ?>
