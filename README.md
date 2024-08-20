@@ -12,6 +12,9 @@ echo("Hello, World!");
 ?>
 ```
 
+## Join to our community
+- [Discord](https://discord.gg/SBxBJ7FY)
+
 ## Features
 - Simple and easy to use
 - Fast and efficient
