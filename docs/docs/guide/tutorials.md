@@ -183,3 +183,48 @@ httpListen(":8080");
 
 ?>
 ```
+
+### Build a simple HTTP server class
+```php
+<?davi
+// DaVinci Script
+
+$timeHandler = function() {
+    $time = time();
+    return($time);
+}
+
+$calculationHandler = function() {
+    return(5 + 5);
+}
+
+$homeHandler = function() {
+    return("Cool!");
+}
+
+$helloHandler = function() {
+    return("Hello, World!");
+}
+
+class HttpServer {
+
+    function route($path, $handler) {
+        httpRegister($path, $handler);
+    }
+
+    function run($port) {
+        httpListen($port);
+    }
+
+}
+
+
+$server = new HttpServer();
+$server->route("/", $homeHandler);
+$server->route("/hello", $helloHandler);
+$server->route("/time", $timeHandler);
+$server->route("/calculation", $calculationHandler);
+$server->run(":8080");
+
+?>
+```
