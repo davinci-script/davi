@@ -98,6 +98,7 @@ var builtins = map[string]builtinFunction{
 	"slice":           {sliceFunction, "slice"},
 	"sort":            {sortFunction, "sort"},
 	"split":           {splitFunction, "split"},
+	"explode":         {explodeFunction, "explode"},
 	"str":             {strFunction, "str"},
 	"type":            {typeFunction, "type"},
 	"upper":           {upperFunction, "upper"},
@@ -513,6 +514,38 @@ func sortFunction(interp *interpreter, pos Position, args []Value) Value {
 }
 
 /**
+ * function: explode
+ * args: [separator], string
+ * return: list
+ * example: explode(", ", "a, b, c") => ["a", "b", "c"]
+ * output: ["a", "b", "c"]
+ * description: Explode a string into a list of substrings. It's the same as split() with the arguments reversed.
+ * title: Explode
+ * category: String
+ */
+func explodeFunction(interp *interpreter, pos Position, args []Value) Value {
+
+	if len(args) != 1 && len(args) != 2 {
+		panic(typeError(pos, "explode() requires 1 or 2 args, got %d", len(args)))
+	}
+	str, ok := args[1].(string)
+	if !ok {
+		panic(typeError(pos, "explode() requires first argument to be a str"))
+	}
+
+	var parts []string
+	if len(args) == 1 || args[0] == nil {
+		parts = strings.Fields(str)
+	} else if sep, ok := args[0].(string); ok {
+		parts = strings.Split(str, sep)
+	} else {
+		panic(typeError(pos, "explode() requires separator to be a str or nil"))
+	}
+	return stringsToList(parts)
+
+}
+
+/**
  * function: split
  * args: string, [separator]
  * return: list
@@ -530,6 +563,7 @@ func splitFunction(interp *interpreter, pos Position, args []Value) Value {
 	if !ok {
 		panic(typeError(pos, "split() requires first argument to be a str"))
 	}
+
 	var parts []string
 	if len(args) == 1 || args[1] == nil {
 		parts = strings.Fields(str)
