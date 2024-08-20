@@ -90,7 +90,6 @@ var builtins = map[string]builtinFunction{
 	"int":             {intFunction, "int"},
 	"join":            {joinFunction, "join"},
 	"len":             {lenFunction, "len"},
-	"lower":           {lowerFunction, "lower"},
 	"echo":            {echoFunction, "echo"},
 	"range":           {rangeFunction, "range"},
 	"read":            {readFunction, "read"},
@@ -101,7 +100,17 @@ var builtins = map[string]builtinFunction{
 	"explode":         {explodeFunction, "explode"},
 	"str":             {strFunction, "str"},
 	"type":            {typeFunction, "type"},
+	"lower":           {lowerFunction, "lower"},
 	"upper":           {upperFunction, "upper"},
+	"upFirst":         {upFirstFunction, "upFirst"},
+	"upWords":         {upWordsFunction, "upWords"},
+	"lowerFirst":      {lowerFirstFunction, "lowerFirst"},
+	"lowerWords":      {lowerWordsFunction, "lowerWords"},
+	"camelCase":       {camelCaseFunction, "camelCase"},
+	"snakeCase":       {snakeCaseFunction, "snakeCase"},
+	"kebabCase":       {kebabCaseFunction, "kebabCase"},
+	"pascalCase":      {pascalCaseFunction, "pascalCase"},
+	"dotCase":         {dotCaseFunction, "dotCase"},
 	"time":            {timeFunction, "time"},
 	"fileGetContents": {fileGetContentsFunction, "fileGetContents"},
 	"httpRegister":    {httpRegisterFunction, "httpRegister"},
@@ -701,6 +710,195 @@ func upperFunction(interp *interpreter, pos Position, args []Value) Value {
 		return Value(strings.ToUpper(s))
 	}
 	panic(typeError(pos, "upper() requires a str"))
+}
+
+/**
+ * function: upFirst
+ * args: string
+ * return: str
+ * example: upFirst("hello") => "Hello"
+ * output: "Hello"
+ * description: Convert the first character of a string to uppercase.
+ * title: Up First
+ * category: String
+ */
+func upFirstFunction(interp *interpreter, pos Position, args []Value) Value {
+
+	ensureNumArgs(pos, "upFirstFunction", args, 1)
+
+	if len(args) != 1 {
+		panic(fmt.Sprintf("upFirstFunction expected 1 argument, got %d", len(args)))
+	}
+
+	str, ok := args[0].(string)
+	if !ok {
+		panic(fmt.Sprintf("upFirstFunction expected a string argument, got %T", args[0]))
+	}
+
+	return Value(functions.UpFirst(str))
+
+}
+
+/**
+ * function: upWords
+ * args: string
+ * return: str
+ * example: upWords("hello, world!")
+ * output: "Hello, World!"
+ * description: Convert all words in a string to uppercase.
+ * title: Up Words
+ * category: String
+ */
+func upWordsFunction(interp *interpreter, pos Position, args []Value) Value {
+	ensureNumArgs(pos, "upWords", args, 1)
+
+	if s, ok := args[0].(string); ok {
+		return functions.UpWords(s)
+	}
+
+	panic(typeError(pos, "upWords() requires a str"))
+}
+
+/**
+ * function: lowerFirst
+ * args: string
+ * return: str
+ * example: lowerFirst("Hello")
+ * output: "hello"
+ * description: Convert the first character of a string to lowercase.
+ * title: Lower First
+ * category: String
+ */
+func lowerFirstFunction(interp *interpreter, pos Position, args []Value) Value {
+
+	ensureNumArgs(pos, "lowerFirstFunction", args, 1)
+	if len(args) != 1 {
+		panic(fmt.Sprintf("lowerFirstFunction expected 1 argument, got %d", len(args)))
+	}
+
+	str, ok := args[0].(string)
+	if !ok {
+		panic(fmt.Sprintf("lowerFirstFunction expected a string argument, got %T", args[0]))
+	}
+
+	return functions.LowerFirst(str)
+
+}
+
+/**
+ * function: lowerWords
+ * args: string
+ * return: str
+ * example: lowerWords("Hello, World!")
+ * output: "hello, world!"
+ * description: Convert all words in a string to lowercase.
+ * title: Lower Words
+ * category: String
+ */
+func lowerWordsFunction(interp *interpreter, pos Position, args []Value) Value {
+	ensureNumArgs(pos, "lowerWords", args, 1)
+	if s, ok := args[0].(string); ok {
+		return functions.LowerWords(s)
+	}
+	panic(typeError(pos, "lowerWords() requires a str"))
+}
+
+/**
+ * function: camelCase
+ * args: string
+ * return: str
+ * example: camelCase("Hello, World!")
+ * output: "helloWorld"
+ * description: Convert a string to camelCase.
+ * title: Camel Case
+ * category: String
+ */
+func camelCaseFunction(interp *interpreter, pos Position, args []Value) Value {
+	ensureNumArgs(pos, "camelCase", args, 1)
+
+	if len(args) != 1 {
+		panic(fmt.Sprintf("camelCaseFunction expected 1 argument, got %d", len(args)))
+	}
+
+	str, ok := args[0].(string)
+	if !ok {
+		panic(fmt.Sprintf("camelCaseFunction expected a string argument, got %T", args[0]))
+	}
+
+	return functions.ToCamelCase(str)
+}
+
+/**
+ * function: snakeCase
+ * args: string
+ * return: str
+ * example: snakeCase("Hello, World!")
+ * output: "hello_world"
+ * description: Convert a string to snake_case.
+ * title: Snake Case
+ * category: String
+ */
+func snakeCaseFunction(interp *interpreter, pos Position, args []Value) Value {
+
+	ensureNumArgs(pos, "snakeCase", args, 1)
+	if s, ok := args[0].(string); ok {
+		return functions.ToSnakeCase(s)
+	}
+	panic(typeError(pos, "snakeCase() requires a str"))
+}
+
+/**
+ * function: kebabCase
+ * args: string
+ * return: str
+ * example: kebabCase("Hello, World!")
+ * output: "hello-world"
+ * description: Convert a string to kebab-case.
+ * title: Kebab Case
+ * category: String
+ */
+func kebabCaseFunction(interp *interpreter, pos Position, args []Value) Value {
+	ensureNumArgs(pos, "kebabCase", args, 1)
+	if s, ok := args[0].(string); ok {
+		return functions.ToKebabCase(s)
+	}
+	panic(typeError(pos, "kebabCase() requires a str"))
+}
+
+/**
+ * function: pascalCase
+ * args: string
+ * return: str
+ * example: pascalCase("Hello, World!")
+ * output: "HelloWorld"
+ * description: Convert a string to PascalCase.
+ * title: Pascal Case
+ * category: String
+ */
+func pascalCaseFunction(interp *interpreter, pos Position, args []Value) Value {
+	ensureNumArgs(pos, "pascalCase", args, 1)
+	if s, ok := args[0].(string); ok {
+		return functions.ToPascalCase(s)
+	}
+	panic(typeError(pos, "pascalCase() requires a str"))
+}
+
+/**
+ * function: dotCase
+ * args: string
+ * return: str
+ * example: dotCase("Hello, World!")
+ * output: "hello.world"
+ * description: Convert a string to dot.case.
+ * title: Dot Case
+ * category: String
+ */
+func dotCaseFunction(interp *interpreter, pos Position, args []Value) Value {
+	ensureNumArgs(pos, "dotCase", args, 1)
+	if s, ok := args[0].(string); ok {
+		return functions.ToDotCase(s)
+	}
+	panic(typeError(pos, "dotCase() requires a str"))
 }
 
 /**
