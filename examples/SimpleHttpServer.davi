@@ -18,11 +18,25 @@ $helloHandler = function() {
     return("Hello, World!");
 }
 
-httpRegister("/", $homeHandler);
-httpRegister("/hello", $helloHandler);
-httpRegister("/time", $timeHandler);
-httpRegister("/calculation", $calculationHandler);
-httpListen(":8084");
+class HttpServer {
+
+    function route($path, $handler) {
+        httpRegister($path, $handler);
+    }
+
+    function run($port) {
+        httpListen($port);
+    }
+
+}
+
+
+$server = new HttpServer();
+$server->route("/", $homeHandler);
+$server->route("/hello", $helloHandler);
+$server->route("/time", $timeHandler);
+$server->route("/calculation", $calculationHandler);
+$server->run(":8080");
 
 ?>
 
