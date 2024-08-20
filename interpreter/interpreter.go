@@ -463,8 +463,13 @@ func (interp *interpreter) evaluate(expr parser.Expression) Value {
 			panic(fmt.Sprintf("Method '%s' not found in class '%s'", methodName, instance.Name))
 		}
 
+		args := []Value{}
+		for _, a := range e.Arguments {
+			args = append(args, interp.evaluate(a))
+		}
+
 		//print("CallMethod name -> ", method.name())
-		return method.call(interp, e.Position(), nil)
+		return method.call(interp, e.Position(), args)
 
 	case *parser.NewExpression:
 		// Evaluate the class name and arguments
