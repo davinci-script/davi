@@ -1,5 +1,345 @@
 # Functions 
 
+## String
+
+### Lower Words
+
+```php
+lowerWords(string)
+```
+
+Convert all words in a string to lowercase.
+
+#### Example
+
+```php
+lowerWords("Hello, World!")
+
+// output: "hello, world!"
+```
+
+### Char
+
+```php
+char(string)
+```
+
+Convert an ASCII code to a character.
+
+#### Example
+
+```php
+char(65) => "A"
+
+// output: "A"
+```
+
+### Length
+
+```php
+len(value)
+```
+
+Get the length of a string, list, or map.
+
+#### Example
+
+```php
+len("hello") => 5
+
+// output: 5
+```
+
+### Join
+
+```php
+join(list, separator)
+```
+
+Join a list of strings into a single string with a separator.
+
+#### Example
+
+```php
+join(["a", "b", "c"], ", ") => "a, b, c"
+
+// output: "a, b, c"
+```
+
+### Split
+
+```php
+split(string, [separator])
+```
+
+Split a string into a list of substrings.
+
+#### Example
+
+```php
+split("a, b, c", ", ") => ["a", "b", "c"]
+
+// output: ["a", "b", "c"]
+```
+
+### Type
+
+```php
+type(value)
+```
+
+Get the type of a value as a string.
+
+#### Example
+
+```php
+type(42) => "int"
+
+// output: "int"
+```
+
+### Rune
+
+```php
+rune(str)
+```
+
+Convert a 1-character string to an ASCII code.
+
+#### Example
+
+```php
+rune("A") => 65
+
+// output: 65
+```
+
+### Pascal Case
+
+```php
+pascalCase(string)
+```
+
+Convert a string to PascalCase.
+
+#### Example
+
+```php
+pascalCase("Hello, World!")
+
+// output: "HelloWorld"
+```
+
+### Lower First
+
+```php
+lowerFirst(string)
+```
+
+Convert the first character of a string to lowercase.
+
+#### Example
+
+```php
+lowerFirst("Hello")
+
+// output: "hello"
+```
+
+### Kebab Case
+
+```php
+kebabCase(string)
+```
+
+Convert a string to kebab-case.
+
+#### Example
+
+```php
+kebabCase("Hello, World!")
+
+// output: "hello-world"
+```
+
+### Dot Case
+
+```php
+dotCase(string)
+```
+
+Convert a string to dot.case.
+
+#### Example
+
+```php
+dotCase("Hello, World!")
+
+// output: "hello.world"
+```
+
+### Explode
+
+```php
+explode([separator], string)
+```
+
+Explode a string into a list of substrings. It's the same as split() with the arguments reversed.
+
+#### Example
+
+```php
+explode(", ", "a, b, c") => ["a", "b", "c"]
+
+// output: ["a", "b", "c"]
+```
+
+### Upper
+
+```php
+upper(string)
+```
+
+Convert a string to uppercase.
+
+#### Example
+
+```php
+upper("hello") => "HELLO"
+
+// output: "HELLO"
+```
+
+### Lower
+
+```php
+lower(string)
+```
+
+Convert a string to lowercase.
+
+#### Example
+
+```php
+lower("HELLO") => "hello"
+
+// output: "hello"
+```
+
+### Up Words
+
+```php
+upWords(string)
+```
+
+Convert all words in a string to uppercase.
+
+#### Example
+
+```php
+upWords("hello, world!")
+
+// output: "Hello, World!"
+```
+
+### Find
+
+```php
+find(haystack, needle)
+```
+
+Find the first occurrence of a substring in a string or a value in a list.
+
+#### Example
+
+```php
+find("hello", "e") => 1
+
+// output: 1
+```
+
+### Up First
+
+```php
+upFirst(string)
+```
+
+Convert the first character of a string to uppercase.
+
+#### Example
+
+```php
+upFirst("hello") => "Hello"
+
+// output: "Hello"
+```
+
+### Snake Case
+
+```php
+snakeCase(string)
+```
+
+Convert a string to snake_case.
+
+#### Example
+
+```php
+snakeCase("Hello, World!")
+
+// output: "hello_world"
+```
+
+### Camel Case
+
+```php
+camelCase(string)
+```
+
+Convert a string to camelCase.
+
+#### Example
+
+```php
+camelCase("Hello, World!")
+
+// output: "helloWorld"
+```
+
+## HTTP
+
+### HTTP Register
+
+```php
+httpRegister(pattern, handler)
+```
+
+Register a handler function for a URL pattern.
+
+#### Example
+
+```php
+httpRegister("/", func() { return "Hello, World!" })
+
+// output: "Hello, World!"
+```
+
+### HTTP Listen
+
+```php
+httpListen(portOrAddress)
+```
+
+Start the HTTP server.
+
+#### Example
+
+```php
+httpListen("
+
+// output: Server is starting on http
+```
+
 ## Array
 
 ### Append
@@ -66,6 +406,88 @@ sort([3, 1, 2]) => [1, 2, 3]
 // output: [1, 2, 3]
 ```
 
+## System
+
+### Read
+
+```php
+read([filename])
+```
+
+Read the contents of a file or standard input.
+
+#### Example
+
+```php
+read("file.txt") => "contents of file.txt"
+
+// output: "contents of file.txt"
+```
+
+### Time
+
+```php
+time(none)
+```
+
+Get the current date and time as a string.
+
+#### Example
+
+```php
+time() => "2018-01-01 12
+
+// output: "2018-01-01 12
+```
+
+### Args
+
+```php
+args(none)
+```
+
+Get the command-line arguments passed to the script.
+
+#### Example
+
+```php
+args() => ["arg1", "arg2"]
+
+// output: ["arg1", "arg2"]
+```
+
+### Exit
+
+```php
+exit([code])
+```
+
+Exit the script with an optional exit code.
+
+#### Example
+
+```php
+exit(1)
+
+// output: exit status 1
+```
+
+### Echo
+
+```php
+echo(value1, value2, ...)
+```
+
+Print values to the standard output.
+
+#### Example
+
+```php
+echo("hello", 42) => hello 42
+
+// output: hello 42
+```
+
 ## Conversion
 
 ### Int
@@ -116,267 +538,5 @@ Get the contents of a file or URL.
 fileGetContents("http
 
 // output: "..."
-```
-
-## HTTP
-
-### HTTP Register
-
-```php
-httpRegister(pattern, handler)
-```
-
-Register a handler function for a URL pattern.
-
-#### Example
-
-```php
-httpRegister("/", func() { return "Hello, World!" })
-
-// output: "Hello, World!"
-```
-
-### HTTP Listen
-
-```php
-httpListen(portOrAddress)
-```
-
-Start the HTTP server.
-
-#### Example
-
-```php
-httpListen("
-
-// output: Server is starting on http
-```
-
-## String
-
-### Length
-
-```php
-len(value)
-```
-
-Get the length of a string, list, or map.
-
-#### Example
-
-```php
-len("hello") => 5
-
-// output: 5
-```
-
-### Char
-
-```php
-char(string)
-```
-
-Convert an ASCII code to a character.
-
-#### Example
-
-```php
-char(65) => "A"
-
-// output: "A"
-```
-
-### Lower
-
-```php
-lower(string)
-```
-
-Convert a string to lowercase.
-
-#### Example
-
-```php
-lower("HELLO") => "hello"
-
-// output: "hello"
-```
-
-### Find
-
-```php
-find(haystack, needle)
-```
-
-Find the first occurrence of a substring in a string or a value in a list.
-
-#### Example
-
-```php
-find("hello", "e") => 1
-
-// output: 1
-```
-
-### Join
-
-```php
-join(list, separator)
-```
-
-Join a list of strings into a single string with a separator.
-
-#### Example
-
-```php
-join(["a", "b", "c"], ", ") => "a, b, c"
-
-// output: "a, b, c"
-```
-
-### Rune
-
-```php
-rune(str)
-```
-
-Convert a 1-character string to an ASCII code.
-
-#### Example
-
-```php
-rune("A") => 65
-
-// output: 65
-```
-
-### Split
-
-```php
-split(string, [separator])
-```
-
-Split a string into a list of substrings.
-
-#### Example
-
-```php
-split("a, b, c", ", ") => ["a", "b", "c"]
-
-// output: ["a", "b", "c"]
-```
-
-### Type
-
-```php
-type(value)
-```
-
-Get the type of a value as a string.
-
-#### Example
-
-```php
-type(42) => "int"
-
-// output: "int"
-```
-
-### Upper
-
-```php
-upper(string)
-```
-
-Convert a string to uppercase.
-
-#### Example
-
-```php
-upper("hello") => "HELLO"
-
-// output: "HELLO"
-```
-
-## System
-
-### Exit
-
-```php
-exit([code])
-```
-
-Exit the script with an optional exit code.
-
-#### Example
-
-```php
-exit(1)
-
-// output: exit status 1
-```
-
-### Read
-
-```php
-read([filename])
-```
-
-Read the contents of a file or standard input.
-
-#### Example
-
-```php
-read("file.txt") => "contents of file.txt"
-
-// output: "contents of file.txt"
-```
-
-### Time
-
-```php
-time(none)
-```
-
-Get the current date and time as a string.
-
-#### Example
-
-```php
-time() => "2018-01-01 12
-
-// output: "2018-01-01 12
-```
-
-### Args
-
-```php
-args(none)
-```
-
-Get the command-line arguments passed to the script.
-
-#### Example
-
-```php
-args() => ["arg1", "arg2"]
-
-// output: ["arg1", "arg2"]
-```
-
-### Echo
-
-```php
-echo(value1, value2, ...)
-```
-
-Print values to the standard output.
-
-#### Example
-
-```php
-echo("hello", 42) => hello 42
-
-// output: hello 42
 ```
 
