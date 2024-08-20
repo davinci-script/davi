@@ -638,31 +638,33 @@ func (interp *interpreter) executeStatement(s parser.Statement) {
 		panic(returnResult{result, s.Position()})
 
 	case *parser.ClassDefinition:
-		// Handle the class definition here
-		// Create a new class and register it in the environment
+
 		className := s.ClassName
-		//print(className)
-		//methods := s.Methods // Assuming s.Methods holds the class methods
-		//// Create a new class object or structure to store the class details
-
 		methods := make(map[string]functionType)
+		fields := make(map[string]Value)
 
-		// Iterate over the class body to collect methods
+		// Iterate over the class body to collect methods and fields
 		for _, stmt := range s.Body {
 			if methodDef, ok := stmt.(*parser.FunctionDefinition); ok {
 				methodName := methodDef.Name
 				methods[methodName] = interp.createMethod(methodDef)
+			} else if assignDef, ok := stmt.(*parser.Assign); ok {
+				fieldName := assignDef.Target.(*parser.Variable).Name
+				fieldValue := interp.evaluate(assignDef.Value)
+				fields[fieldName] = fieldValue
 			} else {
-				panic(fmt.Sprintf("invalid statement in class body at %v", stmt))
+				// panic(fmt.Sprintf("invalid statement in class body at %v", stmt))
 			}
+
 		}
 
+		//dump.Dump(fields)
 		//print("register className:" + className)
 
-		//// Register the class in the environment
-		interp.assign(className, &classType{
+		interp.assign(className, &ClassObject{
 			Name:    className,
 			Methods: methods,
+			Fields:  fields,
 		})
 
 	default:
@@ -713,12 +715,6 @@ func newInterpreter(config *Config) *interpreter {
 	return interp
 }
 
-type classType struct {
-	Name    string
-	Parent  Value                   // Parent class, if any
-	Methods map[string]functionType // Map of method names to function implementations
-}
-
 type ClassObject struct {
 	Name    string
 	Parent  *ClassObject            // Optional parent class, for inheritance
@@ -733,15 +729,15 @@ func (interp *interpreter) newInstance(className string, args []Value) *ClassObj
 	if !ok {
 		panic(fmt.Sprintf("class %s not found", className))
 	}
-	classObject := class.(*classType)
+	classObject := class.(*ClassObject)
 
 	// Create a new instance of the class
-	instance := &ClassObject{
-		Name:    classObject.Name,
-		Parent:  nil,
-		Methods: classObject.Methods,
-		Fields:  make(map[string]Value),
-	}
+	//instance := &ClassObject{
+	//	Name:    classObject.Name,
+	//	Parent:  nil,
+	//	Methods: classObject.Methods,
+	//	Fields:  make(map[string]Value),
+	//}
 
 	// Initialize fields or invoke constructor if necessary
 	// Check if the class has a constructor method
@@ -750,7 +746,7 @@ func (interp *interpreter) newInstance(className string, args []Value) *ClassObj
 	//	interp.callFunction(constructor.Position(), constructor, args)
 	//}
 
-	return instance
+	return classObject
 
 }
 
