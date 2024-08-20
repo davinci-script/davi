@@ -1,0 +1,246 @@
+<?davi 
+ // DaVinci Script 
+
+// Category:  String
+
+// Lower Words
+$callLowerWords = lowerWords("Hello, World!")
+
+// must output: "hello, world!"
+
+echo($callLowerWords)
+
+// Dot Case
+$callDotCase = dotCase("Hello, World!")
+
+// must output: "hello.world"
+
+echo($callDotCase)
+
+// Kebab Case
+$callKebabCase = kebabCase("Hello, World!")
+
+// must output: "hello-world"
+
+echo($callKebabCase)
+
+// Length
+$callLen = len("hello")
+
+// must output: 5
+
+echo($callLen)
+
+// Explode
+$callExplode = explode(", ", "a, b, c")
+
+// must output: ["a", "b", "c"]
+
+echo($callExplode)
+
+// Char
+$callChar = char(65)
+
+// must output: "A"
+
+echo($callChar)
+
+// Join
+$callJoin = join(["a", "b", "c"], ", ")
+
+// must output: "a, b, c"
+
+echo($callJoin)
+
+// Snake Case
+$callSnakeCase = snakeCase("Hello, World!")
+
+// must output: "hello_world"
+
+echo($callSnakeCase)
+
+// Lower
+$callLower = lower("HELLO")
+
+// must output: "hello"
+
+echo($callLower)
+
+// Split
+$callSplit = split("a, b, c", ", ")
+
+// must output: ["a", "b", "c"]
+
+echo($callSplit)
+
+// Type
+$callType = type(42)
+
+// must output: "int"
+
+echo($callType)
+
+// Upper
+$callUpper = upper("hello")
+
+// must output: "HELLO"
+
+echo($callUpper)
+
+// Up First
+$callUpFirst = upFirst("hello")
+
+// must output: "Hello"
+
+echo($callUpFirst)
+
+// Pascal Case
+$callPascalCase = pascalCase("Hello, World!")
+
+// must output: "HelloWorld"
+
+echo($callPascalCase)
+
+// Up Words
+$callUpWords = upWords("hello, world!")
+
+// must output: "Hello, World!"
+
+echo($callUpWords)
+
+// Rune
+$callRune = rune("A")
+
+// must output: 65
+
+echo($callRune)
+
+// Lower First
+$callLowerFirst = lowerFirst("Hello")
+
+// must output: "hello"
+
+echo($callLowerFirst)
+
+// Camel Case
+$callCamelCase = camelCase("Hello, World!")
+
+// must output: "helloWorld"
+
+echo($callCamelCase)
+
+// Find
+$callFind = find("hello", "e")
+
+// must output: 1
+
+echo($callFind)
+
+// Category:  System
+
+// Time
+$callTime = time()
+
+// must output: "2018-01-01 12
+
+echo($callTime)
+
+// Args
+$callArgs = args()
+
+// must output: ["arg1", "arg2"]
+
+echo($callArgs)
+
+// Echo
+$callEcho = echo("hello", 42)
+
+// must output: hello 42
+
+echo($callEcho)
+
+// Exit
+$callExit = exit(1)
+
+// must output: exit status 1
+
+echo($callExit)
+
+// Read
+$callRead = read("file.txt")
+
+// must output: "contents of file.txt"
+
+echo($callRead)
+
+// Category:  Conversion
+
+// Str
+$callStr = str([1, 2, 3])
+
+// must output: "[1, 2, 3]"
+
+echo($callStr)
+
+// Int
+$callInt = int("42")
+
+// must output: 42
+
+echo($callInt)
+
+// Category:  Array
+
+// Slice
+$callSlice = slice("hello", 1, 3)
+
+// must output: "el"
+
+echo($callSlice)
+
+// Sort
+$callSort = sort([3, 1, 2])
+
+// must output: [1, 2, 3]
+
+echo($callSort)
+
+// Range
+$callRange = range(3)
+
+// must output: [0, 1, 2]
+
+echo($callRange)
+
+// Append
+$callAppend = append([1, 2], 3, 4)
+
+// must output: [1, 2, 3, 4]
+
+echo($callAppend)
+
+// Category:  File System
+
+// File Get Contents
+$callFileGetContents = fileGetContents("http
+
+// must output: "..."
+
+echo($callFileGetContents)
+
+// Category:  HTTP
+
+// HTTP Listen
+$callHttpListen = httpListen("
+
+// must output: Server is starting on http
+
+echo($callHttpListen)
+
+// HTTP Register
+$callHttpRegister = httpRegister("/", func() { return "Hello, World!" })
+
+// must output: "Hello, World!"
+
+echo($callHttpRegister)
+

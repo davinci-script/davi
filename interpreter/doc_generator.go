@@ -2,6 +2,7 @@ package interpreter
 
 import (
 	"fmt"
+	"github.com/DavinciScript/Davi/interpreter/functions"
 	goParser "go/parser"
 	goToken "go/token"
 	"io"
@@ -22,13 +23,26 @@ import (
 
 func GenerateDocs() {
 
+	daviFileWithFunctions := `tests/functions_test.davi`
 	markdownFileWithFunctions := `docs/docs/guide/functions.md`
+
+	daviFile, err := os.Create(daviFileWithFunctions)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer daviFile.Close()
+
+	// open the file
 	file, err := os.Create(markdownFileWithFunctions)
 	if err != nil {
 		fmt.Println(err)
 	}
 	defer file.Close()
 
+	// write the davi content
+	daviContent := "<?davi \n // DaVinci Script \n\n"
+
+	// write the markdown content
 	markdownContent := "# Functions \n\n"
 
 	functionsCategories := []string{}
@@ -43,9 +57,13 @@ func GenerateDocs() {
 	if len(functionsCategories) > 0 {
 
 		for _, category := range functionsCategories {
+
+			daviContent += "// Category:  " + category + "\n\n"
 			markdownContent += "## " + category + "\n\n"
+
 			for _, f := range functionDetails {
 				if f.category == category {
+
 					markdownContent += "### " + f.title + "\n\n"
 					markdownContent += "```php\n"
 					markdownContent += f.functionName + "(" + f.args + ")\n"
@@ -57,12 +75,22 @@ func GenerateDocs() {
 					markdownContent += "// output: " + f.output + "\n"
 					markdownContent += "```\n\n"
 
+					variable := "$call" + functions.UpWords(f.functionName)
+					daviContent += "// " + f.title + "\n"
+					daviContent += variable + " = " + f.example + "\n\n"
+					daviContent += "// must output: " + f.output + "\n\n"
+					daviContent += "echo(" + variable + ")\n\n"
 				}
 			}
 		}
 	}
 
 	_, err = file.WriteString(markdownContent)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	_, err = daviFile.WriteString(daviContent)
 	if err != nil {
 		fmt.Println(err)
 	}
