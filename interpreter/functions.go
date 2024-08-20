@@ -626,7 +626,7 @@ func typeName(v Value) string {
 		t = "map"
 	case functionType:
 		t = "function"
-	case *userObject:
+	case *ClassObject:
 		t = "object"
 
 	default:

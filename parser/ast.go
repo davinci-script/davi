@@ -273,9 +273,10 @@ func (e *Map) String() string {
 }
 
 type ClassDefinition struct {
-	pos  Position
-	Name string
-	Body Block
+	pos       Position // The position in the source code where the class is defined
+	ClassName string   // The name of the class
+	Parent    *string  // Optional parent class (for inheritance)
+	Body      []Statement
 }
 
 func (e *ClassDefinition) statementNode()     {}
@@ -283,10 +284,10 @@ func (e *ClassDefinition) Position() Position { return e.pos }
 func (e *ClassDefinition) String() string {
 	bodyStr := ""
 	if len(e.Body) != 0 {
-		bodyStr = "\n" + indent(e.Body.String()) + "\n"
+		//bodyStr = "\n" + indent(e.Body.String()) + "\n"
 	}
-	print("class %s {%s}", e.Name, bodyStr)
-	return fmt.Sprintf("class %s {%s}", e.Name, bodyStr)
+	print("class %s {%s}", e.ClassName, bodyStr)
+	return fmt.Sprintf("class %s {%s}", e.ClassName, bodyStr)
 }
 
 type NewExpression struct {

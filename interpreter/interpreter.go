@@ -447,33 +447,24 @@ func (interp *interpreter) evaluate(expr parser.Expression) Value {
 		return nil
 	case *parser.MethodCall:
 
-		// The method name
+		//// Evaluate the object on which the method is called
+		object := interp.evaluate(e.Object)
+
+		// Ensure the object is an instance of a class
+		instance, ok := object.(*ClassObject)
+		if !ok {
+			panic(typeError(e.Position(), "cannot call method on non-instance type %s", typeName(object)))
+		}
+
 		methodName := e.Method
 
-		print("Method name: ", methodName)
-
-		// Evaluate the object on which the method is being called
-		object := interp.evaluate(e.Object)
-		//print("Object: ", object)
-
-		//// Evaluate arguments passed to the method
-		args := []Value{}
-		for _, arg := range e.Arguments {
-			args = append(args, interp.evaluate(arg))
+		method, ok := instance.Methods[methodName]
+		if !ok {
+			panic(fmt.Sprintf("Method '%s' not found in class '%s'", methodName, instance.Name))
 		}
-		//
-		//// Check if the object is of a type that supports method calls
-		if objWithMethods, ok := object.(objectWithMethodsType); ok {
-			// Call the method on the object
-			method := objWithMethods.lookupMethod(methodName)
-			if method == nil {
-				panic(typeError(e.Position(), "method %q not found on type %s", methodName, typeName(object)))
-			}
 
-			return interp.callFunction(e.Position(), method, args)
-		}
-		//
-		panic(typeError(e.Position(), "type %s does not support method calls", typeName(object)))
+		//print("CallMethod name -> ", method.name())
+		return method.call(interp, e.Position(), nil)
 
 	case *parser.NewExpression:
 		// Evaluate the class name and arguments
@@ -649,24 +640,45 @@ func (interp *interpreter) executeStatement(s parser.Statement) {
 	case *parser.ClassDefinition:
 		// Handle the class definition here
 		// Create a new class and register it in the environment
-		className := s.Name
+		className := s.ClassName
 		//print(className)
 		//methods := s.Methods // Assuming s.Methods holds the class methods
 		//// Create a new class object or structure to store the class details
-		class := &userClass{
-			Name: className,
-			//Methods: make(map[string]*userFunction),
-		}
-		//// Register the class in the environment
-		interp.assign(className, class)
 
-		//// Optionally, execute the class body if needed
-		//// interp.executeBlock(s.Body)
-		//print("Class definition not yet supported")
+		methods := make(map[string]functionType)
+
+		// Iterate over the class body to collect methods
+		for _, stmt := range s.Body {
+			if methodDef, ok := stmt.(*parser.FunctionDefinition); ok {
+				methodName := methodDef.Name
+				methods[methodName] = interp.createMethod(methodDef)
+			} else {
+				panic(fmt.Sprintf("invalid statement in class body at %v", stmt))
+			}
+		}
+
+		//print("register className:" + className)
+
+		//// Register the class in the environment
+		interp.assign(className, &classType{
+			Name:    className,
+			Methods: methods,
+		})
 
 	default:
 		// Parser should never get us here
 		panic(fmt.Sprintf("unexpected statement type %T", s))
+	}
+}
+
+func (interp *interpreter) createMethod(methodDef *parser.FunctionDefinition) functionType {
+	closure := interp.vars[len(interp.vars)-1] // Capture current environment
+	return &userFunction{
+		Name:       methodDef.Name,
+		Parameters: methodDef.Parameters,
+		Ellipsis:   methodDef.Ellipsis,
+		Body:       methodDef.Body,
+		Closure:    closure,
 	}
 }
 
@@ -701,39 +713,39 @@ func newInterpreter(config *Config) *interpreter {
 	return interp
 }
 
-type userClass struct {
-	Name string
-	//Methods map[string]*userFunction // Map of method names to function definitions
+type classType struct {
+	Name    string
+	Parent  Value                   // Parent class, if any
+	Methods map[string]functionType // Map of method names to function implementations
 }
 
-func (f *userClass) name() string {
-	return f.Name
+type ClassObject struct {
+	Name    string
+	Parent  *ClassObject            // Optional parent class, for inheritance
+	Methods map[string]functionType // Methods defined on the class
+	Fields  map[string]Value        // Default fields or class-level properties
 }
 
-// userObject represents an instance of a class
-type userObject struct {
-	Class  *userClass
-	Fields map[string]Value
-}
-
-func (interp *interpreter) newInstance(className string, args []Value) *userObject {
+func (interp *interpreter) newInstance(className string, args []Value) *ClassObject {
 
 	// Retrieve the class definition from the environment
 	class, ok := interp.lookup(className)
 	if !ok {
 		panic(fmt.Sprintf("class %s not found", className))
 	}
-	userClass := class.(*userClass)
+	classObject := class.(*classType)
 
 	// Create a new instance of the class
-	instance := &userObject{
-		Class:  userClass,
-		Fields: make(map[string]Value),
+	instance := &ClassObject{
+		Name:    classObject.Name,
+		Parent:  nil,
+		Methods: classObject.Methods,
+		Fields:  make(map[string]Value),
 	}
 
 	// Initialize fields or invoke constructor if necessary
 	// Check if the class has a constructor method
-	//if constructor, ok := userClass.Methods["constructor"]; ok {
+	//if constructor, ok := classObject.Methods["constructor"]; ok {
 	//	// Call the constructor with the provided arguments
 	//	interp.callFunction(constructor.Position(), constructor, args)
 	//}

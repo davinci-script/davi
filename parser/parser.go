@@ -188,12 +188,20 @@ func (p *parser) class_() Statement {
 	p.next()
 	pos := p.pos
 	name := p.val
-	p.expect(NAME)
-	//p.expect(LBRACE)
-	body := p.block()
-	//p.expect(RBRACE)
 
-	return &ClassDefinition{pos, name, body}
+	p.expect(NAME)
+
+	// Parse the class body
+	p.expect(LBRACE)
+	body := []Statement{}
+
+	for p.tok != RBRACE && p.tok != EOF {
+		body = append(body, p.statement())
+	}
+
+	p.expect(RBRACE)
+
+	return &ClassDefinition{pos, name, nil, body}
 }
 
 // function = FUNCTION NAME params block |
