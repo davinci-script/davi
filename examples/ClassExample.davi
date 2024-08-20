@@ -8,7 +8,7 @@ class Dog
 
     function bark()
     {
-        echo("Woof!");
+        echo($this->name);
     }
 
 }
