@@ -96,10 +96,39 @@ func (p *parser) statement() Statement {
 		pos = p.pos
 		p.expect(OBJECT_OPERATOR)
 
+		methodName := p.val
 		p.expect(NAME)
-		args, _ := p.params()
 
-		expr = &MethodCall{pos, expr, p.val, args}
+		if p.tok == LPAREN {
+			pos := p.pos
+			p.next()
+			args := []Expression{}
+			gotComma := true
+			gotEllipsis := false
+			for p.tok != RPAREN && p.tok != EOF && !gotEllipsis {
+				if !gotComma {
+					p.error("expected , between arguments")
+				}
+				arg := p.expression()
+				args = append(args, arg)
+				if p.tok == ELLIPSIS {
+					gotEllipsis = true
+					p.next()
+				}
+				if p.tok == COMMA {
+					gotComma = true
+					p.next()
+				} else {
+					gotComma = false
+				}
+			}
+			if p.tok != RPAREN && gotEllipsis {
+				p.error("can only have ... after last argument")
+			}
+			p.expect(RPAREN)
+
+			expr = &MethodCall{pos, expr, methodName, args}
+		}
 
 		return &ExpressionStatement{pos, expr}
 
@@ -235,8 +264,8 @@ func (p *parser) params() ([]string, bool) {
 		if !gotComma {
 			p.error("expected , between parameters")
 		}
-		param := p.val
 		p.expect(DOLLAR)
+		param := p.val
 		p.expect(NAME)
 		params = append(params, param)
 		if p.tok == ELLIPSIS {
@@ -358,11 +387,6 @@ func (p *parser) call() Expression {
 				p.error("can only have ... after last argument")
 			}
 			p.expect(RPAREN)
-			//if p.tok == SEMI {
-			//	p.expect(SEMI)
-			//} else {
-			//	print(p.tok)
-			//}
 
 			expr = &Call{pos, expr, args, gotEllipsis}
 		} else if p.tok == LBRACKET {

@@ -731,14 +731,6 @@ func (interp *interpreter) newInstance(className string, args []Value) *ClassObj
 	}
 	classObject := class.(*ClassObject)
 
-	// Create a new instance of the class
-	//instance := &ClassObject{
-	//	Name:    classObject.Name,
-	//	Parent:  nil,
-	//	Methods: classObject.Methods,
-	//	Fields:  make(map[string]Value),
-	//}
-
 	// Initialize fields or invoke constructor if necessary
 	// Check if the class has a constructor method
 	//if constructor, ok := classObject.Methods["constructor"]; ok {
