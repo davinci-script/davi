@@ -1,6 +1,7 @@
 package interpreter
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/DavinciScript/Davi/interpreter/functions"
 	goParser "go/parser"
@@ -25,6 +26,7 @@ func GenerateDocs() {
 
 	daviFileWithFunctions := `tests/functions_test.davi`
 	markdownFileWithFunctions := `docs/docs/guide/functions.md`
+	jsonFileReal := `docs/docs/.vuepress/dist/davi-details.json`
 
 	daviFile, err := os.Create(daviFileWithFunctions)
 	if err != nil {
@@ -38,6 +40,12 @@ func GenerateDocs() {
 		fmt.Println(err)
 	}
 	defer file.Close()
+
+	// open the file
+	jsonFile, err := os.Create(jsonFileReal)
+	if err != nil {
+		fmt.Println(err)
+	}
 
 	// write the davi content
 	daviContent := "<?davi \n // DaVinci Script \n\n"
@@ -54,6 +62,8 @@ func GenerateDocs() {
 			}
 		}
 	}
+
+	jsonContent := make(map[string]interface{})
 	if len(functionsCategories) > 0 {
 
 		for _, category := range functionsCategories {
@@ -61,8 +71,21 @@ func GenerateDocs() {
 			daviContent += "// Category:  " + category + "\n\n"
 			markdownContent += "## " + category + "\n\n"
 
+			jsonContent[category] = make(map[string]interface{})
+
 			for _, f := range functionDetails {
 				if f.category == category {
+
+					// put f.functionName on jsonContent[category] on first level
+					jsonContent[category].(map[string]interface{})[f.functionName] = map[string]interface{}{
+						"args":        f.args,
+						"returnValue": f.returnValue,
+						"example":     f.example,
+						"output":      f.output,
+						"description": f.description,
+						"title":       f.title,
+						"category":    f.category,
+					}
 
 					markdownContent += "### " + f.title + "\n\n"
 					markdownContent += "```php\n"
@@ -83,6 +106,14 @@ func GenerateDocs() {
 				}
 			}
 		}
+	}
+
+	// write the json content
+	outputJson, _ := json.Marshal(jsonContent)
+	print(string(outputJson))
+	_, err = jsonFile.WriteString(string(outputJson))
+	if err != nil {
+		fmt.Println(err)
 	}
 
 	_, err = file.WriteString(markdownContent)
