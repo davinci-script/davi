@@ -26,7 +26,7 @@ func GenerateDocs() {
 
 	daviFileWithFunctions := `tests/functions_test.davi`
 	markdownFileWithFunctions := `docs/docs/guide/functions.md`
-	jsonFileReal := `docs/docs/.vuepress/dist/davi-details.json`
+	jsonFileReal := `docs/docs/.vuepress/dist/assets/davi-details.json`
 
 	daviFile, err := os.Create(daviFileWithFunctions)
 	if err != nil {
