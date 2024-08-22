@@ -655,12 +655,12 @@ func (interp *interpreter) executeStatement(s parser.Statement) {
 				fieldValue := interp.evaluate(assignDef.Value)
 				fields[fieldName] = fieldValue
 			} else {
-				panic(fmt.Sprintf("invalid statement in class body at %v", stmt))
+				// TODO
+				//panic(fmt.Sprintf("invalid statement in class body at %v", stmt))
 			}
 
 		}
 
-		//dump.Dump(fields)
 		//print("register className:" + className)
 
 		interp.assign(className, &ClassObject{

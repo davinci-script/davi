@@ -416,7 +416,25 @@ func (p *parser) primary() Expression {
 	case NAME:
 		name := p.val
 		pos := p.pos
+		function := &Variable{pos, name}
 		p.next()
+
+		if name == "echo" {
+			//args := []Expression{}
+			//if p.tok == DOLLAR {
+			//	p.expect(DOLLAR)
+			//	args = append(args, &Variable{p.pos, p.val})
+			//} else if p.tok == STR {
+			//	args = append(args, &Literal{p.pos, p.val})
+			//	p.next()
+			//}
+			//return &Call{pos, function, args, false}
+			//primary := p.primary()
+			//args := []Expression{primary}
+			value := p.expression()
+			args := []Expression{value}
+			return &Call{pos, function, args, false}
+		}
 
 		return &Variable{pos, name}
 	case DOLLAR:
