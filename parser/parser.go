@@ -40,9 +40,9 @@ func (p *parser) error(format string, args ...interface{}) {
 	panic(Error{p.pos, message})
 }
 
-func (p *parser) expect(tok Token) {
+func (p *parser) expect(tok Token, context ...string) {
 	if p.tok != tok {
-		p.error("expected %s and not %s", tok, p.tok)
+		p.error("expected %s and not %s call_from: %s", tok, p.tok, context)
 	}
 	p.next()
 }
@@ -94,10 +94,10 @@ func (p *parser) statement() Statement {
 	expr := p.expression()
 	if p.tok == OBJECT_OPERATOR {
 		pos = p.pos
-		p.expect(OBJECT_OPERATOR)
+		p.expect(OBJECT_OPERATOR, "object_operator")
 
 		methodName := p.val
-		p.expect(NAME)
+		p.expect(NAME, "object_operator")
 
 		if p.tok == LPAREN {
 			pos := p.pos
@@ -125,7 +125,7 @@ func (p *parser) statement() Statement {
 			if p.tok != RPAREN && gotEllipsis {
 				p.error("can only have ... after last argument")
 			}
-			p.expect(RPAREN)
+			p.expect(RPAREN, "object_operator")
 
 			expr = &MethodCall{pos, expr, methodName, args}
 		}
@@ -149,9 +149,9 @@ func (p *parser) statement() Statement {
 
 // block = LBRACE statement* RBRACE
 func (p *parser) block() Block {
-	p.expect(LBRACE)
+	p.expect(LBRACE, "block")
 	body := p.statements(RBRACE)
-	p.expect(RBRACE)
+	p.expect(RBRACE, "block")
 	return body
 }
 
@@ -161,7 +161,7 @@ func (p *parser) block() Block {
 //	IF expression block ELSE if
 func (p *parser) if_() Statement {
 	pos := p.pos
-	p.expect(IF)
+	p.expect(IF, "if_")
 	condition := p.expression()
 	body := p.block()
 	var elseBody Block
@@ -181,7 +181,7 @@ func (p *parser) if_() Statement {
 // while = WHILE expression block
 func (p *parser) while() Statement {
 	pos := p.pos
-	p.expect(WHILE)
+	p.expect(WHILE, "while")
 	condition := p.expression()
 	body := p.block()
 	return &While{pos, condition, body}
@@ -190,14 +190,14 @@ func (p *parser) while() Statement {
 // for = FOR NAME IN expression block
 func (p *parser) for_() Statement {
 	pos := p.pos
-	p.expect(FOR)
-	p.expect(LPAREN)
-	p.expect(DOLLAR)
+	p.expect(FOR, "for_")
+	p.expect(LPAREN, "for_")
+	p.expect(DOLLAR, "for_")
 	name := p.val
-	p.expect(NAME)
-	p.expect(IN)
+	p.expect(NAME, "for_")
+	p.expect(IN, "for_")
 	iterable := p.expression()
-	p.expect(RPAREN)
+	p.expect(RPAREN, "for_")
 	body := p.block()
 	return &For{pos, name, iterable, body}
 }
@@ -205,7 +205,7 @@ func (p *parser) for_() Statement {
 // return = RETURN expression
 func (p *parser) return_() Statement {
 	pos := p.pos
-	p.expect(RETURN)
+	p.expect(RETURN, "return_")
 	result := p.expression()
 	return &Return{pos, result}
 }
@@ -217,17 +217,17 @@ func (p *parser) class_() Statement {
 	pos := p.pos
 	name := p.val
 
-	p.expect(NAME)
+	p.expect(NAME, "class_")
 
 	// Parse the class body
-	p.expect(LBRACE)
+	p.expect(LBRACE, "class_")
 	body := []Statement{}
 
 	for p.tok != RBRACE && p.tok != EOF {
 		body = append(body, p.statement())
 	}
 
-	p.expect(RBRACE)
+	p.expect(RBRACE, "class_")
 
 	return &ClassDefinition{pos, name, nil, body}
 }
@@ -237,7 +237,7 @@ func (p *parser) class_() Statement {
 //	FUNCTION params block
 func (p *parser) function_() Statement {
 	pos := p.pos
-	p.expect(FUNCTION)
+	p.expect(FUNCTION, "function_")
 	if p.tok == NAME {
 		name := p.val
 		p.next()
@@ -256,7 +256,7 @@ func (p *parser) function_() Statement {
 //
 //	LPAREN NAME (COMMA NAME)* ELLIPSIS? COMMA? RPAREN |
 func (p *parser) params() ([]string, bool) {
-	p.expect(LPAREN)
+	p.expect(LPAREN, "params")
 	params := []string{}
 	gotComma := true
 	gotEllipsis := false
@@ -264,9 +264,9 @@ func (p *parser) params() ([]string, bool) {
 		if !gotComma {
 			p.error("expected , between parameters")
 		}
-		p.expect(DOLLAR)
+		p.expect(DOLLAR, "params")
 		param := p.val
-		p.expect(NAME)
+		p.expect(NAME, "params")
 		params = append(params, param)
 		if p.tok == ELLIPSIS {
 			gotEllipsis = true
@@ -282,7 +282,7 @@ func (p *parser) params() ([]string, bool) {
 	if p.tok != RPAREN && gotEllipsis {
 		p.error("can only have ... after last parameter")
 	}
-	p.expect(RPAREN)
+	p.expect(RPAREN, "params")
 	return params, gotEllipsis
 }
 
@@ -386,22 +386,30 @@ func (p *parser) call() Expression {
 			if p.tok != RPAREN && gotEllipsis {
 				p.error("can only have ... after last argument")
 			}
-			p.expect(RPAREN)
+			p.expect(RPAREN, "call")
 
 			expr = &Call{pos, expr, args, gotEllipsis}
 		} else if p.tok == LBRACKET {
 			pos := p.pos
 			p.next()
 			subscript := p.expression()
-			p.expect(RBRACKET)
+			p.expect(RBRACKET, "call")
 			//p.expect(SEMI)
 			expr = &Subscript{pos, expr, subscript}
 		} else {
 			pos := p.pos
 			p.next()
 			subscript := &Literal{p.pos, p.val}
-			p.expect(NAME)
-			expr = &Subscript{pos, expr, subscript}
+			if p.tok == STR {
+				p.next()
+				if p.tok == DOT {
+					p.next()
+				}
+				p.primary()
+			} else {
+				p.expect(NAME, "call-name")
+				expr = &Subscript{pos, expr, subscript}
+			}
 		}
 	}
 	return expr
@@ -416,18 +424,18 @@ func (p *parser) primary() Expression {
 	case NAME:
 		name := p.val
 		pos := p.pos
-		function := &Variable{pos, name}
+		//function := &Variable{pos, name}
 		p.next()
 
-		if name == "echo" {
-			value := p.expression()
-			args := []Expression{value}
-			return &Call{pos, function, args, false}
-		}
+		//if name == "echo" {
+		//	value := p.expression()
+		//	args := []Expression{value}
+		//	return &Call{pos, function, args, false}
+		//}
 
 		return &Variable{pos, name}
 	case DOLLAR:
-		p.expect(DOLLAR)
+		p.expect(DOLLAR, "primary")
 		name := p.val
 		pos := p.pos
 		p.next()
@@ -472,7 +480,7 @@ func (p *parser) primary() Expression {
 	case LPAREN:
 		p.next()
 		expr := p.expression()
-		p.expect(RPAREN)
+		p.expect(RPAREN, "primary")
 		//p.expect(SEMI)
 		return expr
 	case SEMI:
@@ -481,7 +489,7 @@ func (p *parser) primary() Expression {
 		return &SemiTag{pos}
 	case NEW:
 		pos := p.pos
-		p.expect(NEW) // Move past the 'NEW' token
+		p.expect(NEW, "new") // Move past the 'NEW' token
 
 		// Expect the name of the class or type to be instantiated
 		if p.tok != NAME {
@@ -489,7 +497,7 @@ func (p *parser) primary() Expression {
 			return nil
 		}
 		className := p.val
-		p.expect(NAME)
+		p.expect(NAME, "new")
 		args, _ := p.params()
 
 		return &NewExpression{pos, className, args}
@@ -529,7 +537,7 @@ func (p *parser) primary() Expression {
 //	LBRACKET expression (COMMA expression)* COMMA? RBRACKET
 func (p *parser) list() Expression {
 	pos := p.pos
-	p.expect(LBRACKET)
+	p.expect(LBRACKET, "list")
 	values := []Expression{}
 	gotComma := true
 	for p.tok != RBRACKET && p.tok != EOF {
@@ -545,7 +553,7 @@ func (p *parser) list() Expression {
 			gotComma = false
 		}
 	}
-	p.expect(RBRACKET)
+	p.expect(RBRACKET, "list")
 	//p.expect(SEMI)
 	return &List{pos, values}
 }
@@ -556,7 +564,7 @@ func (p *parser) list() Expression {
 //	       (COMMA expression COLON expression)* COMMA? RBRACE
 func (p *parser) map_() Expression {
 	pos := p.pos
-	p.expect(LBRACE)
+	p.expect(LBRACE, "map_")
 	items := []MapItem{}
 	gotComma := true
 	for p.tok != RBRACE && p.tok != EOF {
@@ -564,7 +572,7 @@ func (p *parser) map_() Expression {
 			p.error("expected , between map items")
 		}
 		key := p.expression()
-		p.expect(COLON)
+		p.expect(COLON, "map_")
 		value := p.expression()
 		items = append(items, MapItem{key, value})
 		if p.tok == COMMA {
@@ -574,7 +582,7 @@ func (p *parser) map_() Expression {
 			gotComma = false
 		}
 	}
-	p.expect(RBRACE)
+	p.expect(RBRACE, "map_")
 	return &Map{pos, items}
 }
 
